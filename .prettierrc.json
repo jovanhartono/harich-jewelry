@@ -1,0 +1,34 @@
+{
+  "importOrder": [
+    "^(react/(.*)$)|^(react$)",
+    "^(next/(.*)$)|^(next$)",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/components/ui(/.*)?$",
+    "^@/components(/.*)?$",
+    "^@/context(/.*)?$",
+    "^@/config(/.*)?$",
+    "^@/const(/.*)?$",
+    "^@/lib(/.*)?$",
+    "^@/hooks(/.*)?$",
+    "^@/schema(/.*)?$",
+    "^@/styles(/.*)?$",
+    "^@/types(/.*)?$",
+    "^@/utils(/.*)?$",
+    "^@/pages(/.*)?$",
+    "",
+    "^[./]"
+  ],
+  "importOrderCaseInsensitive": true,
+  "importOrderCombineTypeAndValueImports": true,
+  "importOrderMergeDuplicateImports": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderSeparation": false,
+  "importOrderBuiltinModulesToTop": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": [
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindFunctions": ["clsx", "cn", "cva"]
+}
