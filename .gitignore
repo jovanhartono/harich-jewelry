@@ -42,3 +42,9 @@ next-env.d.ts
 /httpRequests/
 
 vcs.xml
+
+graphql.config.yml
+
+/src/__generated__
+
+/.idea
