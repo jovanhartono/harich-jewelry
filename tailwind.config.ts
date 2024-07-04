@@ -4,6 +4,9 @@ const { nextui } = require("@nextui-org/react");
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config = {
+  corePlugins: {
+    container: false,
+  },
   darkMode: ["class"],
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
@@ -12,7 +15,8 @@ const config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", ...fontFamily.sans],
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        mono: ["var(--font-geist-mono)"],
       },
     },
   },
