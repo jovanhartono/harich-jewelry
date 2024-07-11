@@ -3,7 +3,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: [
     {
-      "https://f3586e-88.myshopify.com/api/2024-04/graphql.json": {
+      "https://f3586e-88.myshopify.com/api/2024-07/graphql.json": {
         headers: {
           "Content-Type": "application/json",
           "X-Shopify-Storefront-Access-Token":
