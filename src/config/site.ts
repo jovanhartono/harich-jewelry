@@ -2,7 +2,8 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "Harich Jewelry",
-  brand: "Goosh.id",
+  brand: "Harich Jewelry",
+  company: "PT Harich Terang Nusantara",
   url: "https://goosh.id",
   description: "Safely Providing New and Preloved Luxury Fashion in Indonesia",
   email: "mail@goosh.id",

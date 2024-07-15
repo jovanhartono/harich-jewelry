@@ -21,36 +21,6 @@ export const imageFragment = gql(/* GraphQL */ `
   }
 `);
 
-export const simpleProductFragment = gql(/* GraphQL */ `
-  fragment simpleProduct on Product {
-    id
-    handle
-    title
-    featuredImage {
-      ...image
-    }
-    compareAtPriceRange {
-      maxVariantPrice {
-        amount
-      }
-      minVariantPrice {
-        amount
-      }
-    }
-    priceRange {
-      maxVariantPrice {
-        amount
-        currencyCode
-      }
-      minVariantPrice {
-        amount
-        currencyCode
-      }
-    }
-    vendor
-  }
-`);
-
 export const productVariantFragment = gql(/* GraphQL */ `
   fragment productVariant on ProductVariant {
     id
@@ -202,7 +172,7 @@ export const cartLineFragment = gql(/* GraphQL */ `
           value
         }
         product {
-          ...simpleProduct
+          ...product
         }
       }
     }
@@ -260,5 +230,15 @@ export const pageFragment = gql(/* GraphQL */ `
     }
     createdAt
     updatedAt
+  }
+`);
+
+export const menuFragment = gql(/* GraphQL */ `
+  fragment menuItem on MenuItem {
+    id
+    title
+    url
+    tags
+    type
   }
 `);
