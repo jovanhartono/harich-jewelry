@@ -1,0 +1,36 @@
+"use client";
+
+import { memo, ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Navbar as NextUINavbar } from "@nextui-org/react";
+
+export const NavbarWrapper = memo(function NavbarWrapper({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [pathname]);
+
+  return (
+    <NextUINavbar
+      maxWidth="2xl"
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      height="5rem"
+      isBordered
+      isBlurred={false}
+      classNames={{
+        wrapper: "!container",
+      }}
+    >
+      {children}
+    </NextUINavbar>
+  );
+});
