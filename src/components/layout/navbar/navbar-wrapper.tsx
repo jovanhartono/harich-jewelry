@@ -24,10 +24,9 @@ export const NavbarWrapper = memo(function NavbarWrapper({
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       height="5rem"
-      isBordered
       isBlurred={false}
       classNames={{
-        wrapper: "!container",
+        base: "bg-cream",
       }}
     >
       {children}
