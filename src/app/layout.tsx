@@ -33,12 +33,16 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(GeistSans.variable, GeistMono.variable)}
+      className={cn(
+        GeistSans.variable,
+        GeistMono.variable,
+        "font-sans antialiased",
+      )}
     >
-      <body className={cn("min-h-screen bg-background font-sans antialiased")}>
+      <body className={cn("bg-background")}>
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <Navbar />
-          <main>{children}</main>
+          <main className="grow">{children}</main>
           <Footer />
         </Providers>
       </body>

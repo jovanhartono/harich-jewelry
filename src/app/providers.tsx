@@ -48,7 +48,10 @@ export default function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
-      <NextUIProvider navigate={router.push}>
+      <NextUIProvider
+        navigate={router.push}
+        className="flex h-full min-h-screen flex-col"
+      >
         <ThemeProvider {...themeProps}>{children}</ThemeProvider>
       </NextUIProvider>
     </ApolloNextAppProvider>
