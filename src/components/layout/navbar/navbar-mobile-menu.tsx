@@ -29,21 +29,16 @@ export default function NavbarMobileMenu({ menus }: { menus: MenuItem[] }) {
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarMenu className="bg-primary px-0">
-        <div className="mt-2 flex flex-col">
-          {menus.map((menu) => (
-            <>
-              <NavbarMenuItem className="px-6">
-                {menu.items.length ? (
-                  <NavbarMobileNestedMenu menu={menu} />
-                ) : (
-                  <NextLink href={menu.url}>{menu.title}</NextLink>
-                )}
-              </NavbarMenuItem>
-              <Divider className="my-4" />
-            </>
-          ))}
-        </div>
+      <NavbarMenu className="gap-0 divide-y divide-default-300 bg-primary px-0">
+        {menus.map((menu) => (
+          <NavbarMenuItem className="px-6 py-4" key={menu.id}>
+            {menu.items.length ? (
+              <NavbarMobileNestedMenu menu={menu} />
+            ) : (
+              <NextLink href={menu.url}>{menu.title}</NextLink>
+            )}
+          </NavbarMenuItem>
+        ))}
       </NavbarMenu>
     </>
   );

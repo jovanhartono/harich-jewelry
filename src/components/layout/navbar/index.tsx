@@ -33,23 +33,24 @@ export const Navbar = async () => {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent justify="center">
-        <ul className="ml-2 hidden items-center justify-start gap-4 lg:flex">
-          {menus.map((item) =>
-            item.items.length ? (
-              <NavbarNestedMenu key={item.title} menu={item} />
-            ) : (
-              <NavbarItem key={item.title}>
-                <NextLink
-                  className={cn(linkStyles({ color: "foreground" }))}
-                  href={item.url}
-                >
-                  {item.title}
-                </NextLink>
-              </NavbarItem>
-            ),
-          )}
-        </ul>
+      <NavbarContent
+        justify="center"
+        className="ml-2 hidden items-center justify-start gap-8 lg:flex"
+      >
+        {menus.map((item) =>
+          item.items.length ? (
+            <NavbarNestedMenu key={item.id} menu={item} />
+          ) : (
+            <NavbarItem key={item.id}>
+              <NextLink
+                className={cn(linkStyles({ color: "foreground" }))}
+                href={item.url}
+              >
+                {item.title}
+              </NextLink>
+            </NavbarItem>
+          ),
+        )}
       </NavbarContent>
 
       <NavbarContent

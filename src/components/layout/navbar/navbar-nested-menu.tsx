@@ -33,7 +33,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
         disableAnimation
         disableRipple
         radius="sm"
-        className="gap-2 bg-transparent p-0 px-0 text-foreground antialiased data-[hover=true]:bg-transparent"
+        className="gap-2 bg-transparent p-0 px-0 text-foreground data-[hover=true]:bg-transparent"
         endContent={<ChevronDownIcon className="size-4" />}
         variant="light"
         {...(menu.url === "#" ? {} : { href: menu.url, as: Link })}
@@ -42,7 +42,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
       </Button>
       <AnimatePresence>
         {visible && (
-          <motion.div
+          <motion.ul
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
@@ -54,28 +54,34 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
             )}
           >
             {menu.items?.map((child) => (
-              <div className="flex flex-col" key={child.url}>
+              <li className="flex flex-col" key={child.id}>
                 {/* title */}
                 {child.url === "#" ? (
                   <p className={cn(child.items && "font-semibold")}>
                     {child.title}
                   </p>
                 ) : (
-                  <Link href={child.url} className="font-semibold">
+                  <Link
+                    href={child.url}
+                    color="foreground"
+                    className="font-semibold"
+                  >
                     {child.title}
                   </Link>
                 )}
 
                 <ul className="mt-1">
                   {child.items?.map((children) => (
-                    <li key={children.url}>
-                      <Link href={children.url}>{children.title}</Link>
+                    <li key={children.id}>
+                      <Link color="foreground" href={children.url}>
+                        {children.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </li>
             ))}
-          </motion.div>
+          </motion.ul>
         )}
       </AnimatePresence>
     </NavbarItem>

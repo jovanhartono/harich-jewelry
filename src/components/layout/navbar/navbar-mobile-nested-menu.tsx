@@ -20,24 +20,29 @@ export default function NavbarMobileNestedMenu({ menu }: { menu: MenuItem }) {
           className="overflow-hidden px-0"
           itemClasses={{
             content: "pl-4",
+            title: "text-base",
           }}
         >
-          {menu.items!.map((child, idx) => (
+          {menu.items!.map((child) => (
             <AccordionItem
-              key={idx}
+              key={child.id}
               title={
                 child.url === "#" ? (
                   child.title
                 ) : (
-                  <Link href={child.url}>{child.title}</Link>
+                  <Link color="foreground" href={child.url}>
+                    {child.title}
+                  </Link>
                 )
               }
             >
-              {child.items ? (
+              {child.items.length ? (
                 <ul>
                   {child.items.map((grandChild) => (
-                    <li key={grandChild.url}>
-                      <Link href={grandChild.url}>{grandChild.title}</Link>
+                    <li key={grandChild.id}>
+                      <Link href={grandChild.url} color="foreground">
+                        {grandChild.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>
