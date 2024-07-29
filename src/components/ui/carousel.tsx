@@ -290,7 +290,7 @@ const CarouselDots = forwardRef<
         <button
           ref={ref}
           className={cn(
-            index === selectedIndex ? "bg-primary" : "bg-default",
+            index === selectedIndex ? "bg-cream" : "bg-default",
             "h-1 w-8 rounded-lg",
           )}
           key={index}
