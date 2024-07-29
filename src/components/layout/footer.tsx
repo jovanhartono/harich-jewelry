@@ -1,5 +1,6 @@
 import NextImage from "next/image";
 import NextLink from "next/link";
+import WordMark from "@/../public/wordmark.png";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
@@ -15,36 +16,52 @@ export default async function Footer() {
   const menus = await getMenu("footer");
 
   return (
-    <footer className="bg-cream flex w-full flex-col text-primary">
+    <footer className="flex w-full flex-col bg-cream text-primary">
       <div className="container grid gap-6 py-6 lg:grid-cols-3 lg:gap-12 lg:py-12">
         <div className="flex flex-col gap-3">
+          <NextImage
+            src={WordMark}
+            alt={`${siteConfig.name} Footer Logo`}
+            className="w-32"
+            sizes="20vw"
+          />
           <p className="opacity-70">
             {siteConfig.brand} is an online platform of luxury fashion products
             that focuses on providing 100% authentic branded collections
             supported by Entrupy.
           </p>
-          <div
+          <ul
             className="mt-3 flex items-center gap-6 text-primary"
             aria-label={"Social Icons"}
           >
-            <Link
-              aria-label="Instagram"
-              isExternal
-              href={siteConfig.links.instagram}
-            >
-              <InstagramIcon />
-            </Link>
-            <Link
-              aria-label="WhatsApp"
-              isExternal
-              href={siteConfig.links.whatsapp}
-            >
-              <WhatsappIcon />
-            </Link>
-            <Link aria-label="Tiktok" isExternal href={siteConfig.links.tiktok}>
-              <TiktokIcon />
-            </Link>
-          </div>
+            <li>
+              <Link
+                aria-label="Instagram"
+                isExternal
+                href={siteConfig.links.instagram}
+              >
+                <InstagramIcon />
+              </Link>
+            </li>
+            <li>
+              <Link
+                aria-label="WhatsApp"
+                isExternal
+                href={siteConfig.links.whatsapp}
+              >
+                <WhatsappIcon />
+              </Link>
+            </li>
+            <li>
+              <Link
+                aria-label="Tiktok"
+                isExternal
+                href={siteConfig.links.tiktok}
+              >
+                <TiktokIcon />
+              </Link>
+            </li>
+          </ul>
         </div>
         <nav className="grid grid-cols-2">
           {menus.map((menu) => (
@@ -92,7 +109,7 @@ export default async function Footer() {
           </CardFooter>
         </Card>
       </div>
-      <div className="bg-cream flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-500 py-4 text-primary">
+      <div className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-300 bg-cream py-4 text-primary/70">
         © Copyright {dayjs().year()} &nbsp;
         <Link href={siteConfig.url} className="text-inherit">
           {siteConfig.company}

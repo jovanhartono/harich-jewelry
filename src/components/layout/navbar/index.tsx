@@ -21,8 +21,14 @@ export const Navbar = async () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="max-w-fit shrink-0 basis-full gap-3">
           <NextLink className="flex items-center justify-start gap-1" href="/">
-            {/*  TODO: Chage to .svg */}
-            <Image src="/icon.png" alt="brand icon" width={256} height={64} />
+            <Image
+              className="w-32"
+              priority
+              src="/wordmark.png"
+              alt="brand icon"
+              width={1200}
+              height={220}
+            />
           </NextLink>
         </NavbarBrand>
         {/*<ul className="ml-2 hidden items-center justify-start gap-4 lg:flex">*/}

@@ -27,6 +27,7 @@ export const NavbarWrapper = memo(function NavbarWrapper({
       isBlurred={false}
       classNames={{
         base: "bg-cream",
+        wrapper: "px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16",
       }}
     >
       {children}
