@@ -93,3 +93,18 @@ export function handleProductFilter(searchParams: ReadonlyURLSearchParams) {
     },
   ];
 }
+
+export function generateSrcSet(
+  url: string,
+  widths: string[] = ["375", "475", "768", "1024", "1440"],
+) {
+  const urlObject = new URL(url);
+
+  return widths
+    .map((width) => {
+      urlObject.searchParams.set("width", width);
+
+      return `${urlObject.toString()} ${width}w`;
+    })
+    .join(", ");
+}

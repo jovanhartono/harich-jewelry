@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
-import { MenuItem } from "@/__generated__/graphql";
+import { ImageFragment, MenuItem } from "@/__generated__/graphql";
 import { query } from "@/../apollo-client";
 import { getMenuQuery } from "@/gql/queries/menu";
+import { getCarouselQuery } from "@/gql/queries/meta-object";
 import { getProductByHandleQuery } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
@@ -13,6 +14,7 @@ export const getProductByHandle = async (handle: string) => {
     query: getProductByHandleQuery,
     variables: {
       handle,
+      includeMetalType: true,
     },
     context: {
       fetchOptions: {
@@ -30,6 +32,9 @@ export const getProductByHandle = async (handle: string) => {
   return {
     ...product,
     variants: product.variants.edges.map((edge) => edge.node) || [],
+    metalTypeReferences:
+      product.metalTypeReferences?.references?.edges.map((edge) => edge.node) ||
+      [],
   };
 };
 
@@ -56,3 +61,32 @@ export const getMenu = async (handle: string) => {
 
   return data.menu?.items ? handleMenu(data.menu.items) : [];
 };
+
+export async function getHeroCarousel() {
+  const { data } = await query({
+    query: getCarouselQuery,
+  });
+
+  return data.metaobjects.edges.reduce(
+    (acc, { node: curr }, index) => {
+      acc.push({
+        url: curr.url?.value || "#",
+      });
+
+      if (curr.desktop_image?.reference?.__typename === "MediaImage") {
+        acc[index].desktop_image = curr.desktop_image.reference.image;
+      }
+
+      if (curr.mobile_image?.reference?.__typename === "MediaImage") {
+        acc[index].mobile_image = curr.mobile_image.reference.image;
+      }
+
+      return acc;
+    },
+    [] as Array<{
+      desktop_image?: ImageFragment | null;
+      mobile_image?: ImageFragment | null;
+      url: string;
+    }>,
+  );
+}
