@@ -1,0 +1,51 @@
+"use client";
+
+import { MenuItem } from "@/__generated__/graphql";
+import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { Link } from "@nextui-org/link";
+
+export default function NavbarMobileNestedMenu({ menu }: { menu: MenuItem }) {
+  return (
+    <Accordion
+      className="px-0"
+      itemClasses={{
+        base: "py-0",
+        trigger: "py-0",
+        content: "pl-4",
+      }}
+    >
+      <AccordionItem title={menu.title}>
+        <Accordion
+          selectionMode="multiple"
+          className="overflow-hidden px-0"
+          itemClasses={{
+            content: "pl-4",
+          }}
+        >
+          {menu.items!.map((child, idx) => (
+            <AccordionItem
+              key={idx}
+              title={
+                child.url === "#" ? (
+                  child.title
+                ) : (
+                  <Link href={child.url}>{child.title}</Link>
+                )
+              }
+            >
+              {child.items ? (
+                <ul>
+                  {child.items.map((grandChild) => (
+                    <li key={grandChild.url}>
+                      <Link href={grandChild.url}>{grandChild.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </AccordionItem>
+    </Accordion>
+  );
+}

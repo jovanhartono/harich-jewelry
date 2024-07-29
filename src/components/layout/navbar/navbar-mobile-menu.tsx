@@ -1,0 +1,50 @@
+import { Suspense } from "react";
+import NextLink from "next/link";
+import { MenuItem } from "@/__generated__/graphql";
+import {
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@nextui-org/navbar";
+import { Divider } from "@nextui-org/react";
+
+// import Cart, { CartButton } from "@/components/cart";
+import NavbarMobileNestedMenu from "@/components/layout/navbar/navbar-mobile-nested-menu";
+import SearchModalMobile from "@/components/layout/navbar/search-modal-mobile";
+
+export default function NavbarMobileMenu({ menus }: { menus: MenuItem[] }) {
+  return (
+    <>
+      <NavbarContent className="basis-1 pl-4 lg:hidden" justify="end">
+        <NavbarItem>
+          <SearchModalMobile />
+        </NavbarItem>
+        {/*<NavbarItem>*/}
+        {/*  <Suspense fallback={<CartButton />}>*/}
+        {/*    <Cart />*/}
+        {/*  </Suspense>*/}
+        {/*</NavbarItem>*/}
+        <NavbarMenuToggle />
+      </NavbarContent>
+
+      <NavbarMenu className="bg-primary px-0">
+        <div className="mt-2 flex flex-col">
+          {menus.map((menu) => (
+            <>
+              <NavbarMenuItem className="px-6">
+                {menu.items.length ? (
+                  <NavbarMobileNestedMenu menu={menu} />
+                ) : (
+                  <NextLink href={menu.url}>{menu.title}</NextLink>
+                )}
+              </NavbarMenuItem>
+              <Divider className="my-4" />
+            </>
+          ))}
+        </div>
+      </NavbarMenu>
+    </>
+  );
+}

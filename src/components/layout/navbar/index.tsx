@@ -5,16 +5,16 @@ import { NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import { Skeleton } from "@nextui-org/skeleton";
 import { link as linkStyles } from "@nextui-org/theme";
 
-import { NavbarWrapper } from "@/components/layout/navbar/navbar-wrapper";
 // import Cart, { CartButton } from "@/components/cart";
-// import NavbarMobileMenu from "@/components/layout/navbar/navbar-mobile-menu";
-// import NavbarNestedMenu from "@/components/layout/navbar/navbar-nested-menu";
+import NavbarMobileMenu from "@/components/layout/navbar/navbar-mobile-menu";
+import NavbarNestedMenu from "@/components/layout/navbar/navbar-nested-menu";
+import { NavbarWrapper } from "@/components/layout/navbar/navbar-wrapper";
 import SearchModal from "@/components/layout/navbar/search-modal";
-// import { getMenu } from "@/lib/shopify";
+import { getMenu } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
 export const Navbar = async () => {
-  // const menus = await getMenu("main-menu");
+  const menus = await getMenu("main-menu");
 
   return (
     <NavbarWrapper>
@@ -31,22 +31,25 @@ export const Navbar = async () => {
             />
           </NextLink>
         </NavbarBrand>
-        {/*<ul className="ml-2 hidden items-center justify-start gap-4 lg:flex">*/}
-        {/*  {menus.map((item) =>*/}
-        {/*    item.children ? (*/}
-        {/*      <NavbarNestedMenu key={item.title} menu={item} />*/}
-        {/*    ) : (*/}
-        {/*      <NavbarItem key={item.title}>*/}
-        {/*        <NextLink*/}
-        {/*          className={cn(linkStyles({ color: "foreground" }))}*/}
-        {/*          href={item.path}*/}
-        {/*        >*/}
-        {/*          {item.title}*/}
-        {/*        </NextLink>*/}
-        {/*      </NavbarItem>*/}
-        {/*    ),*/}
-        {/*  )}*/}
-        {/*</ul>*/}
+      </NavbarContent>
+
+      <NavbarContent justify="center">
+        <ul className="ml-2 hidden items-center justify-start gap-4 lg:flex">
+          {menus.map((item) =>
+            item.items.length ? (
+              <NavbarNestedMenu key={item.title} menu={item} />
+            ) : (
+              <NavbarItem key={item.title}>
+                <NextLink
+                  className={cn(linkStyles({ color: "foreground" }))}
+                  href={item.url}
+                >
+                  {item.title}
+                </NextLink>
+              </NavbarItem>
+            ),
+          )}
+        </ul>
       </NavbarContent>
 
       <NavbarContent
@@ -70,7 +73,7 @@ export const Navbar = async () => {
         {/*</NavbarItem>*/}
       </NavbarContent>
 
-      {/*<NavbarMobileMenu menus={menus} />*/}
+      <NavbarMobileMenu menus={menus} />
     </NavbarWrapper>
   );
 };
