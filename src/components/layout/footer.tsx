@@ -12,11 +12,29 @@ import { InstagramIcon, TiktokIcon, WhatsappIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 import { getMenu } from "@/lib/shopify";
 
+const socials = [
+  {
+    label: "Instagram",
+    icon: <InstagramIcon />,
+    href: siteConfig.links.instagram,
+  },
+  {
+    label: "WhatsApp",
+    icon: <WhatsappIcon />,
+    href: siteConfig.links.whatsapp,
+  },
+  {
+    label: "Tiktok",
+    icon: <TiktokIcon />,
+    href: siteConfig.links.tiktok,
+  },
+];
+
 export default async function Footer() {
   const menus = await getMenu("footer");
 
   return (
-    <footer className="flex w-full flex-col bg-cream text-primary">
+    <footer className="flex w-full flex-col bg-primary text-primary-foreground">
       <div className="container grid gap-6 py-6 lg:grid-cols-3 lg:gap-12 lg:py-12">
         <div className="flex flex-col gap-3">
           <NextImage
@@ -31,52 +49,34 @@ export default async function Footer() {
             supported by Entrupy.
           </p>
           <ul
-            className="mt-3 flex items-center gap-6 text-primary"
-            aria-label={"Social Icons"}
+            className="mt-3 flex items-center gap-6"
+            aria-label="Social Icons"
           >
-            <li>
-              <Link
-                aria-label="Instagram"
-                isExternal
-                href={siteConfig.links.instagram}
-              >
-                <InstagramIcon />
-              </Link>
-            </li>
-            <li>
-              <Link
-                aria-label="WhatsApp"
-                isExternal
-                href={siteConfig.links.whatsapp}
-              >
-                <WhatsappIcon />
-              </Link>
-            </li>
-            <li>
-              <Link
-                aria-label="Tiktok"
-                isExternal
-                href={siteConfig.links.tiktok}
-              >
-                <TiktokIcon />
-              </Link>
-            </li>
+            {socials.map(({ label, icon, href }) => (
+              <li key={label}>
+                <Link
+                  aria-label={label}
+                  isExternal
+                  href={href}
+                  color="foreground"
+                >
+                  {icon}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <nav className="grid grid-cols-2">
           {menus.map((menu) => (
             <div key={menu.title} className="flex flex-col gap-6">
-              <NextLink href={menu.url} className="font-medium text-primary">
+              <NextLink href={menu.url} className="font-medium">
                 {menu.title}
               </NextLink>
               {menu.items ? (
                 <ul className="flex flex-col gap-1.5">
                   {menu.items.map((child) => (
                     <li key={child.title}>
-                      <NextLink
-                        className="text-primary opacity-70"
-                        href={child.url}
-                      >
+                      <NextLink className="opacity-70" href={child.url}>
                         {child.title}
                       </NextLink>
                     </li>
@@ -98,24 +98,24 @@ export default async function Footer() {
           </CardHeader>
           <CardBody>
             <Input
-              placeholder={"Type Your Email Here"}
+              placeholder="Type Your Email Here"
               startContent={<MailIcon />}
             />
           </CardBody>
           <CardFooter>
-            <Button color="primary" fullWidth>
+            <Button fullWidth className="bg-foreground text-background">
               Subscribe
             </Button>
           </CardFooter>
         </Card>
       </div>
-      <div className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-300 bg-cream py-4 text-primary/70">
+      <p className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-300 py-4 text-default-500">
         © Copyright {dayjs().year()} &nbsp;
-        <Link href={siteConfig.url} className="text-inherit">
+        <Link href={siteConfig.url} color="foreground">
           {siteConfig.company}
         </Link>
         , All Rights Reserved.
-      </div>
+      </p>
     </footer>
   );
 }

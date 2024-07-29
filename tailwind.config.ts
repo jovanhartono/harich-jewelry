@@ -14,6 +14,11 @@ const config = {
   ],
   theme: {
     extend: {
+      colors: {
+        cream: "#F9F6EE",
+        sandy: "#CDC6BB",
+        clay: "#ACABA6",
+      },
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
         mono: ["var(--font-geist-mono)"],
@@ -23,7 +28,22 @@ const config = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
-    nextui(),
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            secondary: "#CDC6BB",
+            focus: "#ACABA6",
+            background: "#FFFFFF",
+            foreground: "#1A1A1A",
+            primary: {
+              DEFAULT: "#F9F6EE",
+              foreground: "#1A1A1A",
+            },
+          },
+        },
+      },
+    }),
   ],
 } satisfies Config;
 
