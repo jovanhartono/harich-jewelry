@@ -57,9 +57,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
               <li className="flex flex-col" key={child.id}>
                 {/* title */}
                 {child.url === "#" ? (
-                  <p className={cn(child.items && "font-semibold")}>
-                    {child.title}
-                  </p>
+                  <span>{child.title}</span>
                 ) : (
                   <Link
                     href={child.url}
@@ -70,7 +68,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
                   </Link>
                 )}
 
-                <ul className="mt-1">
+                <ul className="mt-1 space-y-1">
                   {child.items?.map((children) => (
                     <li key={children.id}>
                       <Link color="foreground" href={children.url}>

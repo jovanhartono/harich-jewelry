@@ -44,7 +44,7 @@ export default function ProductCard({
         >
           <p
             aria-label="title"
-            className="line-clamp-2 text-default-700"
+            className="line-clamp-3 text-default-700"
             title={product.title}
           >
             {product.title}
