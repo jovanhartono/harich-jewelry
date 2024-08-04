@@ -46,7 +46,7 @@ export default async function ArticlePage({
   });
 
   return (
-    <article className="container max-w-screen-lg space-y-9 py-6 xl:py-9">
+    <article className="container max-w-screen-md space-y-9 py-6 xl:py-9">
       <h1 className={titleStyle()}>{title}</h1>
       {image ? (
         <Image
