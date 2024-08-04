@@ -1,8 +1,14 @@
 import { notFound } from "next/navigation";
 import { ImageFragment, MenuItem } from "@/__generated__/graphql";
 import { query } from "@/../apollo-client";
+import {
+  getArticleQuery,
+  getBlogQuery,
+  getBlogsQuery,
+} from "@/gql/queries/blog";
 import { getMenuQuery } from "@/gql/queries/menu";
 import { getCarouselQuery } from "@/gql/queries/meta-object";
+import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
 import { getProductByHandleQuery } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
@@ -89,4 +95,71 @@ export async function getHeroCarousel() {
       url: string;
     }>,
   );
+}
+
+export async function getPage(handle: string) {
+  const { data } = await query({
+    query: getPageQuery,
+    variables: {
+      handle,
+    },
+  });
+
+  return data.page;
+}
+
+export async function getPages() {
+  const { data } = await query({
+    query: getPagesQuery,
+  });
+
+  return data.pages.edges.map((edge) => edge.node);
+}
+
+export async function getBlog(handle: string) {
+  const { data } = await query({
+    query: getBlogQuery,
+    variables: {
+      handle,
+    },
+  });
+
+  if (!data.blog) {
+    return notFound();
+  }
+
+  return {
+    ...data.blog,
+    articles: data.blog.articles.edges.map((edge) => edge.node),
+  };
+}
+
+export async function getBlogs() {
+  const { data } = await query({
+    query: getBlogsQuery,
+  });
+
+  return data.blogs.edges.map(({ node }) => node);
+}
+
+export async function getArticle({
+  articleHandle,
+  blogHandle,
+}: {
+  blogHandle: string;
+  articleHandle: string;
+}) {
+  const { data } = await query({
+    query: getArticleQuery,
+    variables: {
+      articleHandle,
+      blogHandle,
+    },
+  });
+
+  if (!data.blog?.articleByHandle) {
+    return notFound();
+  }
+
+  return data.blog.articleByHandle;
 }

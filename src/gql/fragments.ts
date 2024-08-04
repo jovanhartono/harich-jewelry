@@ -242,3 +242,41 @@ export const menuFragment = gql(/* GraphQL */ `
     type
   }
 `);
+
+export const ArticleFragment = gql(/* GraphQL */ `
+  fragment article on Article {
+    id
+    blog {
+      handle
+      title
+    }
+    handle
+    title
+    excerpt
+    image {
+      ...image
+    }
+    contentHtml
+    seo {
+      ...seo
+    }
+  }
+`);
+
+export const BlogFragment = gql(/* GraphQL */ `
+  fragment blog on Blog {
+    id
+    title
+    handle
+    seo {
+      ...seo
+    }
+    articles(first: 250) {
+      edges {
+        node {
+          ...article
+        }
+      }
+    }
+  }
+`);
