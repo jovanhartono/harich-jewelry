@@ -37,12 +37,14 @@ export default async function Footer() {
     <footer className="flex w-full flex-col bg-primary text-primary-foreground">
       <div className="container grid gap-6 py-6 lg:grid-cols-3 lg:gap-12 lg:py-12">
         <div className="flex flex-col gap-3">
-          <NextImage
-            src={WordMark}
-            alt={`${siteConfig.name} Footer Logo`}
-            className="w-32"
-            sizes="20vw"
-          />
+          <NextLink href="/">
+            <NextImage
+              src={WordMark}
+              alt={`${siteConfig.name} Footer Logo`}
+              className="w-32"
+              sizes="20vw"
+            />
+          </NextLink>
           <p className="opacity-70">
             {siteConfig.brand} is an online platform of luxury fashion products
             that focuses on providing 100% authentic branded collections
@@ -109,7 +111,7 @@ export default async function Footer() {
           </CardFooter>
         </Card>
       </div>
-      <p className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-300 py-4 text-default-500">
+      <p className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-300 py-4">
         © Copyright {dayjs().year()} &nbsp;
         <Link href={siteConfig.url} color="foreground">
           {siteConfig.company}
