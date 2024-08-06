@@ -8,7 +8,7 @@ import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const toggleBreakpoint = 350;
+const toggleBreakpoint = 450;
 
 export default function ProductDescription({
   html,
