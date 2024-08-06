@@ -47,6 +47,7 @@ export const productFragment = gql(/* GraphQL */ `
     handle
     availableForSale
     title
+    productType
     description
     descriptionHtml
     featuredImage {

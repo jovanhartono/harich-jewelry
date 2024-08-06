@@ -41,6 +41,15 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
           }
         }
       }
+      certificate: metafield(namespace: "stone", key: "certificate") {
+        reference {
+          ... on MediaImage {
+            image {
+              ...image
+            }
+          }
+        }
+      }
     }
   }
 `);

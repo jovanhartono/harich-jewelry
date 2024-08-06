@@ -48,8 +48,9 @@ export const getProductByHandle = async (handle: string) => {
             shape: {
               label: shapeRef.label?.value || "",
               svgUrl:
-                shapeRef.svg?.reference?.__typename === "MediaImage" &&
-                shapeRef.svg.reference.image?.url,
+                shapeRef.svg?.reference?.__typename === "MediaImage"
+                  ? shapeRef.svg.reference.image?.url
+                  : undefined,
             },
           };
         }
@@ -58,10 +59,16 @@ export const getProductByHandle = async (handle: string) => {
       })
       .filter((edge) => edge !== null) || [];
 
+  const certificate =
+    product.certificate?.reference?.__typename === "MediaImage"
+      ? product.certificate?.reference?.image
+      : undefined;
+
   return {
     ...product,
     variants: product.variants.edges.map((edge) => edge.node) || [],
     ringShapeReference,
+    certificate,
   };
 };
 

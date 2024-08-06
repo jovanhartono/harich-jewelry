@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import NextLink from "next/link";
-import { ImageConnection, ProductFragment } from "@/__generated__/graphql";
+import { ImageConnection } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { button, Divider } from "@nextui-org/react";
@@ -9,9 +9,10 @@ import { Skeleton } from "@nextui-org/skeleton";
 import { title } from "@/components/primitives";
 import ProductDescription from "@/components/product/product-description";
 import ProductImageGallery from "@/components/product/product-image-gallery";
-import ProductMetalTypeReferences from "@/components/product/product-metal-type-references";
 import { ProductVariantsOptions } from "@/components/product/product-variant-options";
 import ProductVariantPrice from "@/components/product/product-variant-price";
+import { StoneCertificate } from "@/components/product/stone-certificate";
+import { PRODUCT_TYPES } from "@/lib/constant";
 import { getProductByHandle } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
@@ -24,11 +25,11 @@ export default async function ProductDetailPage({
 
   return (
     <div className="flex flex-col gap-12">
-      <section className="md:container flex flex-col gap-12 *:flex-1 md:flex-row md:py-12">
+      <section className="md:container flex flex-col gap-12 *:flex-1 max-md:pb-6 md:flex-row md:py-12">
         <div>
           <ProductImageGallery images={product.images as ImageConnection} />
         </div>
-        <div className="max-md:container flex flex-col gap-6 lg:gap-9">
+        <div className="max-md:container flex flex-col gap-6 lg:gap-6">
           <div className="flex flex-col">
             <h1
               aria-label="Product Title"
@@ -44,7 +45,12 @@ export default async function ProductDetailPage({
             </Suspense>
           </div>
 
-          {product.ringShapeReference.length > 0 && (
+          {product.productType === PRODUCT_TYPES.STONE &&
+          product.certificate ? (
+            <StoneCertificate image={product.certificate} />
+          ) : null}
+
+          {product.ringShapeReference.length > 0 ? (
             <div className="flex flex-col gap-1.5">
               <p className="font-semibold">Center Stone</p>
               <ul className="flex flex-wrap gap-3">
@@ -77,7 +83,7 @@ export default async function ProductDetailPage({
                 ))}
               </ul>
             </div>
-          )}
+          ) : null}
 
           <ProductVariantsOptions
             options={product.options}
