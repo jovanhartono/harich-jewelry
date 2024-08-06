@@ -14,7 +14,7 @@ import { ProductVariantsOptions } from "@/components/product/product-variant-opt
 import ProductVariantPrice from "@/components/product/product-variant-price";
 import { StoneCertificate } from "@/components/product/stone-certificate";
 import { PRODUCT_TYPES } from "@/lib/constant";
-import { getBlog, getProductByHandle } from "@/lib/shopify";
+import { getProductByHandle } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
