@@ -1,12 +1,15 @@
 import { Suspense } from "react";
-import { ImageConnection } from "@/__generated__/graphql";
+import NextLink from "next/link";
+import { ImageConnection, ProductFragment } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
-import { Divider } from "@nextui-org/react";
+import { Image } from "@nextui-org/image";
+import { button, Divider } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
 
 import { title } from "@/components/primitives";
 import ProductDescription from "@/components/product/product-description";
 import ProductImageGallery from "@/components/product/product-image-gallery";
+import ProductMetalTypeReferences from "@/components/product/product-metal-type-references";
 import { ProductVariantsOptions } from "@/components/product/product-variant-options";
 import ProductVariantPrice from "@/components/product/product-variant-price";
 import { getProductByHandle } from "@/lib/shopify";
@@ -18,8 +21,6 @@ export default async function ProductDetailPage({
   params: { handle: string };
 }) {
   const product = await getProductByHandle(params.handle);
-
-  // console.log(product.options);
 
   return (
     <div className="flex flex-col gap-12">
@@ -43,6 +44,41 @@ export default async function ProductDetailPage({
             </Suspense>
           </div>
 
+          {product.ringShapeReference.length > 0 && (
+            <div className="flex flex-col gap-1.5">
+              <p className="font-semibold">Center Stone</p>
+              <ul className="flex flex-wrap gap-3">
+                {product.ringShapeReference.map((product) => (
+                  <li
+                    key={product.id}
+                    className={cn(
+                      button({
+                        color: "primary",
+                        radius: "sm",
+                        variant:
+                          product.handle === params.handle ? "solid" : "light",
+                        className: "h-max basis-28 text-black",
+                      }),
+                    )}
+                  >
+                    <NextLink href={`/product/${product.handle}`}>
+                      <figure className="flex flex-col items-center justify-center p-3">
+                        <Image
+                          className="mb-1 size-16 brightness-0"
+                          src={product.shape.svgUrl}
+                          alt={product.title}
+                        />
+                        <figcaption className="font-mono">
+                          {product.shape.label}
+                        </figcaption>
+                      </figure>
+                    </NextLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <ProductVariantsOptions
             options={product.options}
             variants={product.variants}
@@ -65,7 +101,6 @@ export default async function ProductDetailPage({
           </div>
 
           <Divider />
-
           <dl className="flex flex-col gap-3">
             <dt
               id="Product Description"

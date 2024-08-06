@@ -20,7 +20,6 @@ export const getProductByHandle = async (handle: string) => {
     query: getProductByHandleQuery,
     variables: {
       handle,
-      includeMetalType: true,
     },
     context: {
       fetchOptions: {
@@ -35,12 +34,34 @@ export const getProductByHandle = async (handle: string) => {
 
   const { product } = data;
 
+  const ringShapeReference =
+    product.shapeReference?.references?.edges
+      .map(({ node }) => {
+        if (
+          node.__typename === "Product" &&
+          node.shape?.reference?.__typename === "Metaobject"
+        ) {
+          const shapeRef = node.shape?.reference;
+
+          return {
+            ...node,
+            shape: {
+              label: shapeRef.label?.value || "",
+              svgUrl:
+                shapeRef.svg?.reference?.__typename === "MediaImage" &&
+                shapeRef.svg.reference.image?.url,
+            },
+          };
+        }
+
+        return null;
+      })
+      .filter((edge) => edge !== null) || [];
+
   return {
     ...product,
     variants: product.variants.edges.map((edge) => edge.node) || [],
-    metalTypeReferences:
-      product.metalTypeReferences?.references?.edges.map((edge) => edge.node) ||
-      [],
+    ringShapeReference,
   };
 };
 
