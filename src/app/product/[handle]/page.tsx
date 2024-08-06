@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import NextLink from "next/link";
 import { ImageConnection } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
@@ -13,8 +14,21 @@ import { ProductVariantsOptions } from "@/components/product/product-variant-opt
 import ProductVariantPrice from "@/components/product/product-variant-price";
 import { StoneCertificate } from "@/components/product/stone-certificate";
 import { PRODUCT_TYPES } from "@/lib/constant";
-import { getProductByHandle } from "@/lib/shopify";
+import { getBlog, getProductByHandle } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { handle: string };
+}): Promise<Metadata> {
+  const { title, seo } = await getProductByHandle(params.handle);
+
+  return {
+    title: seo.title || title,
+    description: seo.description,
+  };
+}
 
 export default async function ProductDetailPage({
   params,

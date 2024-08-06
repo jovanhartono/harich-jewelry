@@ -92,6 +92,9 @@ export const productFragment = gql(/* GraphQL */ `
         }
       }
     }
+    seo {
+      ...seo
+    }
   }
 `);
 
