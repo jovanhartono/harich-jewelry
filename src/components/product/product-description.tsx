@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Chip } from "@nextui-org/chip";
 import { motion } from "framer-motion";
 import parse from "html-react-parser";
@@ -8,7 +8,7 @@ import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const toggleBreakpoint = 150;
+const toggleBreakpoint = 350;
 
 export default function ProductDescription({
   html,
@@ -18,16 +18,23 @@ export default function ProductDescription({
   className?: string;
 }) {
   const [showMore, setShowMore] = useState<boolean>(false);
-  const [height, setHeight] = useState<number>();
+  const [height, setHeight] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    setHeight(ref.current?.scrollHeight);
+    if (ref.current) {
+      setHeight(ref.current?.scrollHeight);
+    }
   }, []);
 
   function toggleShowMore() {
     setShowMore(!showMore);
   }
+
+  const initialHeight = useMemo(
+    () => (height > toggleBreakpoint ? toggleBreakpoint : "max-content"),
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-3">
@@ -35,10 +42,10 @@ export default function ProductDescription({
         layout
         ref={ref}
         initial={{
-          height: toggleBreakpoint,
+          height: initialHeight,
         }}
         animate={{
-          height: showMore ? "auto" : toggleBreakpoint,
+          height: showMore ? "max-content" : initialHeight,
         }}
         className={cn(
           "prose overflow-hidden font-mono leading-relaxed",
