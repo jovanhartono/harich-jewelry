@@ -1,10 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import NextLink from "next/link";
 import { ImageConnection } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
-import { Image } from "@nextui-org/image";
-import { button, Divider } from "@nextui-org/react";
+import { Divider } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
 
 import { title } from "@/components/primitives";
@@ -12,7 +10,9 @@ import ProductDescription from "@/components/product/product-description";
 import ProductImageGallery from "@/components/product/product-image-gallery";
 import { ProductVariantsOptions } from "@/components/product/product-variant-options";
 import ProductVariantPrice from "@/components/product/product-variant-price";
+import { RingShapeList } from "@/components/product/ring-shape-list";
 import { StoneCertificate } from "@/components/product/stone-certificate";
+import { StoneFourC } from "@/components/product/stone-four-c";
 import { PRODUCT_TYPES } from "@/lib/constant";
 import { getProductByHandle } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
@@ -38,8 +38,8 @@ export default async function ProductDetailPage({
   const product = await getProductByHandle(params.handle);
 
   return (
-    <div className="flex flex-col gap-12">
-      <section className="md:container flex flex-col gap-12 *:flex-1 max-md:pb-6 md:flex-row md:py-12">
+    <div className="flex flex-col gap-12 max-md:pb-6 md:py-12">
+      <section className="md:container flex flex-col gap-12 *:flex-1 md:flex-row">
         <div>
           <ProductImageGallery images={product.images as ImageConnection} />
         </div>
@@ -65,38 +65,10 @@ export default async function ProductDetailPage({
           ) : null}
 
           {product.ringShapeReference.length > 0 ? (
-            <div className="flex flex-col gap-1.5">
-              <p className="font-semibold">Center Stone</p>
-              <ul className="flex flex-wrap gap-3">
-                {product.ringShapeReference.map((product) => (
-                  <li
-                    key={product.id}
-                    className={cn(
-                      button({
-                        color: "primary",
-                        radius: "sm",
-                        variant:
-                          product.handle === params.handle ? "solid" : "light",
-                        className: "h-max basis-28 text-black",
-                      }),
-                    )}
-                  >
-                    <NextLink href={`/product/${product.handle}`}>
-                      <figure className="flex flex-col items-center justify-center p-3">
-                        <Image
-                          className="mb-1 size-16 brightness-0"
-                          src={product.shape.svgUrl}
-                          alt={product.title}
-                        />
-                        <figcaption className="font-mono">
-                          {product.shape.label}
-                        </figcaption>
-                      </figure>
-                    </NextLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <RingShapeList
+              ringShapeReference={product.ringShapeReference}
+              paramsHandle={params.handle}
+            />
           ) : null}
 
           <ProductVariantsOptions
@@ -133,6 +105,12 @@ export default async function ProductDetailPage({
             </dd>
           </dl>
         </div>
+      </section>
+
+      <section className="container">
+        {product.productType === PRODUCT_TYPES.STONE && (
+          <StoneFourC specifications={product.stoneSpecifications} />
+        )}
       </section>
     </div>
   );

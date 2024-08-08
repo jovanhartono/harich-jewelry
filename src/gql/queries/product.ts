@@ -4,6 +4,25 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
   query getProductByHandle($handle: String!) {
     product(handle: $handle) {
       ...product
+      stone_certificate: metafield(namespace: "stone", key: "certificate") {
+        reference {
+          ... on MediaImage {
+            image {
+              ...image
+            }
+          }
+        }
+      }
+      stone_specifications: metafields(
+        identifiers: [
+          { namespace: "stone", key: "carat" }
+          { namespace: "stone", key: "clarity" }
+          { namespace: "stone", key: "color" }
+        ]
+      ) {
+        key
+        value
+      }
       shapeReference: metafield(
         namespace: "ring"
         key: "product_shape_reference"
@@ -13,7 +32,7 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
             node {
               ... on Product {
                 ...product
-                shape: metafield(namespace: "ring", key: "setting_style") {
+                cut: metafield(namespace: "stone", key: "cut") {
                   key
                   value
                   reference {
@@ -37,15 +56,6 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
                   }
                 }
               }
-            }
-          }
-        }
-      }
-      certificate: metafield(namespace: "stone", key: "certificate") {
-        reference {
-          ... on MediaImage {
-            image {
-              ...image
             }
           }
         }

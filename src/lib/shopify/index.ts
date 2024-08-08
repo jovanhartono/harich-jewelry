@@ -12,6 +12,7 @@ import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
 import { getProductByHandleQuery } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
+import { StoneSpecifications } from "@/lib/type";
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 
@@ -39,9 +40,9 @@ export const getProductByHandle = async (handle: string) => {
       .map(({ node }) => {
         if (
           node.__typename === "Product" &&
-          node.shape?.reference?.__typename === "Metaobject"
+          node.cut?.reference?.__typename === "Metaobject"
         ) {
-          const shapeRef = node.shape?.reference;
+          const shapeRef = node.cut?.reference;
 
           return {
             ...node,
@@ -60,15 +61,28 @@ export const getProductByHandle = async (handle: string) => {
       .filter((edge) => edge !== null) || [];
 
   const certificate =
-    product.certificate?.reference?.__typename === "MediaImage"
-      ? product.certificate?.reference?.image
+    product.stone_certificate?.reference?.__typename === "MediaImage"
+      ? product.stone_certificate?.reference?.image
       : undefined;
+
+  const stoneSpecifications = product.stone_specifications.reduce(
+    (acc, curr) => {
+      const key = curr?.key as keyof StoneSpecifications;
+      if (!acc[key]) {
+        acc[key] = curr?.value as never;
+      }
+
+      return acc;
+    },
+    {} as StoneSpecifications,
+  );
 
   return {
     ...product,
     variants: product.variants.edges.map((edge) => edge.node) || [],
     ringShapeReference,
     certificate,
+    stoneSpecifications,
   };
 };
 
