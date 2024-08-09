@@ -55,6 +55,7 @@ const ClaritySlider = memo(function ClaritySlider({
   return (
     <div className="flex grow flex-col gap-6">
       <Slider
+        aria-label="clarity slider"
         showSteps
         color="secondary"
         size="sm"
@@ -122,6 +123,7 @@ const ColorSlider = memo(function ColorSlider({
   return (
     <div className="flex flex-col gap-6">
       <Slider
+        aria-label="color slider"
         showSteps
         color="secondary"
         size="sm"
