@@ -7,12 +7,15 @@ import {
   getBlogsQuery,
 } from "@/gql/queries/blog";
 import { getMenuQuery } from "@/gql/queries/menu";
-import { getCarouselQuery } from "@/gql/queries/meta-object";
+import {
+  getCarouselQuery,
+  getHomepageFirstSectionQuery,
+} from "@/gql/queries/meta-object";
 import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
 import { getProductByHandleQuery } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
-import { StoneSpecifications } from "@/lib/type";
+import { MetaObjectUrl, StoneSpecifications } from "@/lib/type";
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 
@@ -137,6 +140,26 @@ export async function getHeroCarousel() {
       url: string;
     }>,
   );
+}
+
+export async function getHomepageFirstSection() {
+  const {
+    data: { metaobject },
+  } = await query({
+    query: getHomepageFirstSectionQuery,
+  });
+
+  return {
+    title: metaobject?.title?.value || "",
+    description: metaobject?.description?.value || "",
+    cta: metaobject?.cta?.value
+      ? (JSON.parse(metaobject.cta.value) as MetaObjectUrl)
+      : undefined,
+    video:
+      metaobject?.video?.reference?.__typename === "Video"
+        ? metaobject?.video?.reference
+        : undefined,
+  };
 }
 
 export async function getPage(handle: string) {

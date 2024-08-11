@@ -5,3 +5,7 @@ export interface StoneSpecifications {
   clarity: StoneClarity;
   carat: string;
 }
+export interface MetaObjectUrl {
+  text: string;
+  url: string;
+}

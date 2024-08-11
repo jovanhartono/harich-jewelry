@@ -32,3 +32,37 @@ export const getCarouselQuery = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const getHomepageFirstSectionQuery = gql(/* GraphQL */ `
+  query getHomepageFirstSection {
+    metaobject(handle: { type: "home_first_section", handle: "content" }) {
+      title: field(key: "title") {
+        key
+        value
+      }
+      description: field(key: "description") {
+        key
+        value
+      }
+      cta: field(key: "cta_navigation") {
+        key
+        value
+      }
+      video: field(key: "video") {
+        reference {
+          ... on Video {
+            id
+            mediaContentType
+            previewImage {
+              ...image
+            }
+            sources {
+              mimeType
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+`);
