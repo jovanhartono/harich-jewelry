@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: { handle: string } }) {
   if (!page) return notFound();
 
   return (
-    <article className="container mx-auto h-full min-h-96 max-w-screen-lg py-6 xl:py-9">
+    <article className="container mx-auto h-full min-h-96 max-w-screen-md py-6 xl:py-9">
       <h1 className={title({ className: "block text-center" })}>
         {page.title}
       </h1>

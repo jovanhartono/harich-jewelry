@@ -111,7 +111,7 @@ export default async function Footer() {
           </CardFooter>
         </Card>
       </div>
-      <p className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-default-300 py-4">
+      <p className="flex flex-wrap justify-center whitespace-nowrap border-t border-t-secondary py-4">
         © Copyright {dayjs().year()} &nbsp;
         <Link href={siteConfig.url} color="foreground">
           {siteConfig.company}

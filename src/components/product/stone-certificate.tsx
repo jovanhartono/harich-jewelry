@@ -25,7 +25,7 @@ export const StoneCertificate = memo(function StoneCertificate({
         variant="flat"
         endContent={<EyeIcon className="size-4" />}
       >
-        See IGI Certificate
+        Show Certificate
       </Button>
       <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>

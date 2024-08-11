@@ -37,7 +37,7 @@ export const RingShapeList = ({
                   src={product.shape.svgUrl}
                   alt={product.title}
                 />
-                <figcaption className="font-mono">
+                <figcaption className="text-balance text-center font-mono">
                   {product.shape.label}
                 </figcaption>
               </figure>
