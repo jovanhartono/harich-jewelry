@@ -8,7 +8,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
 import { CarouselApi } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
+import { cn, generateSrcSet } from "@/lib/utils";
 
 export default function ProductImageGallery({
   images: imagesProps,
@@ -90,9 +90,9 @@ export default function ProductImageGallery({
                   }}
                   className="h-full w-full object-cover object-center"
                   src={image.url}
+                  srcSet={generateSrcSet(image.url)}
                   alt={image.altText || ""}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  // srcSet={generateSrcSet(image.url)}
+                  sizes="(max-width: 768px) 100vw, (max-width:1536px): 50vw"
                 />
               </div>
             ))}
