@@ -1,12 +1,10 @@
 import { memo } from "react";
-import NextImage from "next/image";
 import NextLink from "next/link";
 import { ImageFragment, ProductFragment } from "@/__generated__/graphql";
 import { Card, CardBody, CardProps } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
-import { Image } from "@nextui-org/image";
 
-import { formatRupiah } from "@/lib/utils";
+import { formatRupiah, generateSrcSet } from "@/lib/utils";
 
 export default function ProductCard({
   product,
@@ -66,10 +64,11 @@ const ProductCardPrice = memo(function ProductCardPrice({
   const isSale = compareAtPrice > price;
   const diff = Math.abs(compareAtPrice - price);
 
+  // TODO: bikin starting price jika ada compare at price nya
   return (
     <div
       aria-label="price"
-      className="flex w-full flex-wrap gap-x-1 truncate font-medium"
+      className="mt-auto flex w-full flex-wrap gap-x-1 truncate font-mono font-medium"
     >
       {isSale ? (
         <>
@@ -100,18 +99,12 @@ const ProductCardImage = memo(function ProductCardImage({
   featuredImage?: ImageFragment | null;
 }) {
   return (
-    <Image
-      radius="none"
-      fill
-      classNames={{
-        wrapper: "aspect-square !max-w-none",
-        zoomedWrapper: "h-full w-full",
-      }}
-      as={NextImage}
+    <img
+      loading="lazy"
+      srcSet={generateSrcSet(featuredImage?.url)}
       alt={featuredImage?.altText || title}
-      isZoomed
       src={featuredImage?.url}
-      className="w-full object-cover object-center group-hover:scale-100 lg:group-hover:scale-105"
+      className="aspect-square w-full object-cover object-center transition-transform hover:scale-100 lg:group-hover:scale-105"
       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
     />
   );
