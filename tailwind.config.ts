@@ -37,7 +37,7 @@ const config = {
             background: "#FFFFFF",
             foreground: "#1A1A1A",
             primary: {
-              DEFAULT: "#F9F6EE",
+              DEFAULT: "#EDE8D0",
               foreground: "#1A1A1A",
             },
           },
