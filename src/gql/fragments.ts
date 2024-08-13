@@ -1,5 +1,28 @@
 import { gql } from "@/__generated__";
 
+export const imageFragment = gql(/* GraphQL */ `
+  fragment image on Image {
+    url
+    altText
+    width
+    height
+  }
+`);
+
+export const videoFragment = gql(/* GraphQL */ `
+  fragment video on Video {
+    id
+    mediaContentType
+    previewImage {
+      ...image
+    }
+    sources {
+      mimeType
+      url
+    }
+  }
+`);
+
 export const collectionFragment = gql(/* GraphQL */ `
   fragment collection on Collection {
     handle
@@ -8,16 +31,29 @@ export const collectionFragment = gql(/* GraphQL */ `
     seo {
       ...seo
     }
+    desktop_media: metafield(namespace: "collection", key: "dekstop_image") {
+      key
+      value
+      reference {
+        ... on MediaImage {
+          image {
+            ...image
+          }
+        }
+      }
+    }
+    mobile_media: metafield(namespace: "collection", key: "mobile_image") {
+      key
+      value
+      reference {
+        ... on MediaImage {
+          image {
+            ...image
+          }
+        }
+      }
+    }
     updatedAt
-  }
-`);
-
-export const imageFragment = gql(/* GraphQL */ `
-  fragment image on Image {
-    url
-    altText
-    width
-    height
   }
 `);
 
@@ -37,6 +73,25 @@ export const productVariantFragment = gql(/* GraphQL */ `
     }
     compareAtPrice {
       amount
+    }
+  }
+`);
+
+export const productCardFragment = gql(/* GraphQL */ `
+  fragment productCard on Product {
+    id
+    handle
+    title
+    compareAtPriceRange {
+      minVariantPrice {
+        amount
+      }
+      maxVariantPrice {
+        amount
+      }
+    }
+    featuredImage {
+      ...image
     }
   }
 `);
@@ -124,15 +179,17 @@ export const filterFragment = gql(/* GraphQL */ `
       label
       count
       input
+      image {
+        image {
+          ...image
+        }
+      }
     }
   }
 `);
 
 export const productsFragment = gql(/* GraphQL */ `
   fragment products on ProductConnection {
-    filters {
-      ...filter
-    }
     edges {
       node {
         ...product

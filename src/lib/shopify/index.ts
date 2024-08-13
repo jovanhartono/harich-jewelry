@@ -6,6 +6,7 @@ import {
   getBlogQuery,
   getBlogsQuery,
 } from "@/gql/queries/blog";
+import { getCollectionQuery } from "@/gql/queries/collection";
 import { getMenuQuery } from "@/gql/queries/menu";
 import {
   getCarouselQuery,
@@ -228,3 +229,22 @@ export async function getArticle({
 
   return data.blog.articleByHandle;
 }
+
+export const getCollection = async ({ handle }: { handle: string }) => {
+  const { data, ...response } = await query({
+    query: getCollectionQuery,
+    variables: {
+      handle,
+    },
+    context: {
+      fetchOptions: {
+        next: { tags: [TAGS.collections] },
+      },
+    },
+  });
+
+  return {
+    collection: data.collection,
+    ...response,
+  };
+};

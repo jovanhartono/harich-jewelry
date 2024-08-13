@@ -51,15 +51,7 @@ export const getHomepageFirstSectionQuery = gql(/* GraphQL */ `
       video: field(key: "video") {
         reference {
           ... on Video {
-            id
-            mediaContentType
-            previewImage {
-              ...image
-            }
-            sources {
-              mimeType
-              url
-            }
+            ...video
           }
         }
       }

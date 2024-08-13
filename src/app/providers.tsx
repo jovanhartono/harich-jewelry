@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { ApolloLink, HttpLink } from "@apollo/client";
+import { relayStylePagination } from "@apollo/client/utilities";
 import {
   ApolloClient,
   ApolloNextAppProvider,
@@ -29,7 +30,15 @@ function makeClient() {
   });
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Collection: {
+          fields: {
+            products: relayStylePagination(["sortKey", "filters", "reverse"]),
+          },
+        },
+      },
+    }),
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
