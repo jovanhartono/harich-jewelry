@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import { ImageFragment, MenuItem } from "@/__generated__/graphql";
-import { query } from "@/../apollo-client";
+import { getClient, query } from "@/../apollo-client";
+import { createCartMutation } from "@/gql/mutations/cart";
 import {
   getArticleQuery,
   getBlogQuery,
   getBlogsQuery,
 } from "@/gql/queries/blog";
+import { getCartQuery } from "@/gql/queries/cart";
 import { getCollectionQuery } from "@/gql/queries/collection";
 import { getMenuQuery } from "@/gql/queries/menu";
 import {
@@ -280,5 +282,41 @@ export async function getHeroImage(handle: string) {
     ...data.metaobject,
     desktop_file,
     mobile_file,
+  };
+}
+
+export async function createCart() {
+  const { data, errors } = await getClient().mutate({
+    mutation: createCartMutation,
+    fetchPolicy: "no-cache",
+  });
+  const lines =
+    data?.cartCreate?.cart?.lines.edges.map((edge) => edge.node) ?? [];
+
+  return { cart: { ...data?.cartCreate?.cart, lines }, errors };
+}
+
+export async function getCart(cartId: string) {
+  const { data } = await getClient().query({
+    query: getCartQuery,
+    fetchPolicy: "no-cache",
+    variables: {
+      cartId,
+    },
+    context: {
+      fetchOptions: {
+        next: { tags: [TAGS.cart] },
+      },
+    },
+  });
+
+  // Old carts becomes `null` when you check out.
+  if (!data.cart) {
+    return undefined;
+  }
+
+  return {
+    ...data.cart,
+    lines: data.cart.lines.edges.map((edge) => edge.node),
   };
 }

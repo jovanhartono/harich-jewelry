@@ -1,17 +1,16 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import NextLink from "next/link";
+import { CartLineInput } from "@/__generated__/graphql";
 import { useRingBuilder } from "@/app/engagement-rings/ring-builder-provider";
-import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Image } from "@nextui-org/image";
-import { Divider } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
 
+import AddToCart from "@/components/cart/add-to-cart";
 import { ProductCardPrice } from "@/components/product/product-card";
 import { DEFAULT_TITLE_OPTION } from "@/lib/constant";
-import { formatRupiah } from "@/lib/utils";
 
 export const RingsOverviewLine = memo(function RingsOverviewLine() {
   const { settings, stone } = useRingBuilder();
@@ -111,12 +110,29 @@ export const RingsOverviewLine = memo(function RingsOverviewLine() {
 export const RingsOverviewSummary = memo(function RingsOverviewSummary() {
   const { settings, stone } = useRingBuilder();
 
+  const lines: CartLineInput[] | undefined = useMemo(() => {
+    if (settings && stone) {
+      return [
+        {
+          merchandiseId: settings.selectedVariant.id,
+          quantity: 1,
+        },
+        {
+          merchandiseId: stone.selectedVariant.id,
+          quantity: 1,
+        },
+      ];
+    }
+  }, [settings, stone]);
+
   return (
     <div className="col-span-1">
       <div className="flex h-72 flex-col gap-6 rounded-large bg-default-100 p-6">
-        <Button color="primary" className="mt-auto" disableRipple>
-          Add to Cart
-        </Button>
+        {lines ? (
+          <AddToCart lines={lines} />
+        ) : (
+          <Skeleton className="h-10 rounded-large bg-danger-500" />
+        )}
       </div>
     </div>
   );

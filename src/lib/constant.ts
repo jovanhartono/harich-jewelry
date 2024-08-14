@@ -105,3 +105,7 @@ export const SORT_OPTIONS: ProductCollectionSortFilterItem[] = [
     reverse: true,
   },
 ];
+
+export const COOKIES = {
+  CART: "cart-id",
+};
