@@ -54,7 +54,7 @@ export default function ProductCard({
   );
 }
 
-const ProductCardPrice = memo(function ProductCardPrice({
+export const ProductCardPrice = memo(function ProductCardPrice({
   compareAtPrice,
   price,
 }: {

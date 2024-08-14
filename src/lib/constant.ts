@@ -32,6 +32,8 @@ export const COLLECTION_HANDLE: Record<"setting" | "stone", string> = {
   stone: "diamonds",
 };
 
+export const DEFAULT_TITLE_OPTION = "Default Title";
+
 export interface FilterItem {
   title: string;
   slug: string;

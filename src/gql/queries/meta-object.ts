@@ -58,3 +58,38 @@ export const getHomepageFirstSectionQuery = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const getHeroQuery = gql(/* GraphQL */ `
+  query getHero($handle: String!) {
+    metaobject(handle: { type: "hero", handle: $handle }) {
+      id
+      url: field(key: "url") {
+        value
+      }
+      desktop_file: field(key: "desktop_file") {
+        reference {
+          ... on MediaImage {
+            image {
+              ...image
+            }
+          }
+          ... on Video {
+            ...video
+          }
+        }
+      }
+      mobile_file: field(key: "mobile_file") {
+        reference {
+          ... on MediaImage {
+            image {
+              ...image
+            }
+          }
+          ... on Video {
+            ...video
+          }
+        }
+      }
+    }
+  }
+`);
