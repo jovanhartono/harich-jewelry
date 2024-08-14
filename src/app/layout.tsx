@@ -7,6 +7,7 @@ import Providers from "@/app/providers";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
+import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { siteConfig } from "@/config/site";
@@ -39,8 +40,9 @@ export default function RootLayout({
         "font-sans antialiased",
       )}
     >
-      <body className={cn("bg-background")}>
+      <body className="bg-background">
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+          <Toaster />
           <Navbar />
           <main className="grow">{children}</main>
           <Footer />
