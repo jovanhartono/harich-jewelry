@@ -59,7 +59,7 @@ export default async function ProductDetailPage({
             </Suspense>
           </div>
 
-          {product.productType === PRODUCT_TYPES.STONE &&
+          {product.productType === PRODUCT_TYPES.Stone &&
           product.stoneCertificate ? (
             <StoneCertificate image={product.stoneCertificate} />
           ) : null}
@@ -82,9 +82,13 @@ export default async function ProductDetailPage({
               "max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:z-50 max-md:h-20 max-md:border-t max-md:border-t-default-300 max-md:px-3 max-md:py-3",
             )}
           >
-            {product.productType === PRODUCT_TYPES.SETTING && (
+            {(product.productType === PRODUCT_TYPES.Setting ||
+              product.productType === PRODUCT_TYPES.Stone) && (
               // akses local storage
-              <AddToLocalStorage type="setting" product={product} />
+              <AddToLocalStorage
+                type={product.productType as keyof typeof PRODUCT_TYPES}
+                product={product}
+              />
             )}
             {/*<ProductWhatsappButton />*/}
             {/*<AddToCart*/}
@@ -109,7 +113,7 @@ export default async function ProductDetailPage({
       </section>
 
       <section className="container">
-        {product.productType === PRODUCT_TYPES.STONE && (
+        {product.productType === PRODUCT_TYPES.Stone && (
           <StoneFourC specifications={product.stoneSpecifications} />
         )}
       </section>

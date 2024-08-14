@@ -10,8 +10,8 @@ export const TAGS = {
 };
 
 export const PRODUCT_TYPES = {
-  STONE: "Stone",
-  SETTING: "Setting",
+  Stone: "Stone",
+  Setting: "Setting",
 };
 
 export const LIMITED_STOCK_THRESHOLD = 5;
@@ -20,6 +20,16 @@ export const FILTER_ID = {
   band_type: "filter.p.m.ring.band_type",
   shape: "filter.p.m.stone.shape",
   setting_style: "filter.p.m.ring.setting_style",
+};
+
+export const LOCAL_STORAGE_KEYS: Record<keyof typeof PRODUCT_TYPES, string> = {
+  Setting: "harich.selected_settings",
+  Stone: "harich.selected_stone",
+};
+
+export const COLLECTION_HANDLE: Record<"setting" | "stone", string> = {
+  setting: "engagement-rings",
+  stone: "diamonds",
 };
 
 export interface FilterItem {
