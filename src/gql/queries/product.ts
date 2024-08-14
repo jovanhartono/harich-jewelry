@@ -4,7 +4,7 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
   query getProductByHandle($handle: String!) {
     product(handle: $handle) {
       ...product
-      stone_certificate: metafield(namespace: "stone", key: "certificate") {
+      stoneCertificate: metafield(namespace: "stone", key: "certificate") {
         reference {
           ... on MediaImage {
             image {
@@ -13,7 +13,7 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
           }
         }
       }
-      stone_specifications: metafields(
+      stoneSpecifications: metafields(
         identifiers: [
           { namespace: "stone", key: "carat" }
           { namespace: "stone", key: "clarity" }

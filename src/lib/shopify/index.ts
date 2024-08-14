@@ -39,7 +39,7 @@ export const getProductByHandle = async (handle: string) => {
 
   const { product } = data;
 
-  const ringShapeReference =
+  const shapeReference =
     product.shapeReference?.references?.edges
       .map(({ node }) => {
         if (
@@ -64,12 +64,12 @@ export const getProductByHandle = async (handle: string) => {
       })
       .filter((edge) => edge !== null) || [];
 
-  const certificate =
-    product.stone_certificate?.reference?.__typename === "MediaImage"
-      ? product.stone_certificate?.reference?.image
+  const stoneCertificate =
+    product.stoneCertificate?.reference?.__typename === "MediaImage"
+      ? product.stoneCertificate?.reference?.image
       : undefined;
 
-  const stoneSpecifications = product.stone_specifications.reduce(
+  const stoneSpecifications = product.stoneSpecifications.reduce(
     (acc, curr) => {
       const key = curr?.key as keyof StoneSpecifications;
       if (!acc[key]) {
@@ -84,8 +84,8 @@ export const getProductByHandle = async (handle: string) => {
   return {
     ...product,
     variants: product.variants.edges.map((edge) => edge.node) || [],
-    ringShapeReference,
-    certificate,
+    shapeReference,
+    stoneCertificate,
     stoneSpecifications,
   };
 };

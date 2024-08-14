@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { ImageConnection } from "@/__generated__/graphql";
-import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
 
+import { AddToLocalStorage } from "@/components/add-to-local-storage";
 import { title } from "@/components/primitives";
 import ProductDescription from "@/components/product/product-description";
 import ProductImageGallery from "@/components/product/product-image-gallery";
@@ -60,13 +60,13 @@ export default async function ProductDetailPage({
           </div>
 
           {product.productType === PRODUCT_TYPES.STONE &&
-          product.certificate ? (
-            <StoneCertificate image={product.certificate} />
+          product.stoneCertificate ? (
+            <StoneCertificate image={product.stoneCertificate} />
           ) : null}
 
-          {product.ringShapeReference.length > 0 ? (
+          {product.shapeReference.length > 0 ? (
             <RingShapeList
-              ringShapeReference={product.ringShapeReference}
+              ringShapeReference={product.shapeReference}
               paramsHandle={params.handle}
             />
           ) : null}
@@ -82,9 +82,10 @@ export default async function ProductDetailPage({
               "max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:z-50 max-md:h-20 max-md:border-t max-md:border-t-default-300 max-md:px-3 max-md:py-3",
             )}
           >
-            <Button color="primary" className="w-full max-w-md" radius="sm">
-              Add to Cart
-            </Button>
+            {product.productType === PRODUCT_TYPES.SETTING && (
+              // akses local storage
+              <AddToLocalStorage type="setting" product={product} />
+            )}
             {/*<ProductWhatsappButton />*/}
             {/*<AddToCart*/}
             {/*  options={product.options}*/}
