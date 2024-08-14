@@ -10,6 +10,7 @@ import { getCollectionQuery } from "@/gql/queries/collection";
 import { getMenuQuery } from "@/gql/queries/menu";
 import {
   getCarouselQuery,
+  getHeroQuery,
   getHomepageFirstSectionQuery,
 } from "@/gql/queries/meta-object";
 import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
@@ -117,6 +118,11 @@ export const getMenu = async (handle: string) => {
 export async function getHeroCarousel() {
   const { data } = await query({
     query: getCarouselQuery,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 30 },
+      },
+    },
   });
 
   return data.metaobjects.edges.reduce(
@@ -148,6 +154,11 @@ export async function getHomepageFirstSection() {
     data: { metaobject },
   } = await query({
     query: getHomepageFirstSectionQuery,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 30 },
+      },
+    },
   });
 
   return {
@@ -248,3 +259,26 @@ export const getCollection = async ({ handle }: { handle: string }) => {
     ...response,
   };
 };
+
+export async function getHeroImage(handle: string) {
+  const { data } = await query({
+    query: getHeroQuery,
+    variables: {
+      handle,
+    },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 30 },
+      },
+    },
+  });
+
+  const desktop_file = data.metaobject?.desktop_file?.reference;
+  const mobile_file = data.metaobject?.mobile_file?.reference;
+
+  return {
+    ...data.metaobject,
+    desktop_file,
+    mobile_file,
+  };
+}
