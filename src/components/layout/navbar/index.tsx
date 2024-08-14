@@ -5,7 +5,7 @@ import { NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import { Skeleton } from "@nextui-org/skeleton";
 import { link as linkStyles } from "@nextui-org/theme";
 
-// import Cart, { CartButton } from "@/components/cart";
+import Cart, { CartButton } from "@/components/cart";
 import NavbarMobileMenu from "@/components/layout/navbar/navbar-mobile-menu";
 import NavbarNestedMenu from "@/components/layout/navbar/navbar-nested-menu";
 import { NavbarWrapper } from "@/components/layout/navbar/navbar-wrapper";
@@ -67,11 +67,11 @@ export const Navbar = async () => {
           </Suspense>
         </NavbarItem>
 
-        {/*<NavbarItem>*/}
-        {/*  <Suspense fallback={<CartButton />}>*/}
-        {/*    <Cart />*/}
-        {/*  </Suspense>*/}
-        {/*</NavbarItem>*/}
+        <NavbarItem>
+          <Suspense fallback={<CartButton />}>
+            <Cart />
+          </Suspense>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarMobileMenu menus={menus} />

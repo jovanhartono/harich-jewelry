@@ -14,6 +14,10 @@ import { createCart, getCart } from "@/lib/shopify";
 
 import { getClient } from "../../../apollo-client";
 
+export async function revalidateCart() {
+  revalidateTag(TAGS.cart);
+}
+
 export async function createCartAndSetCookie() {
   let { cart } = await createCart();
   cookies().set(COOKIES.CART, cart.id!);

@@ -8,7 +8,7 @@ import { CartIcon } from "@nextui-org/shared-icons";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
 
-import { addProductToCart } from "@/components/cart/actions";
+import { addProductToCart, revalidateCart } from "@/components/cart/actions";
 
 export default function AddToCart({
   lines,
@@ -27,6 +27,7 @@ export default function AddToCart({
     }
 
     if (state.ok) {
+      revalidateCart();
       toast.success(state.message, {
         action: {
           label: "View Cart",
@@ -61,11 +62,11 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <Button
       type="submit"
       onClick={(e: FormEvent<HTMLButtonElement>) => {
-        if (pending || !disabled) e.preventDefault();
+        if (pending || disabled) e.preventDefault();
       }}
       aria-label="Add to cart"
       isDisabled={disabled}
-      aria-disabled={pending || !disabled}
+      aria-disabled={pending || disabled}
       color="primary"
       size="lg"
       isLoading={pending}
