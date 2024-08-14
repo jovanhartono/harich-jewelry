@@ -1,7 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { ProductOption, ProductVariantFragment } from "@/__generated__/graphql";
+import {
+  ProductFragment,
+  ProductVariantFragment,
+} from "@/__generated__/graphql";
 import { Chip } from "@nextui-org/chip";
 import { SquarePercent } from "lucide-react";
 
@@ -12,7 +15,7 @@ export default function ProductVariantPrice({
   options,
   variants,
 }: {
-  options: ProductOption[];
+  options: ProductFragment["options"];
   variants: ProductVariantFragment[];
 }) {
   const { selectedVariant } = useProductVariant({ options, variants });

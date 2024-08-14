@@ -1,6 +1,9 @@
 "use client";
 
-import { ProductOption, ProductVariantFragment } from "@/__generated__/graphql";
+import {
+  ProductFragment,
+  ProductVariantFragment,
+} from "@/__generated__/graphql";
 import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/react";
 import { CheckIcon, CircleAlert } from "lucide-react";
@@ -14,7 +17,7 @@ export function ProductVariantsOptions({
   options,
   variants,
 }: {
-  options: ProductOption[];
+  options: ProductFragment["options"];
   variants: ProductVariantFragment[];
 }) {
   const {
@@ -55,6 +58,7 @@ export function ProductVariantsOptions({
 
                 return (
                   <Button
+                    size="sm"
                     key={value}
                     variant={isActive ? "solid" : "flat"}
                     color={isActive ? "primary" : "default"}

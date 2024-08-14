@@ -1,6 +1,9 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { ProductOption, ProductVariantFragment } from "@/__generated__/graphql";
+import {
+  ProductFragment,
+  ProductVariantFragment,
+} from "@/__generated__/graphql";
 
 import { formatRupiah } from "@/lib/utils";
 
@@ -15,7 +18,7 @@ export default function useProductVariant({
   options,
   variants,
 }: {
-  options: ProductOption[];
+  options: ProductFragment["options"];
   variants: ProductVariantFragment[];
 }) {
   const searchParams = useSearchParams();
