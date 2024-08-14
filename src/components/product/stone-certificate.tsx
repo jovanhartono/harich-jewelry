@@ -32,9 +32,11 @@ export const StoneCertificate = memo(function StoneCertificate({
           <ModalHeader></ModalHeader>
           <ModalBody className="relative">
             <Image
-              removeWrapper
-              className="absolute inset-0 h-full w-full object-contain"
+              classNames={{
+                wrapper: "absolute inset-0 mx-auto",
+              }}
               srcSet={generateSrcSet(image.url)}
+              className="h-full w-full object-contain object-center"
               src={image.url}
               sizes="100vw"
             />

@@ -220,7 +220,7 @@ export const StoneFourC = memo(function StoneFourC({
       <ul className="mt-6 grid gap-6 md:grid-cols-2">
         {contents(specifications).map((content, index) => (
           <li
-            className="flex flex-col gap-3 rounded-small bg-primary p-6"
+            className="flex flex-col gap-3 rounded-small bg-cream p-6"
             key={index}
           >
             <h2 className="text-2xl font-medium md:text-3xl">
