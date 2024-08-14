@@ -1,16 +1,17 @@
 "use client";
 
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import NextLink from "next/link";
-import { CartLineInput } from "@/__generated__/graphql";
+import { AttributeInput, CartLineInput } from "@/__generated__/graphql";
 import { useRingBuilder } from "@/app/engagement-rings/ring-builder-provider";
 import { Chip } from "@nextui-org/chip";
 import { Image } from "@nextui-org/image";
+import { Input } from "@nextui-org/input";
 import { Skeleton } from "@nextui-org/skeleton";
 
 import AddToCart from "@/components/cart/add-to-cart";
 import { ProductCardPrice } from "@/components/product/product-card";
-import { DEFAULT_TITLE_OPTION } from "@/lib/constant";
+import { CART_LINE_ATTRIBUTE_KEYS, DEFAULT_TITLE_OPTION } from "@/lib/constant";
 
 export const RingsOverviewLine = memo(function RingsOverviewLine() {
   const { settings, stone } = useRingBuilder();
@@ -45,15 +46,6 @@ export const RingsOverviewLine = memo(function RingsOverviewLine() {
                   />
                 </NextLink>
                 <figcaption className="flex flex-1 flex-col overflow-hidden max-md:py-2">
-                  {/*<div className="flex items-center justify-between">*/}
-                  {/*  <strong*/}
-                  {/*    aria-label="Product Vendor"*/}
-                  {/*    className="font-semibold"*/}
-                  {/*  >*/}
-                  {/*    {product.vendor}*/}
-                  {/*  </strong>*/}
-                  {/*  <DeleteItem id={line.id} />*/}
-                  {/*</div>*/}
                   <NextLink href={`/product/${product.handle}`}>
                     <h2
                       aria-label="Product Title"
@@ -62,7 +54,7 @@ export const RingsOverviewLine = memo(function RingsOverviewLine() {
                       {product.title}
                     </h2>
                   </NextLink>
-                  <div className="mb-6 mt-1.5 flex gap-3 text-default-600">
+                  <div className="mb-6 mt-1.5 flex flex-wrap gap-3 text-default-600">
                     {options
                       .filter(
                         (option) =>
@@ -108,14 +100,33 @@ export const RingsOverviewLine = memo(function RingsOverviewLine() {
 });
 
 export const RingsOverviewSummary = memo(function RingsOverviewSummary() {
+  const [engraving, setEngraving] = useState<string>("");
+  const [size, setSize] = useState<string>("");
   const { settings, stone } = useRingBuilder();
 
   const lines: CartLineInput[] | undefined = useMemo(() => {
     if (settings && stone) {
+      const settingAttributes: AttributeInput[] = [];
+
+      if (engraving) {
+        settingAttributes.push({
+          key: CART_LINE_ATTRIBUTE_KEYS.ENGRAVING,
+          value: engraving,
+        });
+      }
+
+      if (size) {
+        settingAttributes.push({
+          key: CART_LINE_ATTRIBUTE_KEYS.SIZE,
+          value: size,
+        });
+      }
+
       return [
         {
           merchandiseId: settings.selectedVariant.id,
           quantity: 1,
+          attributes: settingAttributes,
         },
         {
           merchandiseId: stone.selectedVariant.id,
@@ -123,11 +134,13 @@ export const RingsOverviewSummary = memo(function RingsOverviewSummary() {
         },
       ];
     }
-  }, [settings, stone]);
+  }, [settings, stone, size, engraving]);
 
   return (
     <div className="col-span-1">
-      <div className="flex h-72 flex-col gap-6 rounded-large bg-default-100 p-6">
+      <div className="flex h-72 flex-col gap-6 rounded-large p-6">
+        <Input label="Engraving" onValueChange={setEngraving} />
+        <Input label="Ring Size" onValueChange={setSize} />
         {lines ? (
           <AddToCart lines={lines} />
         ) : (

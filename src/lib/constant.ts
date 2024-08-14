@@ -27,6 +27,11 @@ export const LOCAL_STORAGE_KEYS: Record<keyof typeof PRODUCT_TYPES, string> = {
   Stone: "harich.selected_stone",
 };
 
+export const CART_LINE_ATTRIBUTE_KEYS = {
+  ENGRAVING: "Engraving",
+  SIZE: "Size",
+};
+
 export const COLLECTION_HANDLE: Record<"setting" | "stone", string> = {
   setting: "engagement-rings",
   stone: "diamonds",

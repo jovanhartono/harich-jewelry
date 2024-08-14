@@ -205,6 +205,10 @@ export const cartLineFragment = gql(/* GraphQL */ `
   fragment cartLine on CartLine {
     id
     quantity
+    attributes {
+      key
+      value
+    }
     cost {
       subtotalAmount {
         amount
@@ -244,6 +248,10 @@ export const cartFragment = gql(/* GraphQL */ `
   fragment cart on Cart {
     id
     checkoutUrl
+    attributes {
+      key
+      value
+    }
     cost {
       subtotalAmount {
         amount

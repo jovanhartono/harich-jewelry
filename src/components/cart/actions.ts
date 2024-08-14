@@ -144,3 +144,19 @@ export async function updateProductQuantity(payload: {
     return "Error updating product quantity";
   }
 }
+
+export async function updateCartLine({ line }: { line: CartLineUpdateInput }) {
+  const cartId = cookies().get(COOKIES.CART)?.value;
+
+  if (!cartId) {
+    return "Missing Cart ID";
+  }
+
+  try {
+    await updateCart(cartId, [line]);
+
+    revalidateTag(TAGS.cart);
+  } catch (e) {
+    return "Error updating cart line";
+  }
+}

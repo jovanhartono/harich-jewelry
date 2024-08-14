@@ -10,6 +10,7 @@ import { ShoppingBagIcon } from "lucide-react";
 
 import DeleteItem from "@/components/cart/delete-item";
 import ItemQuantity from "@/components/cart/item-quantity";
+import { LineAttributes } from "@/components/cart/line-attribute";
 import { title } from "@/components/primitives";
 import { COOKIES, DEFAULT_TITLE_OPTION } from "@/lib/constant";
 import { getCart } from "@/lib/shopify";
@@ -46,12 +47,12 @@ export default async function CartPage() {
 
             return (
               <li key={line.id} className="rounded-large bg-default-50 p-4">
-                <figure className="flex grow items-center gap-6">
-                  <NextLink href={`/product/${product.handle}`}>
+                <figure className="flex grow gap-6">
+                  <NextLink
+                    href={`/product/${product.handle}`}
+                    className="shrink-0"
+                  >
                     <Image
-                      classNames={{
-                        wrapper: "shrink-0",
-                      }}
                       className="aspect-square w-24 object-cover object-center lg:w-32"
                       alt={product.featuredImage?.altText || product.title}
                       src={product.featuredImage?.url}
@@ -59,23 +60,18 @@ export default async function CartPage() {
                   </NextLink>
                   <figcaption className="flex flex-1 flex-col py-2">
                     <div className="flex items-center justify-between">
-                      <strong
-                        aria-label="Product Vendor"
-                        className="font-semibold"
-                      >
-                        {product.vendor}
-                      </strong>
+                      <NextLink href={`/product/${product.handle}`}>
+                        <h2
+                          aria-label="Product Title"
+                          className="line-clamp-2 font-medium lg:text-lg"
+                        >
+                          {product.title}
+                        </h2>
+                      </NextLink>
                       <DeleteItem id={line.id} />
                     </div>
-                    <NextLink href={`/product/${product.handle}`}>
-                      <h2
-                        aria-label="Product Title"
-                        className="line-clamp-2 font-medium lg:text-lg"
-                      >
-                        {product.title}
-                      </h2>
-                    </NextLink>
-                    <div className="mb-6 mt-1.5 flex gap-3 text-default-600">
+
+                    <div className="mb-3 mt-2 flex flex-wrap gap-3 text-default-600">
                       {options
                         .filter(
                           (option) =>
@@ -85,9 +81,13 @@ export default async function CartPage() {
                         .map((option) => (
                           <Chip
                             radius="sm"
-                            color="default"
-                            variant="flat"
+                            color="primary"
+                            variant="solid"
                             key={option.name}
+                            classNames={{
+                              base: "min-h-[28px] h-auto",
+                              content: "whitespace-break-spaces",
+                            }}
                           >
                             {option.name}:&nbsp;
                             <strong className="font-medium">
@@ -96,6 +96,8 @@ export default async function CartPage() {
                           </Chip>
                         ))}
                     </div>
+
+                    <LineAttributes line={line} />
 
                     <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
                       <p aria-label="price" className="font-semibold">
