@@ -1,38 +1,20 @@
 "use client";
 
-import {
-  ProductFragment,
-  ProductVariantFragment,
-} from "@/__generated__/graphql";
+import { useProduct, useUpdateURL } from "@/app/product/provider";
 import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/react";
 import { CheckIcon, CircleAlert } from "lucide-react";
 
 import { LIMITED_STOCK_THRESHOLD } from "@/lib/constant";
 import { cn } from "@/lib/utils";
-import useProductVariant from "@/hooks/useProductVariant";
-import useQueryParams from "@/hooks/useQueryParams";
 
-export function ProductVariantsOptions({
-  options,
-  variants,
-}: {
-  options: ProductFragment["options"];
-  variants: ProductVariantFragment[];
-}) {
-  const {
-    isOptionAvailableForSale,
-    hasNoOptionsOrJustOneOption,
-    selectedVariant,
-  } = useProductVariant({ options, variants });
-  const { createQueryString, setUrl } = useQueryParams();
-
-  if (hasNoOptionsOrJustOneOption) {
-    return null;
-  }
+export function ProductVariantsOptions() {
+  const { updateOption, selectedVariant, isOptionAvailableForSale, options } =
+    useProduct();
+  const updateURL = useUpdateURL();
 
   return (
-    <div className="space-y-6">
+    <form className="space-y-6">
       <div className="flex items-center gap-3">
         <h2 aria-label="Product Variants" className="text-lg font-semibold">
           Variants – {selectedVariant?.title}
@@ -58,6 +40,7 @@ export function ProductVariantsOptions({
 
                 return (
                   <Button
+                    type="submit"
                     size="sm"
                     key={value}
                     variant={isActive ? "solid" : "flat"}
@@ -65,10 +48,12 @@ export function ProductVariantsOptions({
                     aria-disabled={!isAvailableForSale}
                     isDisabled={!isAvailableForSale}
                     title={`${option.name} ${value}${!isAvailableForSale ? " (Out of Stock)" : ""}`}
-                    onClick={() => {
-                      setUrl(
-                        createQueryString(option.name.toLowerCase(), value),
+                    formAction={() => {
+                      const newState = updateOption(
+                        option.name.toLowerCase(),
+                        value,
                       );
+                      updateURL(newState);
                     }}
                     className={cn(
                       "font-mono",
@@ -84,7 +69,7 @@ export function ProductVariantsOptions({
           </dl>
         ))}
       </div>
-    </div>
+    </form>
   );
 }
 

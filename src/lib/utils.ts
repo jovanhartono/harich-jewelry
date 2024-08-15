@@ -98,9 +98,11 @@ export function handleProductFilter(searchParams: ReadonlyURLSearchParams) {
 }
 
 export function generateSrcSet(
-  url: string,
+  url?: string,
   widths: string[] = ["375", "475", "768", "1024", "1440"],
 ) {
+  if (!url) return;
+
   const urlObject = new URL(url);
 
   return widths
@@ -112,10 +114,10 @@ export function generateSrcSet(
     .join(", ");
 }
 
-export const handleProductQuery = (data: GetProductByHandleQuery) => {
-  if (!data.product) return;
-
-  const { product } = data;
+export const handleProductQuery = (
+  product: GetProductByHandleQuery["product"],
+) => {
+  if (!product) return;
 
   const shapeReference =
     product.shapeReference?.references?.edges

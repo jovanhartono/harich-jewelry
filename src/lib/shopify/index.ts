@@ -20,7 +20,6 @@ import { getProductByHandleQuery } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
 import { MetaObjectUrl } from "@/lib/type";
-import { handleProductQuery } from "@/lib/utils";
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 
@@ -37,13 +36,11 @@ export const getProductByHandle = async (handle: string) => {
     },
   });
 
-  const product = handleProductQuery(data);
-
-  if (!product) {
+  if (!data || !data.product) {
     return notFound();
   }
 
-  return product;
+  return data.product;
 };
 
 export const getMenu = async (handle: string) => {
