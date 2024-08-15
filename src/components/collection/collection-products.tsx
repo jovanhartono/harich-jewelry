@@ -8,6 +8,7 @@ import {
   ProductCollectionSortKeys,
   ProductFilter,
 } from "@/__generated__/graphql";
+import { useProductModal } from "@/app/engagement-rings/product-modal-provider";
 import { getCollectionProductsQuery } from "@/gql/queries/collection";
 import { useSuspenseQuery } from "@apollo/client";
 import { Button } from "@nextui-org/button";
@@ -29,6 +30,7 @@ const CollectionProductList = memo(function CollectionFilter({
   sortKey: ProductCollectionSortKeys;
   reverse: boolean;
 }) {
+  const { open } = useProductModal();
   const [isLoading, transition] = useTransition();
 
   const {
@@ -52,7 +54,16 @@ const CollectionProductList = memo(function CollectionFilter({
       <ul className="grid grid-cols-2 gap-4 @xl:grid-cols-3 @4xl:grid-cols-4 md:gap-3">
         {collection.products.edges.map(({ node }) => (
           <li key={node.id}>
-            <ProductCard product={node} />
+            <ProductCard
+              withLink={false}
+              product={node}
+              cardProps={{
+                isPressable: true,
+                onPress: () => {
+                  open(node.handle);
+                },
+              }}
+            />
           </li>
         ))}
       </ul>
@@ -160,7 +171,9 @@ const CollectionFilter = memo(function CollectionFilter({
                         </figcaption>
                       </figure>
                     ) : (
-                      <p>{fv.label}</p>
+                      <p className="group-has-[:checked]:font-semibold">
+                        {fv.label}
+                      </p>
                     )}
                   </label>
                 </li>

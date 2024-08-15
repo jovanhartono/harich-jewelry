@@ -6,7 +6,7 @@ import { Chip } from "@nextui-org/chip";
 
 import { formatRupiah, generateSrcSet } from "@/lib/utils";
 
-export default function ProductCard({
+export const ProductCardContent = memo(function ProductCardContent({
   product,
   cardProps,
 }: {
@@ -19,38 +19,58 @@ export default function ProductCard({
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
 
   return (
+    <Card
+      as="figure"
+      shadow="none"
+      radius="none"
+      key={product.id}
+      className="group h-full flex-none"
+      {...cardProps}
+    >
+      <ProductCardImage
+        featuredImage={product.featuredImage}
+        title={product.title}
+      />
+      <CardBody
+        as="figcaption"
+        className="flex flex-col items-start gap-3 max-md:px-0"
+      >
+        <p
+          aria-label="product-title"
+          className="line-clamp-3 text-default-700"
+          title={product.title}
+        >
+          {product.title}
+        </p>
+        <ProductCardPrice compareAtPrice={compareAtPrice} price={price} />
+      </CardBody>
+    </Card>
+  );
+});
+
+export default function ProductCard({
+  product,
+  cardProps,
+  withLink = true,
+}: {
+  product: ProductFragment;
+  cardProps?: CardProps;
+  withLink?: boolean;
+}) {
+  const CardContent = (
+    <ProductCardContent product={product} cardProps={cardProps} />
+  );
+
+  return withLink ? (
     <NextLink
       key={product.id}
       href={`/product/${product.handle}`}
       className="block h-full p-1"
     >
-      <Card
-        as="figure"
-        shadow="none"
-        radius="none"
-        key={product.id}
-        className="group h-full flex-none"
-        {...cardProps}
-      >
-        <ProductCardImage
-          featuredImage={product.featuredImage}
-          title={product.title}
-        />
-        <CardBody
-          as="figcaption"
-          className="flex flex-col items-start gap-3 max-md:px-0"
-        >
-          <p
-            aria-label="title"
-            className="line-clamp-3 text-default-700"
-            title={product.title}
-          >
-            {product.title}
-          </p>
-          <ProductCardPrice compareAtPrice={compareAtPrice} price={price} />
-        </CardBody>
-      </Card>
+      {CardContent}
     </NextLink>
+  ) : (
+    CardContent
   );
 }
 

@@ -19,7 +19,8 @@ import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
 import { getProductByHandleQuery } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
-import { MetaObjectUrl, StoneSpecifications } from "@/lib/type";
+import { MetaObjectUrl } from "@/lib/type";
+import { handleProductQuery } from "@/lib/utils";
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 
@@ -36,61 +37,13 @@ export const getProductByHandle = async (handle: string) => {
     },
   });
 
-  if (!data.product) {
+  const product = handleProductQuery(data);
+
+  if (!product) {
     return notFound();
   }
 
-  const { product } = data;
-
-  const shapeReference =
-    product.shapeReference?.references?.edges
-      .map(({ node }) => {
-        if (
-          node.__typename === "Product" &&
-          node.cut?.reference?.__typename === "Metaobject"
-        ) {
-          const shapeRef = node.cut?.reference;
-
-          return {
-            ...node,
-            shape: {
-              label: shapeRef.label?.value || "",
-              svgUrl:
-                shapeRef.svg?.reference?.__typename === "MediaImage"
-                  ? shapeRef.svg.reference.image?.url
-                  : undefined,
-            },
-          };
-        }
-
-        return null;
-      })
-      .filter((edge) => edge !== null) || [];
-
-  const stoneCertificate =
-    product.stoneCertificate?.reference?.__typename === "MediaImage"
-      ? product.stoneCertificate?.reference?.image
-      : undefined;
-
-  const stoneSpecifications = product.stoneSpecifications.reduce(
-    (acc, curr) => {
-      const key = curr?.key as keyof StoneSpecifications;
-      if (!acc[key]) {
-        acc[key] = curr?.value as never;
-      }
-
-      return acc;
-    },
-    {} as StoneSpecifications,
-  );
-
-  return {
-    ...product,
-    variants: product.variants.edges.map((edge) => edge.node) || [],
-    shapeReference,
-    stoneCertificate,
-    stoneSpecifications,
-  };
+  return product;
 };
 
 export const getMenu = async (handle: string) => {
@@ -297,7 +250,7 @@ export async function createCart() {
 }
 
 export async function getCart(cartId: string) {
-  const { data } = await getClient().query({
+  const { data } = await query({
     query: getCartQuery,
     fetchPolicy: "no-cache",
     variables: {

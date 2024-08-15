@@ -1,6 +1,9 @@
 import { ReadonlyURLSearchParams } from "next/navigation";
+import { GetProductByHandleQuery } from "@/__generated__/graphql";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+import { StoneSpecifications } from "@/lib/type";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -108,3 +111,59 @@ export function generateSrcSet(
     })
     .join(", ");
 }
+
+export const handleProductQuery = (data: GetProductByHandleQuery) => {
+  if (!data.product) return;
+
+  const { product } = data;
+
+  const shapeReference =
+    product.shapeReference?.references?.edges
+      .map(({ node }) => {
+        if (
+          node.__typename === "Product" &&
+          node.cut?.reference?.__typename === "Metaobject"
+        ) {
+          const shapeRef = node.cut?.reference;
+
+          return {
+            ...node,
+            shape: {
+              label: shapeRef.label?.value || "",
+              svgUrl:
+                shapeRef.svg?.reference?.__typename === "MediaImage"
+                  ? shapeRef.svg.reference.image?.url
+                  : undefined,
+            },
+          };
+        }
+
+        return null;
+      })
+      .filter((edge) => edge !== null) || [];
+
+  const stoneCertificate =
+    product.stoneCertificate?.reference?.__typename === "MediaImage"
+      ? product.stoneCertificate?.reference?.image
+      : undefined;
+
+  const stoneSpecifications = product.stoneSpecifications.reduce(
+    (acc, curr) => {
+      const key = curr?.key as keyof StoneSpecifications;
+      if (!acc[key]) {
+        acc[key] = curr?.value as never;
+      }
+
+      return acc;
+    },
+    {} as StoneSpecifications,
+  );
+
+  return {
+    ...product,
+    variants: product.variants.edges.map((edge) => edge.node) || [],
+    shapeReference,
+    stoneCertificate,
+    stoneSpecifications,
+  };
+};
