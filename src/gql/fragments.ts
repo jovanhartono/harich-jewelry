@@ -349,3 +349,29 @@ export const BlogFragment = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const StoneShapeFragment = gql(/* GraphQL */ `
+  fragment stoneShape on Metafield {
+    key
+    value
+    reference {
+      ... on Metaobject {
+        label: field(key: "label") {
+          key
+          value
+        }
+        svg: field(key: "svg") {
+          key
+          value
+          reference {
+            ... on MediaImage {
+              image {
+                ...image
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`);

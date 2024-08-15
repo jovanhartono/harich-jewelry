@@ -1,4 +1,5 @@
 import { gql } from "@/__generated__";
+import { graphql } from "graphql/graphql";
 
 export const getProductByHandleQuery = gql(/* GraphQL */ `
   query getProductByHandle($handle: String!) {
@@ -23,6 +24,9 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
         key
         value
       }
+      shape: metafield(namespace: "stone", key: "shape") {
+        ...stoneShape
+      }
       shapeReference: metafield(
         namespace: "ring"
         key: "product_shape_reference"
@@ -32,28 +36,8 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
             node {
               ... on Product {
                 ...product
-                cut: metafield(namespace: "stone", key: "cut") {
-                  key
-                  value
-                  reference {
-                    ... on Metaobject {
-                      label: field(key: "label") {
-                        key
-                        value
-                      }
-                      svg: field(key: "svg") {
-                        key
-                        value
-                        reference {
-                          ... on MediaImage {
-                            image {
-                              ...image
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
+                cut: metafield(namespace: "stone", key: "shape") {
+                  ...stoneShape
                 }
               }
             }
