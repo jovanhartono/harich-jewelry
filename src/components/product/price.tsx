@@ -2,14 +2,16 @@ import { memo, useMemo } from "react";
 import { Chip } from "@nextui-org/chip";
 import { SquarePercent } from "lucide-react";
 
-import { formatRupiah } from "@/lib/utils";
+import { cn, formatRupiah } from "@/lib/utils";
 
 export const Price = memo(function Price({
   price,
   compareAtPrice,
+  className,
 }: {
   price: any;
   compareAtPrice: any;
+  className?: string;
 }) {
   const nett = parseFloat(price);
   const gross = parseFloat(compareAtPrice);
@@ -23,7 +25,10 @@ export const Price = memo(function Price({
   return (
     <div
       aria-label="Product Price"
-      className="flex flex-wrap items-center gap-3 font-mono font-semibold"
+      className={cn(
+        "flex flex-wrap items-center gap-3 font-mono font-semibold",
+        className,
+      )}
     >
       {gross > nett ? (
         <>
