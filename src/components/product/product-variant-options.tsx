@@ -9,18 +9,19 @@ import { LIMITED_STOCK_THRESHOLD } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 
 export function ProductVariantsOptions() {
-  const { updateOption, selectedVariant, isOptionAvailableForSale, options } =
-    useProduct();
+  const {
+    updateOption,
+    selectedVariant,
+    isOptionAvailableForSale,
+    options,
+    hasNoOptionsOrJustOneOption,
+  } = useProduct();
   const updateURL = useUpdateURL();
+
+  if (hasNoOptionsOrJustOneOption) return;
 
   return (
     <form className="space-y-6">
-      <div className="flex items-center gap-3">
-        <h2 aria-label="Product Variants" className="text-lg font-semibold">
-          Variants – {selectedVariant?.title}
-        </h2>
-        {/*<StockChip qty={selectedVariant?.quantityAvailable || 0} />*/}
-      </div>
       <div className="flex flex-col gap-6">
         {options.map((option) => (
           <dl className="flex flex-col gap-1.5" key={option.id}>
