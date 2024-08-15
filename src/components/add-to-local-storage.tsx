@@ -37,16 +37,26 @@ export const AddToLocalStorage = memo(function LocalStorageAddSettings({
       }),
     );
 
-    toast.success("Choose Settings Success!", {
-      closeButton: true,
-      action: {
-        label: "Choose Stones",
-        onClick: () => {
-          push("/engagement-rings/stone");
-        },
-      },
-    });
-  }, [product]);
+    type === PRODUCT_TYPES.Setting
+      ? toast.success("Choose Settings Success!", {
+          closeButton: true,
+          action: {
+            label: "Choose Stones",
+            onClick: () => {
+              push("/engagement-rings/stone");
+            },
+          },
+        })
+      : toast.success("Choose Diamonds Success!", {
+          closeButton: true,
+          action: {
+            label: "Preview Rings",
+            onClick: () => {
+              push("/engagement-rings/preview");
+            },
+          },
+        });
+  }, [product, type]);
 
   return (
     <Button

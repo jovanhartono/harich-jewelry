@@ -1,4 +1,7 @@
+"use client";
+
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRightIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -21,7 +24,9 @@ const steps = [
   },
 ];
 
-export default function BuildStepper({ type }: { type: "setting" | "stone" }) {
+export default function BuildStepper() {
+  const pathname = usePathname();
+
   return (
     <div className="container mx-auto w-full max-w-screen-lg">
       <ul className="flex items-center justify-center gap-6 *:flex-1">
@@ -35,7 +40,7 @@ export default function BuildStepper({ type }: { type: "setting" | "stone" }) {
               className={cn(
                 "flex grow items-center justify-center self-stretch rounded-large",
                 {
-                  "bg-primary": step.key === type,
+                  "bg-primary": pathname.includes(step.key),
                 },
               )}
             >

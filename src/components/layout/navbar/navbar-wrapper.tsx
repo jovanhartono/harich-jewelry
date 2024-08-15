@@ -27,6 +27,7 @@ export const NavbarWrapper = memo(function NavbarWrapper({
       isBlurred={false}
       isBordered
       classNames={{
+        base: "bg-background",
         wrapper: "px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16",
       }}
     >

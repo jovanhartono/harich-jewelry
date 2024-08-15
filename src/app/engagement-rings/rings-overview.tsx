@@ -33,7 +33,10 @@ export const RingsOverviewLine = memo(function RingsOverviewLine() {
           const options = line.selectedVariant.selectedOptions;
 
           return (
-            <li key={idx} className="min-h-40 rounded-large bg-cream p-4">
+            <li
+              key={idx}
+              className="min-h-40 rounded-large border border-default-300 p-4"
+            >
               <figure className="flex grow items-center gap-6">
                 <NextLink
                   href={`/product/${product.handle}`}
@@ -87,7 +90,6 @@ export const RingsOverviewLine = memo(function RingsOverviewLine() {
                         line.selectedVariant.compareAtPrice?.amount
                       }
                     />
-                    {/*<ItemQuantity line={line} />*/}
                   </div>
                 </figcaption>
               </figure>
