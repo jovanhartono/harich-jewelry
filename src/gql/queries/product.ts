@@ -1,5 +1,4 @@
 import { gql } from "@/__generated__";
-import { graphql } from "graphql/graphql";
 
 export const getProductByHandleQuery = gql(/* GraphQL */ `
   query getProductByHandle($handle: String!) {
