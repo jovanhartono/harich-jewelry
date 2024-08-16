@@ -1,3 +1,5 @@
+import { getCart } from "@/lib/shopify";
+
 export type StoneColor = "D" | "E" | "F" | "G";
 export type StoneClarity = "VS1" | "VS2" | "VVS1" | "VVS2";
 export interface StoneSpecifications {
@@ -18,3 +20,6 @@ export type Edge<T> = {
 export type Connection<T> = {
   edges: Array<Edge<T>>;
 };
+
+export type GetCartReturn = ReturnType<typeof getCart>;
+export type GetAwaitedCartReturn = Awaited<GetCartReturn>;

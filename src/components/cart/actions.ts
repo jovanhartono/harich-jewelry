@@ -19,7 +19,7 @@ export async function revalidateCart() {
 }
 
 export async function createCartAndSetCookie() {
-  let { cart } = await createCart();
+  const { cart } = await createCart();
   cookies().set(COOKIES.CART, cart.id!);
 }
 

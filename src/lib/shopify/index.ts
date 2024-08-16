@@ -246,7 +246,9 @@ export async function createCart() {
   return { cart: { ...data?.cartCreate?.cart, lines }, errors };
 }
 
-export async function getCart(cartId: string) {
+export async function getCart(cartId?: string) {
+  if (!cartId) return undefined;
+
   const { data } = await query({
     query: getCartQuery,
     fetchPolicy: "no-cache",

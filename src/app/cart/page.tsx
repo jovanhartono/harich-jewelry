@@ -1,6 +1,8 @@
-import { cookies } from "next/headers";
+"use client";
+
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
+import { useCart } from "@/providers/cart-provider";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Image } from "@nextui-org/image";
@@ -12,18 +14,11 @@ import DeleteItem from "@/components/cart/delete-item";
 import ItemQuantity from "@/components/cart/item-quantity";
 import { LineAttributes } from "@/components/cart/line-attribute";
 import { title } from "@/components/primitives";
-import { COOKIES, DEFAULT_TITLE_OPTION } from "@/lib/constant";
-import { getCart } from "@/lib/shopify";
+import { DEFAULT_TITLE_OPTION } from "@/lib/constant";
 import { formatRupiah } from "@/lib/utils";
 
-export default async function CartPage() {
-  const id = cookies().get(COOKIES.CART)?.value;
-
-  if (!id) {
-    return notFound();
-  }
-
-  const cart = await getCart(id);
+export default function CartPage() {
+  const { cart } = useCart();
 
   if (!cart || cart?.lines.length === 0) {
     return notFound();
