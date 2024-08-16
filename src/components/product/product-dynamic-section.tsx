@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useCallback, useMemo } from "react";
+import NextLink from "next/link";
 import {
   AttributeInput,
   CartLineInput,
@@ -28,7 +29,7 @@ const SettingsSection = memo(function SettingsSection() {
 
   const openStoneModal = useCallback(
     () => open(product.shape.value),
-    [product.shape.value],
+    [open, product.shape.value],
   );
 
   const lines: CartLineInput[] = useMemo(() => {
@@ -67,7 +68,7 @@ const SettingsSection = memo(function SettingsSection() {
 
   if (!stone) {
     return (
-      <div className="flex max-md:flex-col md:items-center md:gap-3">
+      <div className="flex flex-wrap max-md:flex-col md:items-center md:gap-3">
         <span
           onClick={openStoneModal}
           className="inline-flex cursor-pointer items-center underline-offset-4 hover:underline"
@@ -89,14 +90,22 @@ const SettingsSection = memo(function SettingsSection() {
         <GemIcon className="ml-2 size-4 text-default-600" />
       </div>
       <div className="mb-6 mt-1.5 flex items-stretch gap-3 rounded-large bg-default-50 p-3">
-        <Image
-          className="aspect-square w-20 shrink-0 object-cover object-center lg:w-28"
-          alt={stone.product.featuredImage?.altText || stone.product.title}
-          src={stone.product.featuredImage?.url}
-        />
+        <NextLink href={`/product/${stone.product.handle}`}>
+          <Image
+            className="aspect-square w-20 shrink-0 object-cover object-center lg:w-28"
+            alt={stone.product.featuredImage?.altText || stone.product.title}
+            src={stone.product.featuredImage?.url}
+          />
+        </NextLink>
         <div className="flex grow flex-col">
-          <p className="font-medium">{stone.product.title}</p>
+          <NextLink
+            className="font-medium"
+            href={`/product/${stone.product.handle}`}
+          >
+            {stone.product.title}
+          </NextLink>
           <Price
+            className="mt-2 font-sans font-normal"
             compareAtPrice={
               stone.product.compareAtPriceRange.maxVariantPrice.amount
             }

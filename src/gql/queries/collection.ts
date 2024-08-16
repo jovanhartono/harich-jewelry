@@ -34,3 +34,33 @@ export const getCollectionProductsQuery = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const getStoneCollectionQuery = gql(/* GraphQL */ `
+  query getStoneCollection($filters: [ProductFilter!]) {
+    collection(handle: "diamonds") {
+      products(first: 100, filters: $filters) {
+        edges {
+          node {
+            ...product
+            stoneSpecifications: metafields(
+              identifiers: [
+                { namespace: "stone", key: "carat" }
+                { namespace: "stone", key: "clarity" }
+                { namespace: "stone", key: "color" }
+              ]
+            ) {
+              key
+              value
+            }
+            stoneShape: metafield(namespace: "stone", key: "shape") {
+              ...stoneShape
+            }
+          }
+        }
+        pageInfo {
+          ...pageInfo
+        }
+      }
+    }
+  }
+`);

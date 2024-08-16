@@ -1,9 +1,7 @@
 import { createContext, memo, ReactNode, useCallback, useContext } from "react";
-import { GetCollectionProductsQuery } from "@/__generated__/graphql";
-import { getCollectionProductsQuery } from "@/gql/queries/collection";
+import { GetStoneCollectionQuery } from "@/__generated__/graphql";
+import { getStoneCollectionQuery } from "@/gql/queries/collection";
 import { useLazyQuery } from "@apollo/client";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { Button } from "@nextui-org/button";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { Spinner } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
@@ -14,7 +12,8 @@ import {
 import { GemIcon } from "lucide-react";
 
 import { Price } from "@/components/product/price";
-import { COLLECTION_HANDLE } from "@/lib/constant";
+import { ProductCardImage } from "@/components/product/product-card";
+import { removeEdgesAndNodes } from "@/lib/utils";
 import { useProductLocalStorage } from "@/hooks/useProductLocalStorage";
 
 const StoneModalContext = createContext<
@@ -38,10 +37,10 @@ const StoneModalContentSkeleton = memo(function StoneModalContentSkeleton() {
 const StoneModalContent = memo(function ModalContent({
   data,
 }: {
-  data?: GetCollectionProductsQuery;
+  data?: GetStoneCollectionQuery;
 }) {
   const { onClose } = useStoneModal();
-  const { setStone } = useProductLocalStorage();
+  const { setStone: setStoneLocalStorage } = useProductLocalStorage();
 
   const stones = data?.collection?.products;
   if (!stones || !stones?.edges.length) {
@@ -57,42 +56,52 @@ const StoneModalContent = memo(function ModalContent({
   }
 
   return (
-    <Accordion selectionMode="multiple" className="flex flex-col gap-3">
-      {stones.edges.map(({ node }) => (
-        <AccordionItem
-          key={node.id}
-          className="rounded-large bg-default-100 p-2"
-          title={
-            <div className="flex gap-6">
-              <span>{node.title}</span>
-              <Price
-                price={node.priceRange.maxVariantPrice.amount}
-                compareAtPrice={node.priceRange.maxVariantPrice.amount}
-              />
-            </div>
-          }
-        >
-          <Button
-            onPress={() => {
-              const selectedVariant = node.variants.edges.find(
-                (edge) => edge.node.availableForSale,
-              )?.node;
-
-              if (selectedVariant) {
-                setStone({
-                  product: node,
-                  selectedVariant,
-                });
-              }
-
+    <div className="@container">
+      <ul className="grid grid-cols-2 gap-3 @lg:grid-cols-3 @lg:gap-6 @2xl:grid-cols-4">
+        {removeEdgesAndNodes(stones).map((stone) => (
+          <li
+            key={stone.id}
+            onClick={() => {
+              setStoneLocalStorage({
+                product: stone,
+                selectedVariant: stone.variants.edges[0].node,
+              });
               onClose();
             }}
           >
-            Add to Ring
-          </Button>
-        </AccordionItem>
-      ))}
-    </Accordion>
+            <figure className="flex cursor-pointer flex-col gap-3 border border-default-300 p-3 transition-shadow hover:shadow-md">
+              <ProductCardImage
+                alt={stone.title}
+                featuredImage={stone.featuredImage}
+              />
+              <figcaption>
+                <Price
+                  className="text-sm font-normal"
+                  price={stone.priceRange.maxVariantPrice.amount}
+                  compareAtPrice={
+                    stone.compareAtPriceRange.maxVariantPrice.amount
+                  }
+                />
+                <ul className="mt-3 grid grid-cols-2 gap-3">
+                  {stone.stoneSpecifications.map((specification) =>
+                    specification ? (
+                      <li key={specification.key}>
+                        <p className="text-xs capitalize text-default-700">
+                          {specification.key}
+                        </p>
+                        <strong className="text-sm font-medium">
+                          {specification.value}
+                        </strong>
+                      </li>
+                    ) : null,
+                  )}
+                </ul>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 });
 
@@ -100,27 +109,27 @@ export const StoneModalProvider = ({ children }: { children: ReactNode }) => {
   const disclosure = useDisclosure();
   const { onOpen, isOpen, onOpenChange } = disclosure;
 
-  const [getProduct, { data, loading }] = useLazyQuery(
-    getCollectionProductsQuery,
-  );
+  const [getProduct, { data, loading }] = useLazyQuery(getStoneCollectionQuery);
 
-  const open = useCallback((stoneShapeId: string) => {
-    getProduct({
-      variables: {
-        handle: COLLECTION_HANDLE.stone,
-        filters: [
-          {
-            productMetafield: {
-              namespace: "stone",
-              key: "shape",
-              value: stoneShapeId,
+  const open = useCallback(
+    (stoneShapeId: string) => {
+      getProduct({
+        variables: {
+          filters: [
+            {
+              productMetafield: {
+                namespace: "stone",
+                key: "shape",
+                value: stoneShapeId,
+              },
             },
-          },
-        ],
-      },
-    });
-    onOpen();
-  }, []);
+          ],
+        },
+      });
+      onOpen();
+    },
+    [getProduct, onOpen],
+  );
 
   return (
     <StoneModalContext.Provider value={{ ...disclosure, open }}>
@@ -135,8 +144,12 @@ export const StoneModalProvider = ({ children }: { children: ReactNode }) => {
         scrollBehavior="inside"
       >
         <ModalContent className="h-full">
-          <ModalHeader className="justify-center">
+          <ModalHeader className="flex flex-col items-center">
             <h1 className="text-center text-2xl">Select a Diamond</h1>
+            <p className="mt-2 text-center font-light text-default-700 max-md:text-sm">
+              Our hand-selected, pre-vetted, in-house inventory, immediately
+              available for sale.
+            </p>
           </ModalHeader>
           <ModalBody>
             {loading ? (
