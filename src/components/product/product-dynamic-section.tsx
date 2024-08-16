@@ -11,7 +11,7 @@ import { useProduct } from "@/app/product/provider";
 import {
   StoneModalProvider,
   useStoneModal,
-} from "@/provider/stone-modal-provider";
+} from "@/providers/stone-modal-provider";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { GemIcon } from "lucide-react";
