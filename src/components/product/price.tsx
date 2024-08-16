@@ -26,7 +26,7 @@ export const Price = memo(function Price({
     <div
       aria-label="Product Price"
       className={cn(
-        "flex flex-wrap items-center gap-3 font-mono font-semibold",
+        "flex flex-wrap items-center gap-3 font-mono font-medium",
         className,
       )}
     >
