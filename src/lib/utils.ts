@@ -3,7 +3,7 @@ import { GetProductByHandleQuery } from "@/__generated__/graphql";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { StoneSpecifications } from "@/lib/type";
+import { Connection, StoneSpecifications } from "@/lib/type";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -114,6 +114,23 @@ export function generateSrcSet(
     .join(", ");
 }
 
+export const removeEdgesAndNodes = <T>(array: Connection<T>): T[] => {
+  return array.edges.map((edge) => edge?.node);
+};
+
+export const reshapeStoneSpecifications = (
+  stoneSpecifications: Array<{ key: string; value: string } | null>,
+) => {
+  return stoneSpecifications.reduce((acc, curr) => {
+    const key = curr?.key as keyof StoneSpecifications;
+    if (!acc[key]) {
+      acc[key] = curr?.value as never;
+    }
+
+    return acc;
+  }, {} as StoneSpecifications);
+};
+
 export const handleProductQuery = (
   product: GetProductByHandleQuery["product"],
 ) => {
@@ -149,16 +166,8 @@ export const handleProductQuery = (
       ? product.stoneCertificate?.reference?.image
       : undefined;
 
-  const stoneSpecifications = product.stoneSpecifications.reduce(
-    (acc, curr) => {
-      const key = curr?.key as keyof StoneSpecifications;
-      if (!acc[key]) {
-        acc[key] = curr?.value as never;
-      }
-
-      return acc;
-    },
-    {} as StoneSpecifications,
+  const stoneSpecifications = reshapeStoneSpecifications(
+    product.stoneSpecifications,
   );
 
   return {
@@ -169,3 +178,5 @@ export const handleProductQuery = (
     stoneSpecifications,
   };
 };
+
+export type ProductQueryReshape = ReturnType<typeof handleProductQuery>;
