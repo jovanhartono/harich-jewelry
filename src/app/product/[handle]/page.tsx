@@ -1,25 +1,18 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import { ImageConnection, ProductVariant } from "@/__generated__/graphql";
+import { ImageConnection } from "@/__generated__/graphql";
 import { ProductProvider } from "@/app/product/provider";
-import { Divider } from "@nextui-org/react";
-import { Skeleton } from "@nextui-org/skeleton";
 
-import { AddToLocalStorage } from "@/components/add-to-local-storage";
-import AddToCart from "@/components/cart/add-to-cart";
 import { title } from "@/components/primitives";
-import { ProductCTA } from "@/components/product/product-cta";
 import ProductDescription from "@/components/product/product-description";
 import { ProductDynamicSection } from "@/components/product/product-dynamic-section";
 import ProductImageGallery from "@/components/product/product-image-gallery";
 import { ProductVariantsOptions } from "@/components/product/product-variant-options";
 import ProductVariantPrice from "@/components/product/product-variant-price";
 import { RingShapeList } from "@/components/product/ring-shape-list";
-import { StoneCertificate } from "@/components/product/stone-certificate";
 import { StoneFourC } from "@/components/product/stone-four-c";
 import { PRODUCT_TYPES } from "@/lib/constant";
 import { getProductByHandle } from "@/lib/shopify";
-import { cn, handleProductQuery } from "@/lib/utils";
+import { handleProductQuery } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -53,17 +46,14 @@ export default async function ProductDetailPage({
             <div className="flex flex-col">
               <h1
                 aria-label="Product Title"
-                className={title({ className: "mb-3 leading-snug" })}
+                className={title({
+                  className: "mb-3 text-pretty leading-snug",
+                })}
               >
                 {product.title}
               </h1>
               <ProductVariantPrice />
             </div>
-
-            {product.productType === PRODUCT_TYPES.Stone &&
-            product.stoneCertificate ? (
-              <StoneCertificate image={product.stoneCertificate} />
-            ) : null}
 
             {product.shapeReference.length > 0 ? (
               <RingShapeList
@@ -76,13 +66,12 @@ export default async function ProductDetailPage({
 
             <ProductDynamicSection />
 
-            <ProductCTA />
+            {/*<ProductCTA />*/}
 
-            <Divider />
-            <dl className="flex flex-col gap-3">
+            <dl className="flex flex-col gap-1">
               <dt
                 id="Product Description"
-                className="text-lg font-semibold text-foreground"
+                className="text-lg font-semibold tracking-tight text-foreground"
               >
                 About This Product
               </dt>

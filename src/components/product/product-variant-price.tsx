@@ -8,7 +8,7 @@ export default function ProductVariantPrice() {
   const { selectedVariant } = useProduct();
 
   return (
-    <div className="flex items-center text-xl md:text-2xl">
+    <div className="flex items-center text-xl">
       <Price
         price={selectedVariant?.price.amount}
         compareAtPrice={selectedVariant?.compareAtPrice?.amount}

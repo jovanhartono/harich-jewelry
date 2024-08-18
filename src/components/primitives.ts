@@ -4,9 +4,9 @@ export const title = cva("inline font-semibold tracking-tight", {
   variants: {
     color: {},
     size: {
-      sm: "text-3xl lg:text-4xl",
-      md: "text-3xl md:text-4xl xl:text-5xl",
-      lg: "text-4xl lg:text-6xl",
+      sm: "text-2xl lg:text-3xl",
+      md: "text-3xl lg:text-4xl",
+      lg: "text-4xl lg:text-5xl",
     },
     fullWidth: {
       true: "block w-full",
