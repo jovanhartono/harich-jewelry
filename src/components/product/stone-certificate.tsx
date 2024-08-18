@@ -6,27 +6,31 @@ import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, FileTextIcon, GemIcon } from "lucide-react";
 
-import { generateSrcSet } from "@/lib/utils";
+import { cn, generateSrcSet } from "@/lib/utils";
 
 export const StoneCertificate = memo(function StoneCertificate({
   image,
+  className,
 }: {
   image: ImageFragment;
+  className?: string;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <Button
-        className="w-max"
-        onPress={onOpen}
-        variant="flat"
-        endContent={<EyeIcon className="size-4" />}
+      <span
+        onClick={onOpen}
+        className={cn(
+          "inline-flex cursor-pointer items-center text-sm font-medium tracking-tight underline-offset-4 hover:underline",
+          className,
+        )}
       >
         Show Certificate
-      </Button>
+        <FileTextIcon className="ml-2 size-4" />
+      </span>
       <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           <ModalHeader></ModalHeader>
