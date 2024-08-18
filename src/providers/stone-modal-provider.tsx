@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, memo, ReactNode, useCallback, useContext } from "react";
 import { GetStoneCollectionQuery } from "@/__generated__/graphql";
 import { getStoneCollectionQuery } from "@/gql/queries/collection";
@@ -13,11 +15,12 @@ import { GemIcon } from "lucide-react";
 
 import { Price } from "@/components/product/price";
 import { ProductCardImage } from "@/components/product/product-card";
+import { StoneSpecifications } from "@/components/product/stone/stone-specifications";
 import { removeEdgesAndNodes } from "@/lib/utils";
 import { useProductLocalStorage } from "@/hooks/useProductLocalStorage";
 
 const StoneModalContext = createContext<
-  (UseDisclosureReturn & { open: (value: string) => void }) | undefined
+  (UseDisclosureReturn & { open: (value?: string) => void }) | undefined
 >(undefined);
 
 const StoneModalContentSkeleton = memo(function StoneModalContentSkeleton() {
@@ -57,7 +60,7 @@ const StoneModalContent = memo(function ModalContent({
 
   return (
     <div className="@container">
-      <ul className="grid grid-cols-2 gap-3 @lg:grid-cols-3 @lg:gap-6 @2xl:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-3 @lg:grid-cols-3 @lg:gap-4 @2xl:grid-cols-4">
         {removeEdgesAndNodes(stones).map((stone) => (
           <li
             key={stone.id}
@@ -82,20 +85,10 @@ const StoneModalContent = memo(function ModalContent({
                     stone.compareAtPriceRange.maxVariantPrice.amount
                   }
                 />
-                <ul className="mt-3 grid grid-cols-2 gap-3">
-                  {stone.stoneSpecifications.map((specification) =>
-                    specification ? (
-                      <li key={specification.key}>
-                        <p className="text-xs capitalize text-default-700">
-                          {specification.key}
-                        </p>
-                        <strong className="text-sm font-medium">
-                          {specification.value}
-                        </strong>
-                      </li>
-                    ) : null,
-                  )}
-                </ul>
+                <StoneSpecifications
+                  className="mt-3"
+                  specifications={stone.stoneSpecifications}
+                />
               </figcaption>
             </figure>
           </li>
@@ -112,18 +105,20 @@ export const StoneModalProvider = ({ children }: { children: ReactNode }) => {
   const [getProduct, { data, loading }] = useLazyQuery(getStoneCollectionQuery);
 
   const open = useCallback(
-    (stoneShapeId: string) => {
+    (stoneShapeId?: string) => {
+      const filters = stoneShapeId
+        ? {
+            productMetafield: {
+              namespace: "stone",
+              key: "shape",
+              value: stoneShapeId,
+            },
+          }
+        : {};
+
       getProduct({
         variables: {
-          filters: [
-            {
-              productMetafield: {
-                namespace: "stone",
-                key: "shape",
-                value: stoneShapeId,
-              },
-            },
-          ],
+          filters: [filters],
         },
       });
       onOpen();
@@ -139,6 +134,7 @@ export const StoneModalProvider = ({ children }: { children: ReactNode }) => {
         classNames={{
           backdrop:
             "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+          body: "pb-6",
         }}
         size="4xl"
         scrollBehavior="inside"
