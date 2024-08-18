@@ -29,7 +29,7 @@ export const ProductCardContent = memo(function ProductCardContent({
     >
       <ProductCardImage
         featuredImage={product.featuredImage}
-        title={product.title}
+        alt={product.title}
       />
       <CardBody
         as="figcaption"
@@ -111,18 +111,19 @@ export const ProductCardPrice = memo(function ProductCardPrice({
   );
 });
 
-const ProductCardImage = memo(function ProductCardImage({
-  title,
+export const ProductCardImage = memo(function ProductCardImage({
+  alt,
   featuredImage,
 }: {
-  title: string;
+  alt: string;
   featuredImage?: ImageFragment | null;
 }) {
   return (
     <img
+      decoding="async"
       loading="lazy"
       srcSet={generateSrcSet(featuredImage?.url)}
-      alt={featuredImage?.altText || title}
+      alt={featuredImage?.altText || alt}
       src={featuredImage?.url}
       className="aspect-square w-full object-cover object-center transition-transform hover:scale-100 lg:group-hover:scale-105"
       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
