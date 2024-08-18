@@ -166,16 +166,11 @@ export const handleProductQuery = (
       ? product.stoneCertificate?.reference?.image
       : undefined;
 
-  const stoneSpecifications = reshapeStoneSpecifications(
-    product.stoneSpecifications,
-  );
-
   return {
     ...product,
     variants: product.variants.edges.map((edge) => edge.node) || [],
     shapeReference,
     stoneCertificate,
-    stoneSpecifications,
   };
 };
 
