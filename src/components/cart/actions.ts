@@ -14,10 +14,6 @@ import { createCart, getCart } from "@/lib/shopify";
 
 import { getClient } from "../../../apollo-client";
 
-export async function revalidateCart() {
-  revalidateTag(TAGS.cart);
-}
-
 export async function createCartAndSetCookie() {
   const { cart } = await createCart();
   cookies().set(COOKIES.CART, cart.id!);
@@ -56,6 +52,8 @@ export async function addProductToCart(
         },
         fetchPolicy: "no-cache",
       });
+
+      revalidateTag(TAGS.cart);
 
       return {
         ok: true,

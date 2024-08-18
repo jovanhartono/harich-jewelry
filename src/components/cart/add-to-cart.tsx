@@ -1,21 +1,25 @@
 "use client";
 
-import { FormEvent, useEffect } from "react";
+import { FormEvent, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CartLineInput } from "@/__generated__/graphql";
-import { Button } from "@nextui-org/react";
+import { Button, ButtonProps } from "@nextui-org/react";
 import { CartIcon } from "@nextui-org/shared-icons";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
 
-import { addProductToCart, revalidateCart } from "@/components/cart/actions";
+import { addProductToCart } from "@/components/cart/actions";
 
 export default function AddToCart({
   lines,
   disabled = false,
+  buttonProps,
+  children,
 }: {
   lines: CartLineInput | CartLineInput[];
   disabled?: boolean;
+  buttonProps?: ButtonProps;
+  children?: ReactNode;
 }) {
   const router = useRouter();
   const [state, formAction] = useFormState(addProductToCart, null);
@@ -27,7 +31,6 @@ export default function AddToCart({
     }
 
     if (state.ok) {
-      revalidateCart();
       toast.success(state.message, {
         action: {
           label: "View Cart",
@@ -46,8 +49,10 @@ export default function AddToCart({
   }, [router, state]);
 
   return (
-    <form className="max-w-md basis-full" action={actionWithVariant}>
-      <SubmitButton disabled={disabled} />
+    <form className="w-full max-w-md" action={actionWithVariant}>
+      <SubmitButton isDisabled={disabled} {...buttonProps}>
+        {children}
+      </SubmitButton>
       <p aria-live="polite" role="status" className="sr-only">
         {state?.message}
       </p>
@@ -55,7 +60,13 @@ export default function AddToCart({
   );
 }
 
-function SubmitButton({ disabled }: { disabled: boolean }) {
+function SubmitButton(buttonProps: ButtonProps) {
+  const {
+    children,
+    isDisabled: disabled,
+    startContent,
+    ...restProps
+  } = buttonProps;
   const { pending } = useFormStatus();
 
   return (
@@ -71,9 +82,12 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
       size="lg"
       isLoading={pending}
       className="w-full"
-      startContent={pending ? null : <CartIcon className="size-4" />}
+      startContent={
+        pending ? null : (startContent ?? <CartIcon className="size-4" />)
+      }
+      {...restProps}
     >
-      Add to Cart
+      {children ?? "Add to Cart"}
     </Button>
   );
 }
