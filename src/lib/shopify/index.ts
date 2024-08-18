@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation";
-import { ImageFragment, MenuItem } from "@/__generated__/graphql";
+import {
+  CartLineFragment,
+  ImageFragment,
+  MenuItem,
+} from "@/__generated__/graphql";
 import { getClient, query } from "@/../apollo-client";
 import { createCartMutation } from "@/gql/mutations/cart";
 import {
@@ -269,6 +273,6 @@ export async function getCart(cartId?: string) {
 
   return {
     ...data.cart,
-    lines: data.cart.lines.edges.map((edge) => edge.node),
+    lines: data.cart.lines.edges.map((edge) => edge.node as CartLineFragment),
   };
 }
