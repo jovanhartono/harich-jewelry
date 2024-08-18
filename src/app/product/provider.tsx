@@ -15,7 +15,11 @@ import {
   ProductVariantFragment,
 } from "@/__generated__/graphql";
 
-import { formatRupiah, handleProductQuery } from "@/lib/utils";
+import {
+  formatRupiah,
+  handleProductQuery,
+  ProductQueryReshape,
+} from "@/lib/utils";
 
 type ProductState = {
   [key: string]: string;
@@ -36,7 +40,7 @@ type ProductContextType = {
   updateOption: (name: string, value: string) => ProductState;
   updateImage: (index: string) => ProductState;
   options: ProductFragment["options"];
-  product: any;
+  product: Exclude<ProductQueryReshape, undefined>;
 };
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -170,7 +174,7 @@ export function ProductProvider({
         ),
       );
     },
-    [availableVariant?.selectedOptions, combinations, options, searchParams],
+    [availableVariant?.selectedOptions, combinations, options, state],
   );
 
   const value = useMemo(
@@ -184,7 +188,7 @@ export function ProductProvider({
       options,
       product,
     }),
-    [state, selectedVariant],
+    [state, selectedVariant, hasNoOptionsOrJustOneOption, options, product],
   );
 
   return (
