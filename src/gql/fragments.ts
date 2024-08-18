@@ -261,20 +261,6 @@ export const cartFragment = gql(/* GraphQL */ `
         amount
         currencyCode
       }
-      totalTaxAmount {
-        amount
-        currencyCode
-      }
-    }
-    discountCodes {
-      applicable
-      code
-    }
-    discountAllocations {
-      discountedAmount {
-        amount
-        currencyCode
-      }
     }
     lines(first: 100) {
       edges {
