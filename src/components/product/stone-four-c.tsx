@@ -5,7 +5,7 @@ import { Slider, SliderValue } from "@nextui-org/react";
 
 import { title } from "@/components/primitives";
 import { StoneClarity, StoneColor, StoneSpecifications } from "@/lib/type";
-import { cn } from "@/lib/utils";
+import { cn, reshapeStoneSpecifications } from "@/lib/utils";
 
 const clarities = [
   {
@@ -78,7 +78,7 @@ const ClaritySlider = memo(function ClaritySlider({
           src={selectedClarity.src}
         />
       </div>
-      <div className="mt-auto rounded-small bg-secondary p-3 font-mono md:p-6">
+      <div className="mt-auto bg-primary p-3 font-mono md:p-6">
         <p>{selectedClarity.description}</p>
       </div>
     </div>
@@ -158,7 +158,7 @@ const ColorSlider = memo(function ColorSlider({
         </div>
       </div>
 
-      <div className="rounded-small bg-secondary p-3 font-mono md:p-6">
+      <div className="mt-auto bg-primary p-3 font-mono md:p-6">
         <p>{colors[Array.isArray(value) ? value[0] : value].description}</p>
       </div>
     </div>
@@ -204,7 +204,7 @@ const contents = (specifications: StoneSpecifications) => [
 export const StoneFourC = memo(function StoneFourC({
   specifications,
 }: {
-  specifications: StoneSpecifications;
+  specifications: Array<{ key: string; value: string } | null>;
 }) {
   return (
     <section className="mx-auto flex flex-col">
@@ -215,21 +215,25 @@ export const StoneFourC = memo(function StoneFourC({
           }),
         )}
       >
-        The Four C's of Lab Diamond
+        The Four C&apos;s of Lab Diamond
       </h1>
       <ul className="mt-6 grid gap-6 md:grid-cols-2">
-        {contents(specifications).map((content, index) => (
-          <li
-            className="flex flex-col gap-3 rounded-small bg-cream p-6"
-            key={index}
-          >
-            <h2 className="text-2xl font-medium md:text-3xl">
-              {content.title}
-            </h2>
-            <p className="font-mono max-md:text-sm">{content.description}</p>
-            {content.slider}
-          </li>
-        ))}
+        {contents(reshapeStoneSpecifications(specifications)).map(
+          (content, index) => (
+            <li
+              className="flex flex-col gap-3 border border-default-700 p-6"
+              key={index}
+            >
+              <h2 className="text-2xl font-medium tracking-tight md:text-3xl">
+                {content.title}
+              </h2>
+              <p className="font-mono text-sm text-default-700">
+                {content.description}
+              </p>
+              {content.slider}
+            </li>
+          ),
+        )}
       </ul>
     </section>
   );
