@@ -21,7 +21,7 @@ export function ProductSettingSection() {
   const [size, setSize] = useState<string>();
 
   const { product, selectedVariant } = useProduct();
-  const { stone, setStone, setSettings } = useProductLocalStorage();
+  const { stone, setStone } = useProductLocalStorage();
   const { open } = useStoneModal();
 
   const openStoneModal = useCallback(
@@ -30,7 +30,7 @@ export function ProductSettingSection() {
   );
 
   const handleSuccess = useCallback(() => {
-    // router.push("/cart");
+    router.push("/cart");
     // setStone(null);
     // setSettings(null);
   }, [router]);
@@ -138,30 +138,32 @@ export function ProductSettingSection() {
         </div>
       </div>
 
-      <div className="mb-6 flex gap-3">
-        <label htmlFor="engraving" className="flex flex-col gap-1">
-          <span className="text-sm font-medium">Engraving</span>
+      <div className="mb-6 flex gap-3 *:flex-1">
+        <label htmlFor="engraving">
+          <p className="mb-1 text-sm font-medium">Engraving</p>
           <input
             onChange={(e) => setEngraving(e.target.value)}
             type="text"
             id="engraving"
-            className="border border-default-700 p-3 outline-none focus:ring-black"
+            className="w-full border border-default-700 p-3 outline-none focus:ring-black"
           />
         </label>
-        <label htmlFor="size" className="flex flex-col gap-1">
-          <span className="text-sm font-medium">Size</span>
+        <label htmlFor="size">
+          <p className="mb-1 text-sm font-medium">Size</p>
           <input
             onChange={(e) => setSize(e.target.value)}
             type="text"
             id="size"
-            className="border border-default-700 p-3 outline-none focus:ring-black"
+            className="w-full border border-default-700 p-3 outline-none focus:ring-black"
           />
         </label>
       </div>
 
-      <AddToCart lines={lines} onSuccess={handleSuccess}>
-        Complete Setup
-      </AddToCart>
+      <div className="bottom-float-wrapper">
+        <AddToCart lines={lines} onSuccess={handleSuccess}>
+          Complete Setup
+        </AddToCart>
+      </div>
     </section>
   );
 }
