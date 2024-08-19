@@ -139,7 +139,6 @@ const MobileFilter = ({ filters }: { filters: FilterFragment[] }) => {
         replace(`${pathname}?${params.toString()}`, {
           scroll: false,
         });
-        setIsDrawerOpen(false);
       });
     },
     [pathname, replace, searchParams],
@@ -201,7 +200,7 @@ const MobileFilter = ({ filters }: { filters: FilterFragment[] }) => {
                         />
                         {fv.image?.image ? (
                           <figure className="flex flex-col gap-2">
-                            <div className="rounded-medium p-2 duration-100 transition-background group-hover:bg-primary group-has-[:checked]:bg-primary">
+                            <div className="rounded-medium p-2 duration-100 transition-background group-has-[:checked]:bg-primary">
                               <img
                                 className="mx-auto h-10 brightness-0"
                                 src={fv.image.image.url}
