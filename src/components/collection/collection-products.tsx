@@ -1,25 +1,57 @@
 "use client";
 
-import { memo, Suspense, useCallback, useMemo, useTransition } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useMemo, useTransition } from "react";
+import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import {
-  FilterFragment,
   GetCollectionQuery,
   ProductCollectionSortKeys,
   ProductFilter,
 } from "@/__generated__/graphql";
-import { useProductModal } from "@/app/engagement-rings/product-modal-provider";
 import { getCollectionProductsQuery } from "@/gql/queries/collection";
 import { useSuspenseQuery } from "@apollo/client";
 import { Button } from "@nextui-org/button";
+import { Skeleton } from "@nextui-org/skeleton";
 
-import { ProductsSorter } from "@/components/collection/collection-products-sorter";
 import ProductCard from "@/components/product/product-card";
 import ProductGridSkeleton from "@/components/product/product-grid-skeleton";
-import { DEFAULT_SORT_OPTION, FILTER_ID, SORT_OPTIONS } from "@/lib/constant";
-import { cn } from "@/lib/utils";
+import { DEFAULT_SORT_OPTION, SORT_OPTIONS } from "@/lib/constant";
 
-const CollectionProductList = memo(function CollectionFilter({
+const ProductsSorter = dynamic(
+  () =>
+    import("@/components/collection/collection-products-sorter").then(
+      (m) => m.ProductsSorter,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <Skeleton className="ml-auto h-10 w-full rounded-large max-md:hidden lg:h-12 lg:w-1/3" />
+    ),
+  },
+);
+
+const CollectionFilter = dynamic(
+  () =>
+    import("@/components/collection/collection-filter").then(
+      (m) => m.CollectionFilter,
+    ),
+  {
+    ssr: false,
+    loading: () => <div className="col-span-1" />,
+  },
+);
+
+const CollectionFilterSorterMobile = dynamic(
+  () =>
+    import("@/components/collection/collection-filter-sorter-mobile").then(
+      (m) => m.CollectionFilterSorterMobile,
+    ),
+  {
+    ssr: false,
+  },
+);
+
+const CollectionProductList = ({
   handle,
   sortKey,
   reverse,
@@ -29,8 +61,7 @@ const CollectionProductList = memo(function CollectionFilter({
   filters: ProductFilter[];
   sortKey: ProductCollectionSortKeys;
   reverse: boolean;
-}) {
-  const { open } = useProductModal();
+}) => {
   const [isLoading, transition] = useTransition();
 
   const {
@@ -54,16 +85,7 @@ const CollectionProductList = memo(function CollectionFilter({
       <ul className="grid grid-cols-2 gap-4 @xl:grid-cols-3 @4xl:grid-cols-4 md:gap-3">
         {collection.products.edges.map(({ node }) => (
           <li key={node.id}>
-            <ProductCard
-              withLink={false}
-              product={node}
-              cardProps={{
-                isPressable: true,
-                onPress: () => {
-                  open(node.handle);
-                },
-              }}
-            />
+            <ProductCard product={node} />
           </li>
         ))}
       </ul>
@@ -88,109 +110,13 @@ const CollectionProductList = memo(function CollectionFilter({
       ) : null}
     </div>
   );
-});
+};
 
-const CollectionFilter = memo(function CollectionFilter({
-  filters,
-}: {
-  filters: FilterFragment[];
-}) {
-  const [isLoading, transition] = useTransition();
-
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathname = usePathname();
-
-  const isChecked = useCallback(
-    (key: string, value: string) => {
-      return Array.from(searchParams.entries()).some(
-        ([k, v]) => k === key && v === value,
-      );
-    },
-    [searchParams],
-  );
-
-  const handleCheckChange = useCallback(
-    (id: string, label: string, checked: boolean) => {
-      const params = new URLSearchParams(searchParams);
-
-      checked ? params.append(id, label) : params.delete(id, label);
-
-      transition(() => {
-        replace(`${pathname}?${params.toString()}`, {
-          scroll: false,
-        });
-      });
-    },
-    [searchParams],
-  );
-
-  return (
-    <section className="col-span-1">
-      <ul className="sticky top-[120px] flex flex-col gap-6">
-        {filters.map((f) => (
-          <li
-            key={f.id}
-            className={cn("flex flex-col gap-2", {
-              "w-full": f.id === FILTER_ID.shape,
-            })}
-          >
-            <p className="font-medium">{f.label}</p>
-
-            <ul className="flex flex-wrap gap-1.5">
-              {f.values.map((fv) => (
-                <li
-                  key={fv.id}
-                  className={cn("shrink-0 basis-24 cursor-pointer")}
-                >
-                  <label
-                    aria-disabled={fv.count < 1}
-                    id={fv.id}
-                    className="group flex h-full cursor-pointer flex-col p-2"
-                  >
-                    <input
-                      className="sr-only"
-                      disabled={fv.count < 1}
-                      type="checkbox"
-                      defaultChecked={isChecked(f.id, fv.label)}
-                      onChange={({ target }) => {
-                        handleCheckChange(f.id, fv.label, target.checked);
-                      }}
-                    />
-                    {fv.image?.image ? (
-                      <figure className="flex flex-col gap-2">
-                        <div className="rounded-medium p-2 duration-100 transition-background group-hover:bg-primary group-has-[:checked]:bg-primary">
-                          <img
-                            className="mx-auto h-10 brightness-0"
-                            src={fv.image.image.url}
-                            alt={fv.image.image.altText || fv.label}
-                          />
-                        </div>
-                        <figcaption className="text-balance text-center text-sm text-default-700 group-has-[:checked]:font-medium group-has-[:checked]:text-black">
-                          {fv.label}
-                        </figcaption>
-                      </figure>
-                    ) : (
-                      <p className="group-has-[:checked]:font-semibold">
-                        {fv.label}
-                      </p>
-                    )}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-});
-
-export const CollectionProducts = memo(function CollectionProducts({
+export const CollectionProducts = ({
   collection,
 }: {
   collection: GetCollectionQuery["collection"];
-}) {
+}) => {
   const searchParams = useSearchParams();
   const sort = searchParams.get("sort");
 
@@ -212,19 +138,18 @@ export const CollectionProducts = memo(function CollectionProducts({
 
       return acc;
     }, [] as ProductFilter[]);
-  }, [collection]);
+  }, [collection?.products?.filters, searchParams]);
 
   if (!collection) {
     return;
   }
 
   return (
-    <div className="container grid grid-cols-3 gap-9">
+    <div className="container grid gap-9 md:grid-cols-3">
+      <CollectionFilterSorterMobile filters={collection.products.filters} />
       <CollectionFilter filters={collection.products.filters} />
       <section className="col-span-2 flex flex-col gap-6">
-        <div className="flex justify-end">
-          <ProductsSorter />
-        </div>
+        <ProductsSorter />
         <Suspense fallback={<ProductGridSkeleton />}>
           <CollectionProductList
             filters={productFilters}
@@ -236,4 +161,4 @@ export const CollectionProducts = memo(function CollectionProducts({
       </section>
     </div>
   );
-});
+};
