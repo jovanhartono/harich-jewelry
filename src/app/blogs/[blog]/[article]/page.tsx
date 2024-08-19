@@ -46,13 +46,11 @@ export default async function ArticlePage({
   });
 
   return (
-    <article className="container max-w-screen-md space-y-9 py-6 xl:py-9">
+    <article className="container max-w-screen-lg space-y-9 py-6 xl:py-9">
       <h1 className={titleStyle()}>{title}</h1>
       {image ? (
-        <Image
-          classNames={{
-            img: "aspect-video object-cover object-center",
-          }}
+        <img
+          className="aspect-video w-full object-cover object-center"
           alt={image.altText || title}
           src={image.url}
           srcSet={image.url ? generateSrcSet(image.url) : ""}

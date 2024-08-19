@@ -69,7 +69,7 @@ export default async function BlogPage({
       <p className="mb-9 mt-1.5 text-balance text-default-700">
         {seo?.description}
       </p>
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-3 xl:grid-cols-4">
+      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {articles.map((article) => (
           <NextLink
             key={article.id}
