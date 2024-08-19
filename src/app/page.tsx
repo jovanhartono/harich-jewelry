@@ -67,16 +67,15 @@ async function FirstSection() {
   return (
     <section className="container grid gap-6 max-md:grid-flow-row md:grid-cols-2">
       <div className="flex flex-col items-start gap-3">
-        <h1
-          className={titleStyle({ className: "text-pretty tracking-tighter" })}
-        >
+        <h1 className={titleStyle({ className: "text-pretty tracking-tight" })}>
           {title}
         </h1>
         <p className="text-pretty text-default-700">{description}</p>
         {cta ? (
           <Link
             className={buttonStyle({
-              className: "bg-black text-white",
+              radius: "sm",
+              className: "mt-6 bg-black text-white",
             })}
             href={cta.url}
           >

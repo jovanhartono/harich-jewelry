@@ -40,7 +40,7 @@ const ArticleCard = ({ article }: { article: ArticleFragment }) => {
         alt={article.image?.altText || article.title}
         src={article.image?.url}
         srcSet={article.image?.url ? generateSrcSet(article.image?.url) : ""}
-        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw"
       />
       <CardBody as="figcaption" className="px-0">
         <h2
@@ -50,7 +50,9 @@ const ArticleCard = ({ article }: { article: ArticleFragment }) => {
         >
           {article.title}
         </h2>
-        <p className="line-clamp-3 text-default-500">{article.excerpt}</p>
+        <p className="line-clamp-3 font-light text-default-600">
+          {article.excerpt}
+        </p>
       </CardBody>
     </Card>
   );
@@ -65,7 +67,7 @@ export default async function BlogPage({
 
   return (
     <div className="container flex flex-col py-6 xl:py-9">
-      <h1 className={titleStyle({ size: "sm" })}>{title}</h1>
+      <h1 className={titleStyle()}>{title}</h1>
       <p className="mb-9 mt-1.5 text-balance text-default-700">
         {seo?.description}
       </p>

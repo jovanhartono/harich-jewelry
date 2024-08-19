@@ -32,12 +32,12 @@ const config = {
       themes: {
         light: {
           colors: {
-            secondary: "#CDC6BB",
+            secondary: "#1A1A1A",
             focus: "#ACABA6",
             background: "#FFFFFF",
             foreground: "#1A1A1A",
             primary: {
-              DEFAULT: "#F9F6EE",
+              DEFAULT: "#E0DDD6",
               foreground: "#1A1A1A",
             },
           },
