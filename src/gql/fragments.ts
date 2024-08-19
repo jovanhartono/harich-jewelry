@@ -31,7 +31,7 @@ export const collectionFragment = gql(/* GraphQL */ `
     seo {
       ...seo
     }
-    desktop_media: metafield(namespace: "collection", key: "dekstop_image") {
+    desktop_media: metafield(namespace: "collection", key: "desktop_hero") {
       key
       value
       reference {
@@ -42,7 +42,7 @@ export const collectionFragment = gql(/* GraphQL */ `
         }
       }
     }
-    mobile_media: metafield(namespace: "collection", key: "mobile_image") {
+    mobile_media: metafield(namespace: "collection", key: "mobile_hero") {
       key
       value
       reference {
@@ -298,7 +298,7 @@ export const menuFragment = gql(/* GraphQL */ `
   }
 `);
 
-export const ArticleFragment = gql(/* GraphQL */ `
+export const articleFragment = gql(/* GraphQL */ `
   fragment article on Article {
     id
     blog {
@@ -318,7 +318,7 @@ export const ArticleFragment = gql(/* GraphQL */ `
   }
 `);
 
-export const BlogFragment = gql(/* GraphQL */ `
+export const blogFragment = gql(/* GraphQL */ `
   fragment blog on Blog {
     id
     title
@@ -336,7 +336,7 @@ export const BlogFragment = gql(/* GraphQL */ `
   }
 `);
 
-export const StoneShapeFragment = gql(/* GraphQL */ `
+export const stoneShapeFragment = gql(/* GraphQL */ `
   fragment stoneShape on Metafield {
     key
     value
