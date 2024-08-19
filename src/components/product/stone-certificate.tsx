@@ -2,11 +2,10 @@
 
 import { memo } from "react";
 import { ImageFragment } from "@/__generated__/graphql";
-import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
-import { EyeIcon, FileTextIcon, GemIcon } from "lucide-react";
+import { FileTextIcon } from "lucide-react";
 
 import { cn, generateSrcSet } from "@/lib/utils";
 
@@ -39,6 +38,7 @@ export const StoneCertificate = memo(function StoneCertificate({
               classNames={{
                 wrapper: "absolute inset-0 mx-auto",
               }}
+              alt="Stone Certificate"
               srcSet={generateSrcSet(image.url)}
               className="h-full w-full object-contain object-center"
               src={image.url}
