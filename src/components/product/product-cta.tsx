@@ -12,12 +12,7 @@ export const ProductCTA = memo(function ProductCTA() {
   const { product, selectedVariant } = useProduct();
 
   return (
-    <div
-      className={cn(
-        "flex items-center gap-3 bg-white",
-        "max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:z-50 max-md:h-20 max-md:border-t max-md:border-t-default-300 max-md:px-3 max-md:py-3",
-      )}
-    >
+    <div className="bottom-float-wrapper">
       {/*{(product.productType === PRODUCT_TYPES.Setting ||*/}
       {/*  product.productType === PRODUCT_TYPES.Stone) && (*/}
       {/*  // akses local storage*/}
@@ -27,12 +22,12 @@ export const ProductCTA = memo(function ProductCTA() {
       {/*  />*/}
       {/*)}*/}
       {/*<ProductWhatsappButton />*/}
-      <AddToCart
-        lines={{
-          merchandiseId: selectedVariant?.id || "",
-          quantity: 1,
-        }}
-      />
+      {/*<AddToCart*/}
+      {/*  lines={{*/}
+      {/*    merchandiseId: selectedVariant?.id || "",*/}
+      {/*    quantity: 1,*/}
+      {/*  }}*/}
+      {/*/>*/}
     </div>
   );
 });
