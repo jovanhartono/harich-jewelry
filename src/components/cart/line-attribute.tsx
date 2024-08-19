@@ -35,7 +35,7 @@ export const LineAttributes = memo(function LineAttributes({
         },
       });
     },
-    [line.id, line.merchandise.id],
+    [cartLineAttributes, line.id, line.merchandise.id],
   );
 
   return (
@@ -73,7 +73,7 @@ const LineAttribute = memo(function LineAttribute({
     }
 
     setIsEditing(!isEditing);
-  }, [setIsEditing, isEditing, attributeValue, attribute]);
+  }, [isEditing, attributeValue, attribute, onSave]);
 
   return (
     <Input

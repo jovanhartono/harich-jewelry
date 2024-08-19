@@ -56,7 +56,7 @@ export const AddToLocalStorage = memo(function LocalStorageAddSettings({
             },
           },
         });
-  }, [product, type]);
+  }, [product, push, selectedVariant, type]);
 
   return (
     <Button

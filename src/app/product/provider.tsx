@@ -188,7 +188,15 @@ export function ProductProvider({
       options,
       product,
     }),
-    [state, selectedVariant, hasNoOptionsOrJustOneOption, options, product],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      state,
+      selectedVariant,
+      isOptionAvailableForSale,
+      hasNoOptionsOrJustOneOption,
+      options,
+      product,
+    ],
   );
 
   return (

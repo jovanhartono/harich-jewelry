@@ -33,7 +33,7 @@ export default function ProductDescription({
 
   const initialHeight = useMemo(
     () => (height > toggleBreakpoint ? toggleBreakpoint : "max-content"),
-    [],
+    [height],
   );
 
   return (

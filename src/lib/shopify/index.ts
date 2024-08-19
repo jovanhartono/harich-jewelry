@@ -64,7 +64,21 @@ export const getMenu = async (handle: string) => {
     return items.map((item) => ({
       ...item,
       url: item.url.replace(domain, ""),
-      items: item.items?.length > 0 ? handleMenu(item.items) : [],
+      items:
+        item.items?.length > 0
+          ? item.items.map((i) => ({
+              ...i,
+              url: i.url.replace(domain, ""),
+
+              items:
+                item.items?.length > 0
+                  ? i.items.map((ii) => ({
+                      ...ii,
+                      url: ii.url.replace(domain, ""),
+                    }))
+                  : [],
+            }))
+          : [],
     }));
   };
 
