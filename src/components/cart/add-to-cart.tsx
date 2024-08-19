@@ -15,11 +15,13 @@ export default function AddToCart({
   disabled = false,
   buttonProps,
   children,
+  onSuccess,
 }: {
   lines: CartLineInput | CartLineInput[];
   disabled?: boolean;
   buttonProps?: ButtonProps;
   children?: ReactNode;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const [state, formAction] = useFormState(addProductToCart, null);
@@ -40,13 +42,15 @@ export default function AddToCart({
         },
         closeButton: true,
       });
+
+      onSuccess?.();
     } else {
       toast.error("Add to Cart Failed!", {
         description: state.message,
         closeButton: true,
       });
     }
-  }, [router, state]);
+  }, [onSuccess, router, state]);
 
   return (
     <form className="w-full max-w-md" action={actionWithVariant}>
