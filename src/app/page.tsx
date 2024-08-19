@@ -85,7 +85,14 @@ async function FirstSection() {
           </Link>
         ) : null}
       </div>
-      <video autoPlay muted loop poster={video?.previewImage?.url}>
+      <video
+        autoPlay
+        playsInline
+        muted
+        loop
+        draggable={false}
+        poster={video?.previewImage?.url}
+      >
         {video?.sources.map((source, idx) => (
           <source key={idx} src={source.url} type={source.mimeType} />
         ))}
@@ -142,7 +149,7 @@ function USPSection() {
                 key={idx}
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center rounded-medium bg-secondary/40 p-2.5">
+                  <div className="flex items-center justify-center rounded-medium bg-sandy/40 p-2.5">
                     <item.icon className="size-6 text-amber-700" />
                   </div>
                   <h2 className="text-lg font-semibold">{item.title}</h2>
