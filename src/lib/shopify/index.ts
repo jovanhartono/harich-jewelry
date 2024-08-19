@@ -60,6 +60,7 @@ export const getMenu = async (handle: string) => {
     },
   });
 
+  // @ts-ignore
   const handleMenu = (items: MenuItem[]): Array<MenuItem> => {
     return items.map((item) => ({
       ...item,
