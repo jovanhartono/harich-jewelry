@@ -8,9 +8,8 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
-import { Divider } from "@nextui-org/react";
 
-// import Cart, { CartButton } from "@/components/cart";
+import Cart, { CartButton } from "@/components/cart";
 import NavbarMobileNestedMenu from "@/components/layout/navbar/navbar-mobile-nested-menu";
 import SearchModalMobile from "@/components/layout/navbar/search-modal-mobile";
 
@@ -21,15 +20,15 @@ export default function NavbarMobileMenu({ menus }: { menus: MenuItem[] }) {
         <NavbarItem>
           <SearchModalMobile />
         </NavbarItem>
-        {/*<NavbarItem>*/}
-        {/*  <Suspense fallback={<CartButton />}>*/}
-        {/*    <Cart />*/}
-        {/*  </Suspense>*/}
-        {/*</NavbarItem>*/}
+        <NavbarItem>
+          <Suspense fallback={<CartButton />}>
+            <Cart />
+          </Suspense>
+        </NavbarItem>
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarMenu className="gap-0 divide-y divide-default-300 bg-primary px-0">
+      <NavbarMenu className="gap-0 divide-y divide-default-300 bg-background px-0">
         {menus.map((menu) => (
           <NavbarMenuItem className="px-6 py-4" key={menu.id}>
             {menu.items.length ? (
