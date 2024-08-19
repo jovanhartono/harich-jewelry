@@ -23,8 +23,9 @@ export default function NavbarMobileNestedMenu({ menu }: { menu: MenuItem }) {
             title: "text-base",
           }}
         >
-          {menu.items!.map((child) => (
+          {menu.items?.map((child) => (
             <AccordionItem
+              textValue={child.title}
               key={child.id}
               title={
                 child.url === "#" ? (
@@ -46,7 +47,9 @@ export default function NavbarMobileNestedMenu({ menu }: { menu: MenuItem }) {
                     </li>
                   ))}
                 </ul>
-              ) : null}
+              ) : (
+                ""
+              )}
             </AccordionItem>
           ))}
         </Accordion>
