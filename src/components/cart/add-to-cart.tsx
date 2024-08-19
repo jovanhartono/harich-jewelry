@@ -3,7 +3,7 @@
 import { FormEvent, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CartLineInput } from "@/__generated__/graphql";
-import { Button, ButtonProps } from "@nextui-org/react";
+import { Button, ButtonProps } from "@nextui-org/button";
 import { CartIcon } from "@nextui-org/shared-icons";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";

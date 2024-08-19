@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import { ProductFragment } from "@/__generated__/graphql";
 import { Image } from "@nextui-org/image";
-import { button } from "@nextui-org/react";
+import { button } from "@nextui-org/theme";
 
 import { cn } from "@/lib/utils";
 

@@ -4,7 +4,7 @@ import { memo, useCallback, useState } from "react";
 import { AttributeInput, CartLineFragment } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 import { FilePenLineIcon, SaveIcon } from "lucide-react";
 
 import { updateCartLine } from "@/components/cart/actions";

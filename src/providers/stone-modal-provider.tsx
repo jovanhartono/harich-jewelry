@@ -5,8 +5,8 @@ import { GetStoneCollectionQuery } from "@/__generated__/graphql";
 import { getStoneCollectionQuery } from "@/gql/queries/collection";
 import { useLazyQuery } from "@apollo/client";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
-import { Spinner } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
+import { Spinner } from "@nextui-org/spinner";
 import {
   useDisclosure,
   type UseDisclosureReturn,

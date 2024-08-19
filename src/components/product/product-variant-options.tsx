@@ -1,8 +1,8 @@
 "use client";
 
 import { useProduct, useUpdateURL } from "@/app/product/provider";
+import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
-import { Button } from "@nextui-org/react";
 import { CheckIcon, CircleAlert } from "lucide-react";
 
 import { LIMITED_STOCK_THRESHOLD } from "@/lib/constant";

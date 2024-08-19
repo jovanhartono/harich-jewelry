@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FilterFragment } from "@/__generated__/graphql";
 import { Radio, RadioGroup } from "@nextui-org/radio";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { ArrowUpDownIcon, FilterIcon } from "lucide-react";
 

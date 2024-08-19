@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { Card } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
-import { button as buttonStyle } from "@nextui-org/react";
+import { button as buttonStyle } from "@nextui-org/theme";
 import { ArrowUpRight } from "lucide-react";
 
 import {

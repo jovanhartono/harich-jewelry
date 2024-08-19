@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useMemo, useState } from "react";
-import { Slider, SliderValue } from "@nextui-org/react";
+import { Slider, SliderValue } from "@nextui-org/slider";
 
 import { title } from "@/components/primitives";
 import { StoneClarity, StoneColor, StoneSpecifications } from "@/lib/type";

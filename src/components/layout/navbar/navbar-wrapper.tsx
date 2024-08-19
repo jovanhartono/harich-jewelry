@@ -2,7 +2,7 @@
 
 import { memo, ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Navbar as NextUINavbar } from "@nextui-org/react";
+import { Navbar as NextUINavbar } from "@nextui-org/navbar";
 
 export const NavbarWrapper = memo(function NavbarWrapper({
   children,

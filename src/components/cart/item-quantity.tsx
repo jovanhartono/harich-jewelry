@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CartLineFragment } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 import { MinusIcon, PlusIcon } from "lucide-react";
 
 import { updateProductQuantity } from "@/components/cart/actions";

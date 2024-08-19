@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    optimizePackageImports: ["@nextui-org/react"],
-  },
   logging: {
     fetches: {
       fullUrl: true,

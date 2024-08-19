@@ -3,8 +3,8 @@
 import { ComponentProps, FormEvent, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@nextui-org/input";
-import { Spinner } from "@nextui-org/react";
 import { SearchIcon } from "@nextui-org/shared-icons";
+import { Spinner } from "@nextui-org/spinner";
 
 import { cn, createUrl } from "@/lib/utils";
 

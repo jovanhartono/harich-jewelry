@@ -3,9 +3,9 @@ import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
+import { Divider } from "@nextui-org/divider";
 import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
-import { Divider } from "@nextui-org/react";
 import { ShoppingBagIcon } from "lucide-react";
 
 import DeleteItem from "@/components/cart/delete-item";
