@@ -1,3 +1,5 @@
+import { GetStoneCollectionQuery } from "@/__generated__/graphql";
+
 import { getCart } from "@/lib/shopify";
 
 export type StoneColor = "D" | "E" | "F" | "G";
@@ -23,3 +25,6 @@ export type Connection<T> = {
 
 export type GetCartReturn = ReturnType<typeof getCart>;
 export type GetAwaitedCartReturn = Awaited<GetCartReturn>;
+export type StoneCollectionProduct = NonNullable<
+  GetStoneCollectionQuery["collection"]
+>["products"]["edges"][0]["node"];
