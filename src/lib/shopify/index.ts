@@ -83,6 +83,7 @@ export const getMenu = async (handle: string) => {
     }));
   };
 
+  // @ts-ignore
   return data.menu?.items ? handleMenu(data.menu.items) : [];
 };
 
