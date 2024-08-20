@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useProduct } from "@/app/product/provider";
 import { StoneModalProvider } from "@/providers/stone-modal-provider";
 
-import { ProductCTA } from "@/components/product/product-cta";
+import AddToCart from "@/components/cart/add-to-cart";
 import { PRODUCT_TYPES } from "@/lib/constant";
 
 const ProductSettingSection = dynamic(
@@ -24,7 +24,7 @@ const StoneSection = dynamic(() =>
 );
 
 export function ProductDynamicSection() {
-  const { product } = useProduct();
+  const { product, selectedVariant } = useProduct();
 
   if (product.productType === PRODUCT_TYPES.Setting) {
     return (
@@ -38,5 +38,14 @@ export function ProductDynamicSection() {
     return <StoneSection />;
   }
 
-  return <ProductCTA />;
+  return (
+    <div className="bottom-float-wrapper">
+      <AddToCart
+        lines={{
+          merchandiseId: selectedVariant?.id || "",
+          quantity: 1,
+        }}
+      />
+    </div>
+  );
 }
