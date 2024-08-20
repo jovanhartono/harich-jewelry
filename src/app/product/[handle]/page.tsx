@@ -66,8 +66,6 @@ export default async function ProductDetailPage({
 
             <ProductDynamicSection />
 
-            {/*<ProductCTA />*/}
-
             <dl className="flex flex-col gap-1">
               <dt
                 id="Product Description"
