@@ -65,7 +65,7 @@ async function FirstSection() {
   const { title, description, cta, video } = await getHomepageFirstSection();
 
   return (
-    <section className="container grid gap-6 max-md:grid-flow-row md:grid-cols-2">
+    <section className="container padding-section grid gap-6 max-md:grid-flow-row md:grid-cols-2">
       <div className="flex flex-col items-start gap-3">
         <h1 className={titleStyle({ className: "text-pretty tracking-tight" })}>
           {title}
@@ -75,7 +75,8 @@ async function FirstSection() {
           <Link
             className={buttonStyle({
               radius: "sm",
-              className: "mt-6 bg-black text-white",
+              className: "mt-6",
+              color: "primary",
             })}
             href={cta.url}
           >
@@ -130,13 +131,16 @@ function USPSection() {
       <div className="container flex items-center gap-12 rounded-large max-md:flex-col md:h-[400px]">
         <div className="flex gap-6 max-md:flex-col">
           <div className="basis-1/2">
-            <h1 className={titleStyle({ className: "tracking-tighter" })}>
-              Why Harich Jewelry ?
+            <h1
+              className={titleStyle({
+                className: "text-pretty tracking-tight",
+              })}
+            >
+              Why Harich Jewelry?
             </h1>
-            <p className="mt-3 text-balance text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-              autem, beatae culpa deserunt dolor est mollitia quae rem vero
-              voluptas.
+            <p className="mt-3 text-pretty font-light text-gray-700 md:mt-6">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+              corporis culpa deserunt ducimus modi neque, odio sed.
             </p>
           </div>
           <ul className="grid grid-cols-2 gap-6">
@@ -148,12 +152,12 @@ function USPSection() {
                 key={idx}
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center rounded-medium bg-sandy/40 p-2.5">
-                    <item.icon className="size-6 text-amber-700" />
+                  <div className="flex items-center justify-center rounded-medium bg-sandy/40 p-1.5 md:p-2.5">
+                    <item.icon className="size-5 text-amber-700 md:size-6" />
                   </div>
-                  <h2 className="text-lg font-semibold">{item.title}</h2>
+                  <h2 className="font-semibold md:text-lg">{item.title}</h2>
                 </div>
-                <p className="text-pretty text-default-700">
+                <p className="text-pretty text-default-700 max-md:text-sm">
                   {item.description}
                 </p>
               </li>
@@ -167,10 +171,10 @@ function USPSection() {
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-9 pb-12 lg:gap-12">
+    <div className="flex flex-col pb-12">
       <Hero />
+      <CertificationSection />
       <FirstSection />
-      {/*<CertificationSection />*/}
       <USPSection />
     </div>
   );
