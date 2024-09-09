@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "graphql-codegen && next build",
+    "build-analyze": "ANALYZE=true pnpm build",
     "start": "next start",
     "lint": "next lint",
     "generate": "graphql-codegen"
@@ -12,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.2",
     "@apollo/experimental-nextjs-app-support": "^0.11.2",
+    "@next/bundle-analyzer": "^14.2.6",
     "@nextui-org/react": "^2.4.6",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
