@@ -43,7 +43,12 @@ export const Navbar = async () => {
           ) : (
             <NavbarItem key={item.id}>
               <NextLink
-                className={cn(linkStyles({ color: "foreground" }))}
+                className={cn(
+                  linkStyles({
+                    color: "foreground",
+                    className: "tracking-wide",
+                  }),
+                )}
                 href={item.url}
               >
                 {item.title}

@@ -25,9 +25,10 @@ export const NavbarWrapper = memo(function NavbarWrapper({
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       height="5rem"
+      isBordered
       isBlurred={false}
       classNames={{
-        base: "bg-background",
+        base: "bg-background border-b-default-500",
         wrapper: "px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16",
       }}
     >

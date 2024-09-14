@@ -25,7 +25,7 @@ const ProductsSorter = dynamic(
   {
     ssr: false,
     loading: () => (
-      <Skeleton className="ml-auto h-10 w-full rounded-large max-md:hidden lg:h-12 lg:w-1/3" />
+      <Skeleton className="ml-auto h-10 w-full rounded-large max-md:hidden lg:h-12 lg:w-64" />
     ),
   },
 );
@@ -145,10 +145,11 @@ export const CollectionProducts = ({
   }
 
   return (
-    <div className="container grid gap-9 md:grid-cols-3">
+    <div className="container grid gap-9" id="collection-list">
       <CollectionFilterSorterMobile filters={collection.products.filters} />
-      <CollectionFilter filters={collection.products.filters} />
-      <section className="col-span-2 flex flex-col gap-6">
+      {/*  TODO: move to sheets */}
+      {/*<CollectionFilter filters={collection.products.filters} />*/}
+      <section className="flex flex-col gap-6">
         <ProductsSorter />
         <Suspense fallback={<ProductGridSkeleton />}>
           <CollectionProductList

@@ -3,7 +3,7 @@
 import { ChangeEvent, useCallback, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { Select, SelectItem } from "@nextui-org/select";
-import { useIsClient, useMediaQuery } from "@uidotdev/usehooks";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 import {
   DEFAULT_SEARCH_SORT_OPTION,
@@ -18,7 +18,6 @@ export const ProductsSorter = ({
 }: {
   type?: "collection" | "search";
 }) => {
-  const isClient = useIsClient();
   const showSorter = useMediaQuery("only screen and (min-width : 768px)");
 
   const defaultItem =
@@ -50,7 +49,7 @@ export const ProductsSorter = ({
       <Select
         isLoading={isPending}
         label="Sort By"
-        className="w-1/3"
+        className="w-64"
         size="sm"
         disallowEmptySelection
         selectedKeys={new Set([sortSlug || defaultItem.slug])}

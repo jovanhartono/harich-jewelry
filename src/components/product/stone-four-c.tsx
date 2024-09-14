@@ -72,9 +72,8 @@ const ClaritySlider = memo(function ClaritySlider({
       />
       <div className="flex h-36 w-full justify-center">
         <img
-          alt="Diamond D Color"
+          alt="Diamond clarity preview"
           className="object-contain"
-          loading="lazy"
           src={selectedClarity.src}
         />
       </div>

@@ -12,7 +12,7 @@ export default function CarouselAutoplay({
 }) {
   return (
     <Carousel
-      className="mx-auto w-full max-w-screen-2xl 2xl:px-16"
+      className="mx-auto w-full"
       opts={{
         loop: true,
       }}

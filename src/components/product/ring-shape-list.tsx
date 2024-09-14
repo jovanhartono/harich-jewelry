@@ -26,18 +26,18 @@ export const RingShapeList = ({
                 color: "primary",
                 radius: "sm",
                 variant: product.handle === paramsHandle ? "solid" : "light",
-                className: "h-max basis-28 text-black",
+                className: "h-max basis-12 text-black",
               }),
             )}
           >
             <NextLink href={`/product/${product.handle}`}>
-              <figure className="flex flex-col items-center justify-center p-3">
+              <figure className="flex flex-col items-center justify-center gap-1 p-3">
                 <Image
-                  className="mb-1 size-16 brightness-0"
+                  className="mb-1 size-12 brightness-0"
                   src={product.shape.svgUrl}
                   alt={product.title}
                 />
-                <figcaption className="text-balance text-center font-mono">
+                <figcaption className="whitespace-break-spaces text-center text-sm font-light">
                   {product.shape.label}
                 </figcaption>
               </figure>

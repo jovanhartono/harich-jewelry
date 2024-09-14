@@ -45,7 +45,7 @@ const DesktopCollectionFilter = ({
 
   return (
     <section className="col-span-1">
-      <ul className="sticky top-[120px] flex flex-col gap-6">
+      <ul className="flex flex-col gap-6">
         {filters.map((f) => (
           <li
             key={f.id}

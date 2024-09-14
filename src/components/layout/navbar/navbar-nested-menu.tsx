@@ -33,7 +33,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
         disableAnimation
         disableRipple
         radius="sm"
-        className="gap-2 bg-transparent p-0 px-0 text-foreground data-[hover=true]:bg-transparent"
+        className="gap-2 bg-transparent p-0 px-0 font-light text-foreground data-[hover=true]:bg-transparent"
         endContent={<ChevronDownIcon className="size-4" />}
         variant="light"
         {...(menu.url === "#" ? {} : { href: menu.url, as: Link })}
