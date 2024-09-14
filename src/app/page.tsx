@@ -12,6 +12,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import CarouselAutoplay from "@/components/ui/carousel-autoplay";
+import { SectionMarker } from "@/components/ui/section-marker";
 import { title as titleStyle } from "@/components/primitives";
 import { usp } from "@/const/content";
 import { getHeroCarousel, getHomepageFirstSection } from "@/lib/shopify";
@@ -65,38 +66,51 @@ async function FirstSection() {
   const { title, description, cta, video } = await getHomepageFirstSection();
 
   return (
-    <section className="container padding-section grid gap-6 max-md:grid-flow-row md:grid-cols-2">
-      <div className="flex flex-col items-start gap-3">
-        <h1 className={titleStyle({ className: "text-pretty tracking-tight" })}>
-          {title}
-        </h1>
-        <p className="text-pretty text-default-700">{description}</p>
-        {cta ? (
-          <Link
-            className={buttonStyle({
-              radius: "sm",
-              className: "mt-6",
-              color: "primary",
-            })}
-            href={cta.url}
-          >
-            {cta.text}
-            <ArrowUpRight className="size-4" />
-          </Link>
-        ) : null}
-      </div>
-      <video
-        autoPlay
-        playsInline
-        muted
-        loop
-        draggable={false}
-        poster={video?.previewImage?.url}
+    <section className="container padding-section relative flex flex-col gap-6 max-md:grid-flow-row md:grid-cols-2">
+      <div
+        className="relative"
+        style={{
+          minHeight: "min(80vh, 900px)",
+        }}
       >
-        {video?.sources.map((source, idx) => (
-          <source key={idx} src={source.url} type={source.mimeType} />
-        ))}
-      </video>
+        <div className="absolute inset-0 z-10 bg-black/30" />
+        <div className="absolute bottom-0 left-0 top-0 z-20 flex w-1/2 flex-col items-start justify-center gap-3 p-6 text-white">
+          <h1
+            className={titleStyle({ className: "text-pretty tracking-tight" })}
+          >
+            {title}
+          </h1>
+          <p className="text-pretty">{description}</p>
+          {cta ? (
+            <Link
+              className={buttonStyle({
+                radius: "sm",
+                className: "mt-6",
+                color: "primary",
+                variant: "bordered",
+              })}
+              href={cta.url}
+            >
+              {cta.text}
+              <ArrowUpRight className="size-4" />
+            </Link>
+          ) : null}
+        </div>
+        <video
+          autoPlay
+          playsInline
+          muted
+          loop
+          preload="none"
+          draggable={false}
+          poster={video?.previewImage?.url}
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          {video?.sources.map((source, idx) => (
+            <source key={idx} src={source.url} type={source.mimeType} />
+          ))}
+        </video>
+      </div>
     </section>
   );
 }
@@ -127,43 +141,28 @@ function CertificationSection() {
 
 function USPSection() {
   return (
-    <section className="flex items-center">
-      <div className="container flex items-center gap-12 rounded-large max-md:flex-col md:h-[400px]">
-        <div className="flex gap-6 max-md:flex-col">
-          <div className="basis-1/2">
-            <h1
-              className={titleStyle({
-                className: "text-pretty tracking-tight",
-              })}
-            >
-              Why Harich Jewelry?
-            </h1>
-            <p className="mt-3 text-pretty font-light text-gray-700 md:mt-6">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
-              corporis culpa deserunt ducimus modi neque, odio sed.
-            </p>
-          </div>
-          <ul className="grid grid-cols-2 gap-6">
+    <section className="container bg-gray-50 py-6">
+      <div className="flex flex-col justify-between gap-9 md:h-[350px]">
+        <SectionMarker>
+          <ul className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
             {usp.map((item, idx) => (
-              <li
-                className={cn("space-y-3", {
-                  "border-t border-dashed border-t-amber-700/50 pt-6": idx > 1,
-                })}
-                key={idx}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center rounded-medium bg-sandy/40 p-1.5 md:p-2.5">
-                    <item.icon className="size-5 text-amber-700 md:size-6" />
-                  </div>
-                  <h2 className="font-semibold md:text-lg">{item.title}</h2>
-                </div>
-                <p className="text-pretty text-default-700 max-md:text-sm">
+              <li key={idx} className="flex flex-col gap-3">
+                <item.icon className="block size-5 text-amber-800 md:size-6" />
+                <h2
+                  className={titleStyle({
+                    size: "sm",
+                    className: "font-normal",
+                  })}
+                >
+                  {item.title}
+                </h2>
+                <p className="text-default-700 max-md:text-sm">
                   {item.description}
                 </p>
               </li>
             ))}
           </ul>
-        </div>
+        </SectionMarker>
       </div>
     </section>
   );
@@ -173,7 +172,7 @@ export default function Home() {
   return (
     <div className="flex flex-col pb-12">
       <Hero />
-      <CertificationSection />
+      {/*<CertificationSection />*/}
       <FirstSection />
       <USPSection />
     </div>
