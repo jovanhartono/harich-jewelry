@@ -18,6 +18,7 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
           { namespace: "stone", key: "carat" }
           { namespace: "stone", key: "clarity" }
           { namespace: "stone", key: "color" }
+          { namespace: "stone", key: "cut" }
         ]
       ) {
         key
