@@ -98,7 +98,7 @@ export function ProductSettingSection() {
         <GemIcon className="ml-2 size-4 text-default-600" />
       </div>
       <div className="mb-6 mt-1.5 flex items-stretch gap-3 rounded-large bg-default-100 p-3">
-        <NextLink href={`/product/${stone.product.handle}`}>
+        <NextLink href={`/product/${stone.product.handle}`} prefetch>
           <Image
             className="aspect-square w-20 shrink-0 object-cover object-center lg:w-28"
             alt={stone.product.featuredImage?.altText || stone.product.title}

@@ -63,6 +63,7 @@ export default function ProductCard({
 
   return withLink ? (
     <NextLink
+      prefetch
       key={product.id}
       href={`/product/${product.handle}`}
       className="block h-full p-1"

@@ -60,7 +60,7 @@ export default async function CartPage() {
                   </NextLink>
                   <figcaption className="flex flex-1 flex-col py-2">
                     <div className="flex items-center justify-between">
-                      <NextLink href={`/product/${product.handle}`}>
+                      <NextLink href={`/product/${product.handle}`} prefetch>
                         <h2
                           aria-label="Product Title"
                           className="line-clamp-2 font-medium lg:text-lg"

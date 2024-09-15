@@ -30,7 +30,7 @@ export const RingShapeList = ({
               }),
             )}
           >
-            <NextLink href={`/product/${product.handle}`}>
+            <NextLink href={`/product/${product.handle}`} prefetch>
               <figure className="flex flex-col items-center justify-center gap-1 p-3">
                 <Image
                   className="mb-1 size-12 brightness-0"

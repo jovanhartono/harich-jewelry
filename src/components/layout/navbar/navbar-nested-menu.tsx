@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import NextLink from "next/link";
 import { MenuItem } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
@@ -59,21 +60,17 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
                 {child.url === "#" ? (
                   <span>{child.title}</span>
                 ) : (
-                  <Link
-                    href={child.url}
-                    color="foreground"
-                    className="font-semibold"
-                  >
+                  <NextLink prefetch href={child.url} className="font-semibold">
                     {child.title}
-                  </Link>
+                  </NextLink>
                 )}
 
                 <ul className="mt-1 space-y-1">
                   {child.items?.map((children) => (
                     <li key={children.id}>
-                      <Link color="foreground" href={children.url}>
+                      <NextLink prefetch href={children.url}>
                         {children.title}
-                      </Link>
+                      </NextLink>
                     </li>
                   ))}
                 </ul>
