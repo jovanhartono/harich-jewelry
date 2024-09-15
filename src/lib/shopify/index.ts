@@ -55,7 +55,7 @@ export const getMenu = async (handle: string) => {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 10 },
+        next: { revalidate: 30 },
       },
     },
   });
@@ -183,9 +183,17 @@ export async function getBlog(handle: string) {
   };
 }
 
-export async function getBlogs() {
+export async function getBlogs(first?: number) {
   const { data } = await query({
     query: getBlogsQuery,
+    variables: {
+      first,
+    },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 30 },
+      },
+    },
   });
 
   return data.blogs.edges.map(({ node }) => node);

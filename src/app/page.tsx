@@ -1,21 +1,31 @@
+import { Suspense } from "react";
 import NextImage from "next/image";
 import NextLink from "next/link";
-import { Card } from "@nextui-org/card";
+import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
+import { Skeleton } from "@nextui-org/skeleton";
 import { button as buttonStyle } from "@nextui-org/theme";
 import { ArrowUpRight } from "lucide-react";
 
 import {
+  Carousel,
   CarouselContent,
   CarouselDots,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import CarouselAutoplay from "@/components/ui/carousel-autoplay";
 import { SectionMarker } from "@/components/ui/section-marker";
+import { ArticleCard } from "@/components/blog/article-card";
 import { title as titleStyle } from "@/components/primitives";
 import { usp } from "@/const/content";
-import { getHeroCarousel, getHomepageFirstSection } from "@/lib/shopify";
+import {
+  getBlogs,
+  getHeroCarousel,
+  getHomepageFirstSection,
+} from "@/lib/shopify";
 import { cn, generateSrcSet } from "@/lib/utils";
 
 async function Hero() {
@@ -141,8 +151,8 @@ function CertificationSection() {
 
 function USPSection() {
   return (
-    <section className="container bg-gray-50 py-6">
-      <div className="flex flex-col justify-between gap-9 md:h-[350px]">
+    <section className="w-full py-6">
+      <div className="container flex flex-col justify-between gap-9 md:h-[350px]">
         <SectionMarker>
           <ul className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
             {usp.map((item, idx) => (
@@ -168,13 +178,74 @@ function USPSection() {
   );
 }
 
+async function BlogsSection() {
+  const [blog] = await getBlogs(1);
+
+  return (
+    <Carousel
+      opts={{
+        align: "start",
+      }}
+    >
+      <section className="container padding-section grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="flex flex-col">
+          <h1 className={titleStyle({ size: "lg" })}>Featured Articles</h1>
+          <div className="relative mt-3 flex items-center gap-6 lg:mt-6">
+            <CarouselPrevious
+              variant="flat"
+              className="static size-10 translate-y-0 border-black p-0"
+              radius="full"
+            />
+            <CarouselNext
+              variant="flat"
+              className="static size-10 translate-y-0 border-black p-0"
+              radius="full"
+            />
+          </div>
+        </div>
+        <div className="lg:col-span-2">
+          <CarouselContent>
+            {blog.articles.edges.map(({ node: article }) => (
+              <CarouselItem
+                key={article.id}
+                className="basis-full lg:basis-1/2"
+              >
+                <NextLink
+                  prefetch
+                  href={`/blogs/${article.handle}/${article.handle}`}
+                  className="block h-full p-1"
+                >
+                  <ArticleCard article={article} />
+                </NextLink>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </div>
+      </section>
+    </Carousel>
+  );
+}
+
 export default function Home() {
   return (
-    <div className="flex flex-col pb-12">
+    <div className="flex flex-col">
       <Hero />
       {/*<CertificationSection />*/}
-      <FirstSection />
+      <Suspense
+        fallback={
+          <Skeleton
+            style={{
+              minHeight: "min(80vh, 900px)",
+            }}
+          />
+        }
+      >
+        <FirstSection />
+      </Suspense>
       <USPSection />
+      <Suspense>
+        <BlogsSection />
+      </Suspense>
     </div>
   );
 }

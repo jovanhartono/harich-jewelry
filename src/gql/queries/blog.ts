@@ -9,8 +9,8 @@ export const getBlogQuery = gql(/* GraphQL */ `
 `);
 
 export const getBlogsQuery = gql(/* GraphQL */ `
-  query getBlogs {
-    blogs(first: 100) {
+  query getBlogs($first: Int = 100) {
+    blogs(first: $first) {
       edges {
         node {
           ...blog
