@@ -21,7 +21,7 @@ export const ArticleCard = ({ article }: { article: ArticleFragment }) => {
       <CardBody as="figcaption" className="gap-2 px-0 py-4">
         <h2
           aria-label="article title"
-          className="text-2xl font-medium"
+          className="text-2xl font-medium tracking-tight"
           title={article.title}
         >
           {article.title}
