@@ -37,17 +37,17 @@ export default async function ProductDetailPage({
 
   return (
     <ProductProvider product={productByHandle}>
-      <div className="flex flex-col gap-12 max-md:pb-6 md:py-12">
-        <section className="md:container flex flex-col gap-12 *:flex-1 md:flex-row">
-          <div>
+      <div className="flex flex-col gap-12 max-md:pb-6 md:py-9">
+        <section className="md:container flex flex-col gap-9 lg:flex-row">
+          <div className="lg:basis-2/3">
             <ProductImageGallery images={product.images as ImageConnection} />
           </div>
-          <div className="max-md:container flex flex-col gap-6 lg:gap-6">
+          <div className="max-md:container sticky top-[116px] flex h-1/3 flex-col gap-6 lg:basis-1/3 lg:gap-6">
             <div className="flex flex-col">
               <h1
                 aria-label="Product Title"
                 className={title({
-                  className: "mb-3 text-pretty leading-snug",
+                  className: "mb-3 leading-snug",
                 })}
               >
                 {product.title}

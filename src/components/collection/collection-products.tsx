@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense, useMemo, useTransition } from "react";
-import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import {
   GetCollectionQuery,
@@ -11,45 +10,10 @@ import {
 import { getCollectionProductsQuery } from "@/gql/queries/collection";
 import { useSuspenseQuery } from "@apollo/client";
 import { Button } from "@nextui-org/button";
-import { Skeleton } from "@nextui-org/skeleton";
 
 import ProductCard from "@/components/product/product-card";
 import ProductGridSkeleton from "@/components/product/product-grid-skeleton";
 import { DEFAULT_SORT_OPTION, SORT_OPTIONS } from "@/lib/constant";
-
-const ProductsSorter = dynamic(
-  () =>
-    import("@/components/collection/collection-products-sorter").then(
-      (m) => m.ProductsSorter,
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <Skeleton className="ml-auto h-10 w-full rounded-large max-md:hidden lg:h-12 lg:w-64" />
-    ),
-  },
-);
-
-const CollectionFilter = dynamic(
-  () =>
-    import("@/components/collection/collection-filter").then(
-      (m) => m.CollectionFilter,
-    ),
-  {
-    ssr: false,
-    loading: () => <div className="col-span-1" />,
-  },
-);
-
-const CollectionFilterSorterMobile = dynamic(
-  () =>
-    import("@/components/collection/collection-filter-sorter-mobile").then(
-      (m) => m.CollectionFilterSorterMobile,
-    ),
-  {
-    ssr: false,
-  },
-);
 
 const CollectionProductList = ({
   handle,
@@ -126,7 +90,7 @@ export const CollectionProducts = ({
     [sort],
   );
 
-  const productFilters: ProductFilter[] = useMemo(() => {
+  const activeFilters: ProductFilter[] = useMemo(() => {
     return Array.from(searchParams.entries()).reduce((acc, [k, v]) => {
       const f = collection?.products?.filters.find(({ id }) => id === k);
 
@@ -145,21 +109,15 @@ export const CollectionProducts = ({
   }
 
   return (
-    <div className="container grid gap-9" id="collection-list">
-      <CollectionFilterSorterMobile filters={collection.products.filters} />
-      {/*  TODO: move to sheets */}
-      {/*<CollectionFilter filters={collection.products.filters} />*/}
-      <section className="flex flex-col gap-6">
-        <ProductsSorter />
-        <Suspense fallback={<ProductGridSkeleton />}>
-          <CollectionProductList
-            filters={productFilters}
-            handle={collection.handle}
-            sortKey={sortKey}
-            reverse={reverse}
-          />
-        </Suspense>
-      </section>
-    </div>
+    <section className="container flex flex-col">
+      <Suspense fallback={<ProductGridSkeleton />}>
+        <CollectionProductList
+          filters={activeFilters}
+          handle={collection.handle}
+          sortKey={sortKey}
+          reverse={reverse}
+        />
+      </Suspense>
+    </section>
   );
 };

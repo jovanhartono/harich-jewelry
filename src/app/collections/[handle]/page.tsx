@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
 import CollectionHero from "@/components/collection/collection-hero";
 import { CollectionProducts } from "@/components/collection/collection-products";
 import { getCollection } from "@/lib/shopify";
+
+const CollectionFilter = dynamic(
+  () =>
+    import("@/components/collection/collection-filter").then(
+      (m) => m.CollectionFilter,
+    ),
+  {
+    ssr: false,
+    loading: () => <div className="md:h-16" />,
+  },
+);
 
 export async function generateMetadata({
   params,
@@ -30,21 +42,12 @@ export default async function Page({ params }: { params: { handle: string } }) {
   }
 
   return (
-    <div className="flex flex-col gap-6 pb-12">
+    <div className="flex flex-col pb-12">
       <CollectionHero
         desktop_file={collection.desktop_media?.reference}
         mobile_file={collection.mobile_media?.reference}
       />
-
-      {/*<dl className="container">*/}
-      {/*  <dt className={titleClassName({ class: "capitalize" })}>*/}
-      {/*    {collection.title}*/}
-      {/*  </dt>*/}
-      {/*  <dd className={subtitle({ className: "line-clamp-3 md:line-clamp-4" })}>*/}
-      {/*    {collection.description}*/}
-      {/*  </dd>*/}
-      {/*</dl>*/}
-
+      <CollectionFilter filters={collection.products.filters} />
       <CollectionProducts collection={collection} />
     </div>
   );

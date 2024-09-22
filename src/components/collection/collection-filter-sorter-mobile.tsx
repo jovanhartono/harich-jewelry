@@ -5,7 +5,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FilterFragment } from "@/__generated__/graphql";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import { Spinner } from "@nextui-org/spinner";
-import { useMediaQuery } from "@uidotdev/usehooks";
 import { ArrowUpDownIcon, FilterIcon } from "lucide-react";
 
 import {
@@ -234,12 +233,10 @@ export function CollectionFilterSorterMobile({
 }: {
   filters: FilterFragment[];
 }) {
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
-
-  return isSmallDevice ? (
+  return (
     <div className="fixed bottom-0 left-0 right-0 z-20 flex h-12 w-full items-stretch gap-3 divide-x divide-black border-t border-black bg-white *:flex-1">
       <MobileSorter />
       <MobileFilter filters={filters} />
     </div>
-  ) : null;
+  );
 }

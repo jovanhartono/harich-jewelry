@@ -3,7 +3,6 @@
 import { ChangeEvent, useCallback, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { Select, SelectItem } from "@nextui-org/select";
-import { useMediaQuery } from "@uidotdev/usehooks";
 
 import {
   DEFAULT_SEARCH_SORT_OPTION,
@@ -18,8 +17,6 @@ export const ProductsSorter = ({
 }: {
   type?: "collection" | "search";
 }) => {
-  const showSorter = useMediaQuery("only screen and (min-width : 768px)");
-
   const defaultItem =
     type === "collection" ? DEFAULT_SORT_OPTION : DEFAULT_SEARCH_SORT_OPTION;
   const options = type === "collection" ? SORT_OPTIONS : SEARCH_SORT_OPTIONS;
@@ -44,21 +41,23 @@ export const ProductsSorter = ({
     [setUrl, createQueryString, defaultItem.slug],
   );
 
-  return showSorter ? (
-    <div className="flex justify-end">
-      <Select
-        isLoading={isPending}
-        label="Sort By"
-        className="w-64"
-        size="sm"
-        disallowEmptySelection
-        selectedKeys={new Set([sortSlug || defaultItem.slug])}
-        onChange={handleOnChange}
-      >
-        {options.map((option) => (
-          <SelectItem key={option.slug}>{option.title}</SelectItem>
-        ))}
-      </Select>
-    </div>
-  ) : null;
+  return (
+    <Select
+      isLoading={isPending}
+      label="Sort"
+      className="w-56"
+      classNames={{
+        base: "items-center",
+        trigger: "bg-white shadow-none",
+      }}
+      labelPlacement="outside-left"
+      disallowEmptySelection
+      selectedKeys={new Set([sortSlug || defaultItem.slug])}
+      onChange={handleOnChange}
+    >
+      {options.map((option) => (
+        <SelectItem key={option.slug}>{option.title}</SelectItem>
+      ))}
+    </Select>
+  );
 };

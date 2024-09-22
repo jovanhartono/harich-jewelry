@@ -1,107 +1,78 @@
 "use client";
 
-import { useCallback, useTransition } from "react";
+import { useMemo } from "react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FilterFragment } from "@/__generated__/graphql";
+import { Chip } from "@nextui-org/chip";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
-import { FILTER_ID } from "@/lib/constant";
-import { cn } from "@/lib/utils";
+const CollectionFilterDesktop = dynamic(() =>
+  import("@/components/collection/collection-filter-desktop").then(
+    (m) => m.CollectionFilterDesktop,
+  ),
+);
 
-const DesktopCollectionFilter = ({
-  filters,
-}: {
-  filters: FilterFragment[];
-}) => {
-  const [isLoading, transition] = useTransition();
+const CollectionFilterSorterMobile = dynamic(() =>
+  import("@/components/collection/collection-filter-sorter-mobile").then(
+    (m) => m.CollectionFilterSorterMobile,
+  ),
+);
 
-  const searchParams = useSearchParams();
+const ProductsSorter = dynamic(() =>
+  import("@/components/collection/collection-products-sorter").then(
+    (m) => m.ProductsSorter,
+  ),
+);
+
+const ActiveFilterChips = ({ filters }: { filters: FilterFragment[] }) => {
   const { replace } = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const isChecked = useCallback(
-    (key: string, value: string) => {
-      return Array.from(searchParams.entries()).some(
-        ([k, v]) => k === key && v === value,
-      );
-    },
-    [searchParams],
-  );
+  function handleOnClose(id: string, label: string) {
+    const params = new URLSearchParams(searchParams);
 
-  const handleCheckChange = useCallback(
-    (id: string, label: string, checked: boolean) => {
-      const params = new URLSearchParams(searchParams);
+    params.delete(id, label);
 
-      checked ? params.append(id, label) : params.delete(id, label);
+    replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
+  }
 
-      transition(() => {
-        replace(`${pathname}?${params.toString()}`, {
-          scroll: false,
-        });
-      });
-    },
-    [pathname, replace, searchParams],
-  );
+  const activeFilters: { id: string; value: string }[] = useMemo(() => {
+    return Array.from(searchParams.entries()).reduce(
+      (acc, [k, v]) => {
+        const f = filters.find(({ id }) => id === k);
 
-  return (
-    <section className="col-span-1">
-      <ul className="flex flex-col gap-6">
-        {filters.map((f) => (
-          <li
-            key={f.id}
-            className={cn("flex flex-col gap-2", {
-              "w-full": f.id === FILTER_ID.shape,
-            })}
+        if (f) {
+          const fv = f.values.find(({ label }) => label === v);
+
+          fv && acc.push({ id: f.id, value: fv.label });
+        }
+
+        return acc;
+      },
+      [] as { id: string; value: string }[],
+    );
+  }, [filters, searchParams]);
+
+  return activeFilters.length > 0 ? (
+    <ul className="flex items-center gap-3 border-l pl-6">
+      {activeFilters.map((f, idx) => (
+        <li key={idx}>
+          <Chip
+            radius="none"
+            variant="light"
+            color="secondary"
+            onClose={() => handleOnClose(f.id, f.value)}
           >
-            <p className="font-medium">{f.label}</p>
-
-            <ul className="flex flex-wrap gap-x-3 gap-y-1.5">
-              {f.values.map((fv) => (
-                <li
-                  key={fv.id}
-                  className={cn("shrink-0 basis-[72px] cursor-pointer")}
-                >
-                  <label
-                    aria-disabled={fv.count < 1}
-                    id={fv.id}
-                    className="group flex h-full cursor-pointer flex-col"
-                  >
-                    <input
-                      className="sr-only"
-                      disabled={fv.count < 1}
-                      type="checkbox"
-                      defaultChecked={isChecked(f.id, fv.label)}
-                      onChange={({ target }) => {
-                        handleCheckChange(f.id, fv.label, target.checked);
-                      }}
-                    />
-                    {fv.image?.image ? (
-                      <figure className="flex flex-col gap-2">
-                        <div className="rounded-medium p-2 duration-100 transition-background group-hover:bg-primary group-has-[:checked]:bg-primary">
-                          <img
-                            className="mx-auto h-10 brightness-0"
-                            src={fv.image.image.url}
-                            alt={fv.image.image.altText || fv.label}
-                          />
-                        </div>
-                        <figcaption className="text-balance text-center text-sm text-default-700 group-has-[:checked]:font-medium group-has-[:checked]:text-black">
-                          {fv.label}
-                        </figcaption>
-                      </figure>
-                    ) : (
-                      <p className="group-has-[:checked]:font-semibold">
-                        {fv.label}
-                      </p>
-                    )}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+            {f.value}
+          </Chip>
+        </li>
+      ))}
+    </ul>
+  ) : null;
 };
 
 export const CollectionFilter = ({
@@ -109,7 +80,17 @@ export const CollectionFilter = ({
 }: {
   filters: FilterFragment[];
 }) => {
-  const showFilter = useMediaQuery("only screen and (min-width : 768px)");
+  const isDesktop = useMediaQuery("only screen and (min-width : 768px)");
 
-  return showFilter ? <DesktopCollectionFilter filters={filters} /> : null;
+  return isDesktop ? (
+    <div className="sticky top-[80px] z-20 bg-background">
+      <div className="container flex h-16 items-center gap-6 [&>div]:ml-auto">
+        <CollectionFilterDesktop filters={filters} />
+        <ActiveFilterChips filters={filters} />
+        <ProductsSorter />
+      </div>
+    </div>
+  ) : (
+    <CollectionFilterSorterMobile filters={filters} />
+  );
 };
