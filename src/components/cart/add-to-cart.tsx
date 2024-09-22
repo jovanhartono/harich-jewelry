@@ -4,7 +4,6 @@ import { FormEvent, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CartLineInput } from "@/__generated__/graphql";
 import { Button, ButtonProps } from "@nextui-org/button";
-import { CartIcon } from "@nextui-org/shared-icons";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
 
@@ -54,7 +53,7 @@ export default function AddToCart({
 
   return (
     <form className="w-full max-w-md" action={actionWithVariant}>
-      <SubmitButton isDisabled={disabled} {...buttonProps}>
+      <SubmitButton isDisabled={disabled} radius="none" {...buttonProps}>
         {children}
       </SubmitButton>
       <p aria-live="polite" role="status" className="sr-only">
@@ -86,9 +85,7 @@ function SubmitButton(buttonProps: ButtonProps) {
       size="lg"
       isLoading={pending}
       className="w-full"
-      startContent={
-        pending ? null : (startContent ?? <CartIcon className="size-4" />)
-      }
+      startContent={pending ? null : startContent}
       {...restProps}
     >
       {children ?? "Add to Cart"}
