@@ -4,11 +4,11 @@
 
 @layer components {
     .container {
-        @apply max-w-screen-2xl px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mx-auto w-full;
+        @apply max-w-screen-2xl px-5 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mx-auto w-full;
     }
 
     .padding-section {
-        @apply py-12
+        @apply py-5 lg:py-12
     }
 
     .bottom-float-wrapper {
