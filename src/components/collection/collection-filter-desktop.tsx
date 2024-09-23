@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FilterFragment } from "@/__generated__/graphql";
+import { useFilter } from "@/providers/filter-provider";
 import { Button } from "@nextui-org/button";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { Spinner } from "@nextui-org/spinner";
@@ -10,18 +10,16 @@ import { FilterIcon } from "lucide-react";
 import { FILTER_ID } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 
-export const CollectionFilterDesktop = ({
-  filters,
-}: {
-  filters: FilterFragment[];
-}) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const [isLoading, transition] = useTransition();
-
+export const CollectionFilterDesktop = () => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
+
+  const [isLoading, transition] = useTransition();
+
+  const { filters } = useFilter();
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const isChecked = useCallback(
     (key: string, value: string) => {

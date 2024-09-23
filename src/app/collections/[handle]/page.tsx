@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
+import { FilterProvider } from "@/providers/filter-provider";
 
 import CollectionHero from "@/components/collection/collection-hero";
 import { CollectionProducts } from "@/components/collection/collection-products";
@@ -42,13 +43,15 @@ export default async function Page({ params }: { params: { handle: string } }) {
   }
 
   return (
-    <div className="flex flex-col pb-12">
-      <CollectionHero
-        desktop_file={collection.desktop_media?.reference}
-        mobile_file={collection.mobile_media?.reference}
-      />
-      <CollectionFilter filters={collection.products.filters} />
-      <CollectionProducts collection={collection} />
-    </div>
+    <FilterProvider filters={collection.products.filters}>
+      <div className="flex flex-col pb-12">
+        <CollectionHero
+          desktop_file={collection.desktop_media?.reference}
+          mobile_file={collection.mobile_media?.reference}
+        />
+        <CollectionFilter />
+        <CollectionProducts collection={collection} />
+      </div>
+    </FilterProvider>
   );
 }

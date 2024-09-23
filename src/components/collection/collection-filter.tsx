@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FilterFragment } from "@/__generated__/graphql";
+import { useFilter } from "@/providers/filter-provider";
 import { Chip } from "@nextui-org/chip";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
@@ -25,18 +25,24 @@ const ProductsSorter = dynamic(() =>
   ),
 );
 
-const ActiveFilterChips = ({ filters }: { filters: FilterFragment[] }) => {
+const ActiveFilterChips = () => {
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const [isTransitioning, transition] = useTransition();
+
+  const { filters } = useFilter();
 
   function handleOnClose(id: string, label: string) {
     const params = new URLSearchParams(searchParams);
 
     params.delete(id, label);
 
-    replace(`${pathname}?${params.toString()}`, {
-      scroll: false,
+    transition(() => {
+      replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     });
   }
 
@@ -62,6 +68,7 @@ const ActiveFilterChips = ({ filters }: { filters: FilterFragment[] }) => {
       {activeFilters.map((f, idx) => (
         <li key={idx}>
           <Chip
+            isDisabled={isTransitioning}
             radius="none"
             variant="light"
             color="secondary"
@@ -75,22 +82,18 @@ const ActiveFilterChips = ({ filters }: { filters: FilterFragment[] }) => {
   ) : null;
 };
 
-export const CollectionFilter = ({
-  filters,
-}: {
-  filters: FilterFragment[];
-}) => {
+export const CollectionFilter = () => {
   const isDesktop = useMediaQuery("only screen and (min-width : 768px)");
 
   return isDesktop ? (
     <div className="sticky top-[80px] z-20 bg-background">
       <div className="container flex h-16 items-center gap-6 [&>div]:ml-auto">
-        <CollectionFilterDesktop filters={filters} />
-        <ActiveFilterChips filters={filters} />
+        <CollectionFilterDesktop />
+        <ActiveFilterChips />
         <ProductsSorter />
       </div>
     </div>
   ) : (
-    <CollectionFilterSorterMobile filters={filters} />
+    <CollectionFilterSorterMobile />
   );
 };

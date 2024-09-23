@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useCallback, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FilterFragment } from "@/__generated__/graphql";
+import { useFilter } from "@/providers/filter-provider";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import { Spinner } from "@nextui-org/spinner";
 import { ArrowUpDownIcon, FilterIcon } from "lucide-react";
@@ -111,11 +111,14 @@ const MobileSorter = ({
   );
 };
 
-const MobileFilter = ({ filters }: { filters: FilterFragment[] }) => {
-  const [isPending, startTransition] = useTransition();
+const MobileFilter = () => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
+
+  const [isPending, startTransition] = useTransition();
+
+  const { filters } = useFilter();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -228,15 +231,11 @@ const MobileFilter = ({ filters }: { filters: FilterFragment[] }) => {
   );
 };
 
-export function CollectionFilterSorterMobile({
-  filters,
-}: {
-  filters: FilterFragment[];
-}) {
+export function CollectionFilterSorterMobile() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-20 flex h-12 w-full items-stretch gap-3 divide-x divide-black border-t border-black bg-white *:flex-1">
       <MobileSorter />
-      <MobileFilter filters={filters} />
+      <MobileFilter />
     </div>
   );
 }
