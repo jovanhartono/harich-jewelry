@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useTransition } from "react";
+import { startTransition, Suspense, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   GetCollectionQuery,
@@ -9,7 +9,7 @@ import {
 } from "@/__generated__/graphql";
 import { getCollectionProductsQuery } from "@/gql/queries/collection";
 import { useSuspenseQuery } from "@apollo/client";
-import { Button } from "@nextui-org/button";
+import { useIntersectionObserver } from "@uidotdev/usehooks";
 
 import ProductCard from "@/components/product/product-card";
 import ProductGridSkeleton from "@/components/product/product-grid-skeleton";
@@ -26,7 +26,11 @@ const CollectionProductList = ({
   sortKey: ProductCollectionSortKeys;
   reverse: boolean;
 }) => {
-  const [isLoading, transition] = useTransition();
+  const [ref, entry] = useIntersectionObserver({
+    root: null,
+    threshold: 0,
+    rootMargin: "0px",
+  });
 
   const {
     data: { collection },
@@ -39,6 +43,24 @@ const CollectionProductList = ({
       filters,
     },
   });
+
+  // when user scrolls into the bottom of the page, trigger fetchMore()
+  useEffect(() => {
+    if (collection?.products.pageInfo.hasNextPage && entry?.isIntersecting) {
+      startTransition(() => {
+        void fetchMore({
+          variables: {
+            after: collection?.products.pageInfo.endCursor,
+          },
+        });
+      });
+    }
+  }, [
+    collection?.products.pageInfo.endCursor,
+    collection?.products.pageInfo.hasNextPage,
+    entry?.isIntersecting,
+    fetchMore,
+  ]);
 
   if (!collection?.products.edges.length) {
     return <p>No Product Found</p>;
@@ -55,22 +77,9 @@ const CollectionProductList = ({
       </ul>
 
       {collection.products.pageInfo.hasNextPage ? (
-        <Button
-          color="primary"
-          className="mx-auto w-full max-w-sm"
-          isLoading={isLoading}
-          onClick={() => {
-            transition(() => {
-              void fetchMore({
-                variables: {
-                  after: collection?.products.pageInfo.endCursor,
-                },
-              });
-            });
-          }}
-        >
-          Show More
-        </Button>
+        <div className="relative" ref={ref}>
+          <ProductGridSkeleton />
+        </div>
       ) : null}
     </div>
   );
