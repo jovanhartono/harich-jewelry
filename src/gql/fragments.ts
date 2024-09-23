@@ -169,21 +169,27 @@ export const pageInfoFragment = gql(/* GraphQL */ `
   }
 `);
 
+export const filterValueFragment = gql(/* GraphQL */ `
+  fragment filterValue on FilterValue {
+    id
+    label
+    count
+    input
+    image {
+      image {
+        ...image
+      }
+    }
+  }
+`);
+
 export const filterFragment = gql(/* GraphQL */ `
   fragment filter on Filter {
     id
     label
     type
     values {
-      id
-      label
-      count
-      input
-      image {
-        image {
-          ...image
-        }
-      }
+      ...filterValue
     }
   }
 `);

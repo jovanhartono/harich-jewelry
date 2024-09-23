@@ -30,6 +30,9 @@ export const getCollectionProductsQuery = gql(/* GraphQL */ `
         filters: $filters
       ) {
         ...products
+        filters {
+          ...filter
+        }
       }
     }
   }
