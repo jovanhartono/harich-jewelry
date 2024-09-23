@@ -1,8 +1,7 @@
 "use client";
 
 import { ChangeEvent, useCallback, useState, useTransition } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useFilter } from "@/providers/filter-provider";
+import { useSearchParams } from "next/navigation";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import { Spinner } from "@nextui-org/spinner";
 import { ArrowUpDownIcon, FilterIcon } from "lucide-react";
@@ -15,14 +14,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { CollectionFilterList } from "@/components/collection/organizer/collection-filter-list";
 import {
   DEFAULT_SEARCH_SORT_OPTION,
   DEFAULT_SORT_OPTION,
-  FILTER_ID,
   SEARCH_SORT_OPTIONS,
   SORT_OPTIONS,
 } from "@/lib/constant";
-import { cn } from "@/lib/utils";
 import useQueryParams from "@/hooks/useQueryParams";
 
 const MobileSorter = ({
@@ -112,39 +110,8 @@ const MobileSorter = ({
 };
 
 const MobileFilter = () => {
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathname = usePathname();
-
   const [isPending, startTransition] = useTransition();
-
-  const { filters } = useFilter();
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  const isChecked = useCallback(
-    (key: string, value: string) => {
-      return Array.from(searchParams.entries()).some(
-        ([k, v]) => k === key && v === value,
-      );
-    },
-    [searchParams],
-  );
-
-  const handleCheckChange = useCallback(
-    (id: string, label: string, checked: boolean) => {
-      const params = new URLSearchParams(searchParams);
-
-      checked ? params.append(id, label) : params.delete(id, label);
-
-      startTransition(() => {
-        replace(`${pathname}?${params.toString()}`, {
-          scroll: false,
-        });
-      });
-    },
-    [pathname, replace, searchParams],
-  );
 
   return (
     <Drawer onOpenChange={setIsDrawerOpen} open={isDrawerOpen}>
@@ -156,16 +123,10 @@ const MobileFilter = () => {
       </DrawerTrigger>
       <DrawerContent className="h-auto min-h-[35dvh]">
         {isPending ? (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-default-300/50">
-            <Spinner
-              classNames={{
-                circle1: "border-b-black",
-                circle2: "border-b-black",
-              }}
-            />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+            <Spinner size="lg" color="secondary" />
           </div>
         ) : null}
-
         <div className="container mb-6">
           <DrawerHeader>
             <DrawerTitle>Filter</DrawerTitle>
@@ -173,58 +134,8 @@ const MobileFilter = () => {
               Collection Filter
             </DrawerDescription>
           </DrawerHeader>
-          <ul className="flex flex-col gap-6">
-            {filters.map((f) => (
-              <li
-                key={f.id}
-                className={cn("flex flex-col gap-2", {
-                  "w-full": f.id === FILTER_ID.shape,
-                })}
-              >
-                <p className="font-medium">{f.label}</p>
 
-                <ul className="grid grid-cols-4 gap-x-3 gap-y-1.5">
-                  {f.values.map((fv) => (
-                    <li key={fv.id} className={cn("shrink-0 cursor-pointer")}>
-                      <label
-                        aria-disabled={fv.count < 1}
-                        id={fv.id}
-                        className="group flex h-full cursor-pointer flex-col"
-                      >
-                        <input
-                          className="sr-only"
-                          disabled={fv.count < 1}
-                          type="checkbox"
-                          defaultChecked={isChecked(f.id, fv.label)}
-                          onChange={({ target }) => {
-                            handleCheckChange(f.id, fv.label, target.checked);
-                          }}
-                        />
-                        {fv.image?.image ? (
-                          <figure className="flex flex-col gap-2">
-                            <div className="rounded-medium p-2 duration-100 transition-background group-has-[:checked]:bg-primary">
-                              <img
-                                className="mx-auto h-10 brightness-0"
-                                src={fv.image.image.url}
-                                alt={fv.image.image.altText || fv.label}
-                              />
-                            </div>
-                            <figcaption className="text-balance text-center text-sm text-default-700 group-has-[:checked]:font-medium group-has-[:checked]:text-black">
-                              {fv.label}
-                            </figcaption>
-                          </figure>
-                        ) : (
-                          <p className="group-has-[:checked]:font-semibold">
-                            {fv.label}
-                          </p>
-                        )}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+          <CollectionFilterList transition={startTransition} />
         </div>
       </DrawerContent>
     </Drawer>

@@ -1,31 +1,22 @@
 "use client";
 
-import { useMemo, useTransition } from "react";
-import dynamic from "next/dynamic";
+import {
+  memo,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFilter } from "@/providers/filter-provider";
 import { Chip } from "@nextui-org/chip";
-import { useMediaQuery } from "@uidotdev/usehooks";
 
-const CollectionFilterDesktop = dynamic(() =>
-  import("@/components/collection/collection-filter-desktop").then(
-    (m) => m.CollectionFilterDesktop,
-  ),
-);
+import { CollectionFilterDesktop } from "@/components/collection/organizer/desktop/collection-filter-desktop";
+import { CollectionSorterDesktop } from "@/components/collection/organizer/desktop/collection-sorter-desktop";
+import { cn } from "@/lib/utils";
 
-const CollectionFilterSorterMobile = dynamic(() =>
-  import("@/components/collection/collection-filter-sorter-mobile").then(
-    (m) => m.CollectionFilterSorterMobile,
-  ),
-);
-
-const ProductsSorter = dynamic(() =>
-  import("@/components/collection/collection-products-sorter").then(
-    (m) => m.ProductsSorter,
-  ),
-);
-
-const ActiveFilterChips = () => {
+const ActiveFilterChips = memo(function ActiveFilterChips() {
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -64,7 +55,7 @@ const ActiveFilterChips = () => {
   }, [filters, searchParams]);
 
   return activeFilters.length > 0 ? (
-    <ul className="flex items-center gap-3 border-l pl-6">
+    <ul className="flex items-center gap-3 border-l-1.5 border-l-default-500 pl-6">
       {activeFilters.map((f, idx) => (
         <li key={idx}>
           <Chip
@@ -80,20 +71,45 @@ const ActiveFilterChips = () => {
       ))}
     </ul>
   ) : null;
-};
+});
 
-export const CollectionFilter = () => {
-  const isDesktop = useMediaQuery("only screen and (min-width : 768px)");
+export const CollectionOrganizerDesktop = () => {
+  const [sticky, setSticky] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  return isDesktop ? (
-    <div className="sticky top-[80px] z-20 bg-background">
+  useEffect(() => {
+    if (!ref.current) return;
+    const handleScroll = () => {
+      if (ref.current) {
+        const elementHeight = ref.current.getBoundingClientRect().top;
+
+        setSticky(elementHeight === 80);
+
+        // TODO: Append classname on ref instead
+        // ref.current?.className.
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={cn("sticky top-[80px] z-20 bg-background", {
+        "border-b border-b-default-500": sticky,
+      })}
+    >
       <div className="container flex h-16 items-center gap-6 [&>div]:ml-auto">
         <CollectionFilterDesktop />
         <ActiveFilterChips />
-        <ProductsSorter />
+        <CollectionSorterDesktop />
       </div>
     </div>
-  ) : (
-    <CollectionFilterSorterMobile />
   );
 };
