@@ -120,7 +120,7 @@ async function ProductsRecommendation({ id }: { id: string }) {
   return <ProductsRecommendationsCarousel products={relatedProducts} />;
 }
 
-export function ProductRecommendationSkeleton() {
+function ProductRecommendationSkeleton() {
   return (
     <div className="flex gap-4 overflow-hidden">
       {Array(6)
