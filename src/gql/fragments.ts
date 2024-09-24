@@ -96,6 +96,35 @@ export const productCardFragment = gql(/* GraphQL */ `
   }
 `);
 
+export const compactProductFragment = gql(/* GraphQL */ `
+  fragment compactProduct on Product {
+    id
+    handle
+    title
+    featuredImage {
+      ...image
+    }
+    compareAtPriceRange {
+      maxVariantPrice {
+        amount
+      }
+      minVariantPrice {
+        amount
+      }
+    }
+    priceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+  }
+`);
+
 export const productFragment = gql(/* GraphQL */ `
   fragment product on Product {
     id
@@ -108,20 +137,6 @@ export const productFragment = gql(/* GraphQL */ `
     featuredImage {
       ...image
     }
-    images(first: 250) {
-      edges {
-        node {
-          ...image
-        }
-      }
-    }
-    options {
-      id
-      name
-      values
-    }
-    productType
-    vendor
     compareAtPriceRange {
       minVariantPrice {
         amount
@@ -140,6 +155,20 @@ export const productFragment = gql(/* GraphQL */ `
         currencyCode
       }
     }
+    images(first: 250) {
+      edges {
+        node {
+          ...image
+        }
+      }
+    }
+    options {
+      id
+      name
+      values
+    }
+    productType
+    vendor
     variants(first: 250) {
       edges {
         node {

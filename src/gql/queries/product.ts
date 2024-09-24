@@ -47,3 +47,11 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const getProductRecommendationsQuery = gql(/* GraphQL */ `
+  query getProductRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId) {
+      ...compactProduct
+    }
+  }
+`);
