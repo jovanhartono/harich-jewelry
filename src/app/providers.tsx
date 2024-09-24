@@ -32,6 +32,16 @@ function makeClient() {
   return new ApolloClient({
     cache: new InMemoryCache({
       typePolicies: {
+        Query: {
+          fields: {
+            search: relayStylePagination([
+              "productFilters",
+              "sortKey",
+              "reverse",
+              "query",
+            ]),
+          },
+        },
         Collection: {
           fields: {
             products: relayStylePagination(["sortKey", "filters", "reverse"]),

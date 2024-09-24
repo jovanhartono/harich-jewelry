@@ -21,7 +21,7 @@ export const getSearchQuery = gql(/* GraphQL */ `
       edges {
         node {
           ... on Product {
-            ...product
+            ...compactProduct
           }
         }
       }
@@ -30,43 +30,6 @@ export const getSearchQuery = gql(/* GraphQL */ `
       }
       pageInfo {
         ...pageInfo
-      }
-    }
-    cheapestPrice: search(
-      query: $query
-      types: PRODUCT
-      first: 1
-      sortKey: PRICE
-    ) {
-      edges {
-        node {
-          ... on Product {
-            priceRange {
-              minVariantPrice {
-                amount
-              }
-            }
-          }
-        }
-      }
-    }
-    mostExpensivePrice: search(
-      query: $query
-      types: PRODUCT
-      first: 1
-      sortKey: PRICE
-      reverse: true
-    ) {
-      edges {
-        node {
-          ... on Product {
-            priceRange {
-              maxVariantPrice {
-                amount
-              }
-            }
-          }
-        }
       }
     }
   }
