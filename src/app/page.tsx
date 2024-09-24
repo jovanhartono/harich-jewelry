@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import NextImage from "next/image";
 import NextLink from "next/link";
-import { Card, CardBody } from "@nextui-org/card";
+import { Card } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
 import { Skeleton } from "@nextui-org/skeleton";
@@ -25,8 +25,9 @@ import {
   getBlogs,
   getHeroCarousel,
   getHomepageFirstSection,
+  getShopByRingShape,
 } from "@/lib/shopify";
-import { cn, generateSrcSet } from "@/lib/utils";
+import { generateSrcSet } from "@/lib/utils";
 
 async function Hero() {
   const carousels = await getHeroCarousel();
@@ -76,36 +77,41 @@ async function FirstSection() {
   const { title, description, cta, video } = await getHomepageFirstSection();
 
   return (
-    <section className="container padding-section relative flex flex-col gap-6 max-md:grid-flow-row md:grid-cols-2">
+    <section>
       <div
         className="relative"
         style={{
-          minHeight: "min(80vh, 900px)",
+          minHeight: "min(80vh, 800px)",
         }}
       >
-        <div className="absolute inset-0 z-10 bg-black/30" />
-        <div className="absolute bottom-0 left-0 top-0 z-20 flex w-1/2 flex-col items-start justify-center gap-3 p-6 text-white">
-          <h1
-            className={titleStyle({ className: "text-pretty tracking-tight" })}
-          >
-            {title}
-          </h1>
-          <p className="text-pretty">{description}</p>
-          {cta ? (
-            <Link
-              className={buttonStyle({
-                radius: "sm",
-                className: "mt-6",
-                color: "primary",
-                variant: "bordered",
-              })}
-              href={cta.url}
-            >
-              {cta.text}
-              <ArrowUpRight className="size-4" />
-            </Link>
-          ) : null}
+        <div className="absolute inset-0 z-20 text-white">
+          <div className="container h-full">
+            <div className="flex h-full w-full flex-col items-start justify-center gap-3 sm:w-1/2">
+              <h1
+                className={titleStyle({ className: "text-pretty", size: "lg" })}
+              >
+                {title}
+              </h1>
+              <p className="text-pretty">{description}</p>
+              {cta ? (
+                <Link
+                  className={buttonStyle({
+                    radius: "sm",
+                    className: "mt-6",
+                    color: "primary",
+                    variant: "bordered",
+                  })}
+                  href={cta.url}
+                >
+                  {cta.text}
+                  <ArrowUpRight className="size-4" />
+                </Link>
+              ) : null}
+            </div>
+          </div>
         </div>
+        {/* video overlay */}
+        <div className="absolute inset-0 z-10 bg-black/30" />
         <video
           autoPlay
           playsInline
@@ -127,23 +133,32 @@ async function FirstSection() {
 
 function CertificationSection() {
   return (
-    <section className="w-full bg-primary py-6">
-      <div className="container flex items-center justify-center gap-6">
-        {/*<h1 className="text-2xl font-medium tracking-tight">*/}
-        {/*  Diamonds at Harich Jewelry are Fully Certified*/}
-        {/*</h1>*/}
-        <NextImage
-          alt="igi-logo"
-          width={200}
-          height={74}
-          src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/igi-logo.webp?v=1723205496"
-        />
-        <NextImage
-          alt="gia-logo"
-          width={200}
-          height={70}
-          src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/gia-logo.webp?v=1723205495"
-        />
+    <section className="padding-section w-full bg-primary lg:p-6">
+      <div className="container">
+        <SectionMarker>
+          <div className="flex flex-col gap-12 py-12">
+            <h1
+              className={titleStyle({ size: "lg", className: "text-balance" })}
+            >
+              Exquisite Diamonds, Fully Certified by GIA & IGI for Unmatched
+              Quality
+            </h1>
+            <div className="flex flex-wrap items-center gap-6">
+              <NextImage
+                alt="igi-logo"
+                width={200}
+                height={74}
+                src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/igi-logo.webp?v=1723205496"
+              />
+              <NextImage
+                alt="gia-logo"
+                width={200}
+                height={70}
+                src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/gia-logo.webp?v=1723205495"
+              />
+            </div>
+          </div>
+        </SectionMarker>
       </div>
     </section>
   );
@@ -152,9 +167,9 @@ function CertificationSection() {
 function USPSection() {
   return (
     <section className="w-full py-6">
-      <div className="container flex flex-col justify-between gap-9 md:h-[350px]">
+      <div className="container flex flex-col justify-between gap-9 md:min-h-[350px]">
         <SectionMarker>
-          <ul className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-12 sm:grid-cols-3 lg:grid-cols-4">
             {usp.map((item, idx) => (
               <li key={idx} className="flex flex-col gap-3">
                 <item.icon className="block size-5 text-amber-800 md:size-6" />
@@ -185,12 +200,13 @@ async function BlogsSection() {
     <Carousel
       opts={{
         align: "start",
+        loop: true,
       }}
     >
-      <section className="container padding-section grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <section className="container padding-section grid grid-cols-1 gap-6 sm:grid-cols-3">
         <div className="flex flex-col">
           <h1 className={titleStyle({ size: "lg" })}>Featured Articles</h1>
-          <div className="relative mt-3 flex items-center gap-6 lg:mt-6">
+          <div className="relative mt-3 flex items-center gap-6 max-lg:hidden lg:mt-6">
             <CarouselPrevious
               variant="flat"
               className="static size-10 translate-y-0 border-black p-0"
@@ -203,12 +219,12 @@ async function BlogsSection() {
             />
           </div>
         </div>
-        <div className="lg:col-span-2">
+        <div className="sm:col-span-2">
           <CarouselContent>
             {blog.articles.edges.map(({ node: article }) => (
               <CarouselItem
                 key={article.id}
-                className="basis-full lg:basis-1/2"
+                className="basis-full md:basis-1/2"
               >
                 <NextLink
                   prefetch
@@ -226,21 +242,68 @@ async function BlogsSection() {
   );
 }
 
+async function ShopByShape() {
+  const shapes = await getShopByRingShape();
+
+  return (
+    <section className="padding-section container flex flex-col gap-6 text-balance">
+      <div className="flex flex-col gap-2">
+        <h1 className={titleStyle()}>Explore Our Engagement Rings</h1>
+        <p className="text-balance font-light text-default-700 max-md:text-small">
+          Discover our exquisite collection of engagement rings, available in a
+          range of classic stone shapes. Each design reflects timeless elegance
+          and exceptional craftsmanship.
+        </p>
+      </div>
+      <div className="overflow flex w-full touch-pan-x snap-x snap-mandatory gap-3 overflow-auto">
+        {shapes.map((shape) => (
+          <NextLink
+            key={shape.id}
+            prefetch
+            className="flex-1 shrink-0 basis-1/4 snap-start snap-always md:basis-20"
+            href={`/collections/engagement-rings?filter.p.m.stone.shape=${shape.label}`}
+          >
+            <figure className="flex cursor-pointer flex-col items-center gap-3">
+              <img
+                className="aspect-square shrink-0 object-contain"
+                decoding="async"
+                loading="lazy"
+                src={`${shape.image?.url}&width=100`}
+                alt={shape.label}
+              />
+              <figcaption className="text-center text-small">
+                {shape.label}
+              </figcaption>
+            </figure>
+          </NextLink>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <Hero />
-      {/*<CertificationSection />*/}
+      <Suspense
+        fallback={<Skeleton className="aspect-[4/5] w-full md:aspect-[5/2]" />}
+      >
+        <Hero />
+      </Suspense>
+      <CertificationSection />
       <Suspense
         fallback={
           <Skeleton
             style={{
-              minHeight: "min(80vh, 900px)",
+              minHeight: "min(70vh, 600px)",
             }}
           />
         }
       >
         <FirstSection />
+      </Suspense>
+      <Suspense>
+        <ShopByShape />
       </Suspense>
       <USPSection />
       <Suspense>

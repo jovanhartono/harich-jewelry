@@ -18,6 +18,7 @@ import {
   getCarouselQuery,
   getHeroQuery,
   getHomepageFirstSectionQuery,
+  getShopByRingShapeQuery,
 } from "@/gql/queries/meta-object";
 import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
 import {
@@ -322,4 +323,24 @@ export const getProductRecommendations = async (id: string) => {
   });
 
   return data.productRecommendations || [];
+};
+
+export const getShopByRingShape = async () => {
+  const { data } = await getClient().query({
+    query: getShopByRingShapeQuery,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 30 },
+      },
+    },
+  });
+
+  return data.metaobjects.edges.map(({ node }) => ({
+    ...node,
+    label: node.label?.value || "",
+    image:
+      node.image?.reference?.__typename === "MediaImage"
+        ? node.image.reference.image
+        : undefined,
+  }));
 };

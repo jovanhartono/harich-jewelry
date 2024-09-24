@@ -93,3 +93,28 @@ export const getHeroQuery = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const getShopByRingShapeQuery = gql(/* GraphQL */ `
+  query getShopByRingShape {
+    metaobjects(type: "shop_by_ring_shape", first: 20) {
+      edges {
+        node {
+          id
+          label: field(key: "label") {
+            key
+            value
+          }
+          image: field(key: "image") {
+            reference {
+              ... on MediaImage {
+                image {
+                  ...image
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`);
