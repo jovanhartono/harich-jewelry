@@ -20,7 +20,10 @@ import {
   getHomepageFirstSectionQuery,
 } from "@/gql/queries/meta-object";
 import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
-import { getProductByHandleQuery } from "@/gql/queries/product";
+import {
+  getProductByHandleQuery,
+  getProductRecommendationsQuery,
+} from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
 import { MetaObjectUrl } from "@/lib/type";
@@ -86,6 +89,10 @@ export const getMenu = async (handle: string) => {
   // @ts-ignore
   return data.menu?.items ? handleMenu(data.menu.items) : [];
 };
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export async function getHeroCarousel() {
   const { data } = await query({
@@ -300,3 +307,19 @@ export async function getCart(cartId?: string) {
     lines: data.cart.lines.edges.map((edge) => edge.node as CartLineFragment),
   };
 }
+
+export const getProductRecommendations = async (id: string) => {
+  const { data } = await getClient().query({
+    query: getProductRecommendationsQuery,
+    variables: {
+      productId: id,
+    },
+    context: {
+      fetchOptions: {
+        next: { tags: [TAGS.products] },
+      },
+    },
+  });
+
+  return data.productRecommendations || [];
+};
