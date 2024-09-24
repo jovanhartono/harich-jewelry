@@ -23,6 +23,7 @@ export default function ProductsRecommendationsCarousel({
       opts={{
         align: "start",
         skipSnaps: true,
+        loop: true,
       }}
       plugins={[
         Autoplay({
