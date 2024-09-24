@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import {
-  GetStoneCollectionQuery,
   ProductFragment,
   ProductVariantFragment,
 } from "@/__generated__/graphql";

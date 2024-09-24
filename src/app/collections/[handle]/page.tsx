@@ -7,14 +7,13 @@ import CollectionHero from "@/components/collection/collection-hero";
 import { CollectionProducts } from "@/components/collection/collection-products";
 import { getCollection } from "@/lib/shopify";
 
-const CollectionFilter = dynamic(
+const CollectionOrganizer = dynamic(
   () =>
-    import("@/components/collection/collection-filter").then(
-      (m) => m.CollectionFilter,
+    import("@/components/collection/organizer/collection-organizer").then(
+      (m) => m.CollectionOrganizer,
     ),
   {
     ssr: false,
-    loading: () => <div className="md:h-16" />,
   },
 );
 
@@ -49,7 +48,7 @@ export default async function Page({ params }: { params: { handle: string } }) {
           desktop_file={collection.desktop_media?.reference}
           mobile_file={collection.mobile_media?.reference}
         />
-        <CollectionFilter />
+        <CollectionOrganizer />
         <CollectionProducts collection={collection} />
       </div>
     </FilterProvider>
