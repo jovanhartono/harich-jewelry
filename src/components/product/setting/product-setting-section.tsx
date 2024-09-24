@@ -37,7 +37,7 @@ const SizeGuideDialog = () => {
         size="sm"
         classNames={{
           wrapper: "justify-end",
-          base: "m-0 sm:m-0 h-screen max-h-none",
+          base: "max-md:max-w-xs m-0 sm:m-0 h-screen max-h-none",
         }}
         motionProps={{
           variants: {
