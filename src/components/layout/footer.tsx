@@ -50,23 +50,24 @@ export default async function Footer() {
             that focuses on providing 100% authentic branded collections
             supported by Entrupy.
           </p>
-          <ul
-            className="mt-3 flex items-center gap-6"
-            aria-label="Social Icons"
-          >
-            {socials.map(({ label, icon, href }) => (
-              <li key={label}>
-                <Link
-                  aria-label={label}
-                  isExternal
-                  href={href}
-                  color="foreground"
-                >
-                  {icon}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/*  TODO: ask social account */}
+          {/*<ul*/}
+          {/*  className="mt-3 flex items-center gap-6"*/}
+          {/*  aria-label="Social Icons"*/}
+          {/*>*/}
+          {/*  {socials.map(({ label, icon, href }) => (*/}
+          {/*    <li key={label}>*/}
+          {/*      <Link*/}
+          {/*        aria-label={label}*/}
+          {/*        isExternal*/}
+          {/*        href={href}*/}
+          {/*        color="foreground"*/}
+          {/*      >*/}
+          {/*        {icon}*/}
+          {/*      </Link>*/}
+          {/*    </li>*/}
+          {/*  ))}*/}
+          {/*</ul>*/}
         </div>
         <nav className="grid grid-cols-2">
           {menus.map((menu) => (
