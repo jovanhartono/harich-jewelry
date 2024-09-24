@@ -4,8 +4,8 @@ export const siteConfig = {
   name: "Harich Jewelry",
   brand: "Harich Jewelry",
   company: "PT Harich Terang Nusantara",
-  url: "https://goosh.id",
-  description: "Safely Providing New and Preloved Luxury Fashion in Indonesia",
+  url: "https://harich-jewelry.vercel.app",
+  description: "Timeless Elegance – Fine Jewelry for Every Occasion",
   email: "mail@goosh.id",
   phone: "+6282318270480",
   links: {
