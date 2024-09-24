@@ -8,6 +8,8 @@ export const ArticleCard = ({ article }: { article: ArticleFragment }) => {
   return (
     <Card as="figure" radius="none" shadow="none">
       <Image
+        decoding="async"
+        loading="lazy"
         radius="none"
         classNames={{
           img: "aspect-square object-cover object-center w-full",
@@ -16,7 +18,7 @@ export const ArticleCard = ({ article }: { article: ArticleFragment }) => {
         alt={article.image?.altText || article.title}
         src={article.image?.url}
         srcSet={article.image?.url ? generateSrcSet(article.image?.url) : ""}
-        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
       />
       <CardBody as="figcaption" className="gap-2 px-0 py-4">
         <h2

@@ -55,6 +55,8 @@ async function Hero() {
                     srcSet={generateSrcSet(carousel.desktop_image?.url)}
                   />
                   <Image
+                    decoding="async"
+                    loading="lazy"
                     removeWrapper
                     className="z-0 h-full w-full object-cover object-center"
                     src={carousel.desktop_image?.url}
