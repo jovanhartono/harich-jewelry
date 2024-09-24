@@ -5,11 +5,11 @@
   "sideEffects": false,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "graphql-codegen && next build",
+    "build": "pnpm run generate && next build",
     "build-analyze": "ANALYZE=true pnpm build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "graphql-codegen"
+    "generate": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen -r dotenv/config --config codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
