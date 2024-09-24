@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 
 import SearchProductLayout from "@/components/search/search-product-layout";
 
