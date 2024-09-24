@@ -51,7 +51,7 @@ const CollectionProductList = ({
     if (collection?.products.filters) {
       setFilters(collection.products.filters);
     }
-  }, [collection?.products.filters]);
+  }, [collection?.products.filters, setFilters]);
 
   // when user scrolls into the bottom of the page, trigger fetchMore()
   useEffect(() => {

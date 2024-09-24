@@ -37,7 +37,7 @@ export const CollectionFilterList = ({
         });
       });
     },
-    [pathname, replace, searchParams],
+    [pathname, replace, searchParams, transition],
   );
 
   return (
@@ -54,11 +54,10 @@ export const CollectionFilterList = ({
           <ul className="flex flex-wrap gap-x-3 gap-y-1.5">
             {f.values.map((fv) => (
               <li
-                aria-disabled={fv.count < 1}
                 key={fv.id}
-                className={cn(
-                  "shrink-0 basis-[72px] cursor-pointer aria-disabled:pointer-events-none",
-                )}
+                className={cn("shrink-0 basis-[72px] cursor-pointer", {
+                  "pointer-events-none": fv.count < 1,
+                })}
               >
                 <label
                   aria-disabled={fv.count < 1}
