@@ -8,6 +8,7 @@ import {
   ProductFilter,
 } from "@/__generated__/graphql";
 import { getCollectionProductsQuery } from "@/gql/queries/collection";
+import { useFilter } from "@/providers/filter-provider";
 import { useSuspenseQuery } from "@apollo/client";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 
@@ -26,12 +27,6 @@ const CollectionProductList = ({
   sortKey: ProductCollectionSortKeys;
   reverse: boolean;
 }) => {
-  const [ref, entry] = useIntersectionObserver({
-    root: null,
-    threshold: 0,
-    rootMargin: "0px",
-  });
-
   const {
     data: { collection },
     fetchMore,
@@ -43,6 +38,20 @@ const CollectionProductList = ({
       filters,
     },
   });
+
+  const [ref, entry] = useIntersectionObserver({
+    root: null,
+    threshold: 0,
+    rootMargin: "0px",
+  });
+
+  const { setFilters } = useFilter();
+
+  useEffect(() => {
+    if (collection?.products.filters) {
+      setFilters(collection.products.filters);
+    }
+  }, [collection?.products.filters]);
 
   // when user scrolls into the bottom of the page, trigger fetchMore()
   useEffect(() => {
