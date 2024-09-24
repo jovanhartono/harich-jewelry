@@ -28,7 +28,7 @@ export const CollectionSorterDesktop = memo(function CollectionSorterDesktop({
   const { createQueryString, setUrl } = useQueryParams();
 
   const handleOnChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLSelectElement>) => {
       startTransition(() => {
         setUrl(
           createQueryString(
