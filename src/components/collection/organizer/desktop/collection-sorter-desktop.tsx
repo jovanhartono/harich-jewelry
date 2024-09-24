@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useCallback, useTransition } from "react";
+import { ChangeEvent, memo, useCallback, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { Select, SelectItem } from "@nextui-org/select";
 
@@ -12,11 +12,11 @@ import {
 } from "@/lib/constant";
 import useQueryParams from "@/hooks/useQueryParams";
 
-export const ProductsSorter = ({
+export const CollectionSorterDesktop = memo(function CollectionSorterDesktop({
   type = "collection",
 }: {
   type?: "collection" | "search";
-}) => {
+}) {
   const defaultItem =
     type === "collection" ? DEFAULT_SORT_OPTION : DEFAULT_SEARCH_SORT_OPTION;
   const options = type === "collection" ? SORT_OPTIONS : SEARCH_SORT_OPTIONS;
@@ -60,4 +60,4 @@ export const ProductsSorter = ({
       ))}
     </Select>
   );
-};
+});
