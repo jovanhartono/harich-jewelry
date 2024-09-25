@@ -37,7 +37,7 @@ async function Hero() {
       <CarouselContent>
         {carousels.map((carousel, index) => {
           return (
-            <CarouselItem key={index}>
+            <CarouselItem key={index} className="pl-0">
               <Card
                 as={NextLink}
                 href={carousel.url}
@@ -54,15 +54,13 @@ async function Hero() {
                     media="(min-width: 768px)"
                     srcSet={generateSrcSet(carousel.desktop_image?.url)}
                   />
-                  <Image
+                  <img
                     decoding="async"
                     loading="lazy"
-                    removeWrapper
                     className="z-0 h-full w-full object-cover object-center"
                     src={carousel.desktop_image?.url}
                     alt={carousel.desktop_image?.altText || ""}
                     sizes="100vw"
-                    radius="none"
                   />
                 </picture>
               </Card>
