@@ -52,7 +52,7 @@ export default function AddToCart({
   }, [onSuccess, router, state]);
 
   return (
-    <form className="w-full max-w-md" action={actionWithVariant}>
+    <form className="w-full lg:max-w-md" action={actionWithVariant}>
       <SubmitButton isDisabled={disabled} radius="none" {...buttonProps}>
         {children}
       </SubmitButton>

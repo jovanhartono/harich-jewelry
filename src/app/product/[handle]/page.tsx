@@ -46,7 +46,7 @@ export default async function ProductDetailPage({
           <div className="lg:basis-2/3">
             <ProductImageGallery images={product.images as ImageConnection} />
           </div>
-          <div className="max-md:container sticky top-[116px] flex h-1/3 flex-col gap-6 lg:basis-1/3 lg:gap-6">
+          <div className="max-lg:container flex h-1/3 flex-col gap-6 lg:sticky lg:top-[116px] lg:basis-1/3 lg:gap-6">
             <div className="flex flex-col">
               <h1
                 aria-label="Product Title"
@@ -127,7 +127,7 @@ function ProductRecommendationSkeleton() {
         .fill(0)
         .map((_, index) => (
           <div
-            className="flex flex-none basis-2/3 flex-col justify-between gap-3 bg-white p-4 md:basis-1/3 md:p-6 xl:basis-1/4"
+            className="flex flex-none basis-2/3 flex-col justify-between gap-3 bg-white p-3 md:basis-1/3 xl:basis-1/4"
             key={index}
           >
             <Skeleton className="h-20 w-full flex-col rounded-lg" />
