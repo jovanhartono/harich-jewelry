@@ -17,6 +17,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import CarouselAutoplay from "@/components/ui/carousel-autoplay";
+import DotPattern from "@/components/ui/dot-pattern";
+import NumberTicker from "@/components/ui/number-ticker";
 import { SectionMarker } from "@/components/ui/section-marker";
 import { ArticleCard } from "@/components/blog/article-card";
 import { title as titleStyle } from "@/components/primitives";
@@ -166,7 +168,7 @@ function CertificationSection() {
 
 function USPSection() {
   return (
-    <section className="w-full py-6">
+    <section className="w-full">
       <div className="container flex flex-col justify-between gap-9 md:min-h-[350px]">
         <SectionMarker>
           <ul className="grid grid-cols-2 gap-12 sm:grid-cols-3 lg:grid-cols-4">
@@ -282,6 +284,58 @@ async function ShopByShape() {
   );
 }
 
+function NumberSection() {
+  const data = [
+    {
+      title: "Happy Customers",
+      count: 25000,
+      measurement: "+",
+    },
+    {
+      title: "Melted Gold",
+      count: 250,
+      measurement: "kg",
+    },
+    {
+      title: "Spending Hours",
+      count: 3600,
+      measurement: "Hours",
+    },
+  ];
+
+  return (
+    <section className="relative mt-12">
+      <DotPattern />
+      <div className="container padding-section relative flex flex-col justify-center gap-6 md:min-h-[400px] md:gap-9">
+        <h1
+          className={titleStyle({
+            size: "lg",
+            className: "text-balance md:w-2/3",
+          })}
+        >
+          Reliability and Trust Backed by Thousands of Customers
+        </h1>
+        <div className="flex w-2/3 max-md:flex-col max-md:gap-3 md:items-center md:justify-between">
+          {data.map((item, idx) => (
+            <div key={idx}>
+              <NumberTicker
+                value={item.count}
+                className={titleStyle({
+                  size: "lg",
+                  className: "tracking-wide",
+                })}
+              />
+              <p className="mt-3 font-mono font-medium uppercase tracking-wider text-default-700">
+                {item.title}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -306,6 +360,7 @@ export default function Home() {
         <ShopByShape />
       </Suspense>
       <USPSection />
+      <NumberSection />
       <Suspense>
         <BlogsSection />
       </Suspense>
