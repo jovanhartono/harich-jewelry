@@ -1,14 +1,10 @@
 "use client";
 
-import { memo, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Navbar as NextUINavbar } from "@nextui-org/navbar";
 
-export const NavbarWrapper = memo(function NavbarWrapper({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export const NavbarWrapper = ({ children }: { children: ReactNode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>(false);
   const pathname = usePathname();
 
@@ -35,4 +31,4 @@ export const NavbarWrapper = memo(function NavbarWrapper({
       {children}
     </NextUINavbar>
   );
-});
+};

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
 
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import Providers from "@/app/providers";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
@@ -43,9 +43,17 @@ export default async function RootLayout({
       <body className="bg-background">
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <Toaster />
-          <Navbar />
+          <Suspense
+            fallback={
+              <div className="sticky top-0 z-40 h-20 w-full border-b border-b-default-500 bg-background" />
+            }
+          >
+            <Navbar />
+          </Suspense>
           <main className="grow">{children}</main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </Providers>
       </body>
     </html>

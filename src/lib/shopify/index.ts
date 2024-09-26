@@ -93,6 +93,10 @@ export const getProductByHandle = async (handle: string) => {
   return data.product;
 };
 
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const getMenu = async (handle: string) => {
   const { data } = await query({
     query: getMenuQuery,
@@ -132,10 +136,6 @@ export const getMenu = async (handle: string) => {
   // @ts-ignore
   return data.menu?.items ? handleMenu(data.menu.items) : [];
 };
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 export async function getHeroCarousel() {
   const { data } = await query({

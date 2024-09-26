@@ -13,7 +13,7 @@ import SearchModal from "@/components/layout/navbar/search-modal";
 import { getMenu } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
-export const Navbar = async () => {
+export async function Navbar() {
   const menus = await getMenu("main-menu");
 
   return (
@@ -82,4 +82,4 @@ export const Navbar = async () => {
       <NavbarMobileMenu menus={menus} />
     </NavbarWrapper>
   );
-};
+}
