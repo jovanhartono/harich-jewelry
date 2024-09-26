@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Image } from "@nextui-org/image";
 
 import { title as titleStyle } from "@/components/primitives";
 import { Prose } from "@/components/prose";
