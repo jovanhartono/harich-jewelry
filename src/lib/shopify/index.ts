@@ -109,6 +109,9 @@ export async function getHeroCarousel() {
     (acc, { node: curr }, index) => {
       acc.push({
         url: curr.url?.value || "#",
+        title: curr.header?.value || "",
+        description: curr.description?.value || "",
+        button_text: curr.cta?.value || "",
       });
 
       if (curr.desktop_image?.reference?.__typename === "MediaImage") {
@@ -125,6 +128,9 @@ export async function getHeroCarousel() {
       desktop_image?: ImageFragment | null;
       mobile_image?: ImageFragment | null;
       url: string;
+      title: string;
+      description: string;
+      button_text: string;
     }>,
   );
 }

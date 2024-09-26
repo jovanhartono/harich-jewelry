@@ -6,6 +6,15 @@ export const getCarouselQuery = gql(/* GraphQL */ `
       edges {
         node {
           id
+          header: field(key: "header") {
+            value
+          }
+          description: field(key: "description") {
+            value
+          }
+          cta: field(key: "cta") {
+            value
+          }
           url: field(key: "url") {
             value
           }

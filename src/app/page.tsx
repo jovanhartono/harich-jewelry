@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import { Card } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
 import { Skeleton } from "@nextui-org/skeleton";
 import { button as buttonStyle } from "@nextui-org/theme";
@@ -36,16 +35,14 @@ async function Hero() {
 
   return (
     <CarouselAutoplay>
-      <CarouselContent>
+      <CarouselContent className="ml-0">
         {carousels.map((carousel, index) => {
           return (
             <CarouselItem key={index} className="pl-0">
               <Card
-                as={NextLink}
-                href={carousel.url}
                 shadow="none"
                 radius="none"
-                className="aspect-[4/5] w-full md:aspect-[5/2]"
+                className="relative aspect-[4/5] w-full md:aspect-[5/2]"
               >
                 <picture className="h-full w-full">
                   <source
@@ -65,6 +62,33 @@ async function Hero() {
                     sizes="100vw"
                   />
                 </picture>
+                <div className="absolute inset-0 z-20 flex">
+                  <div className="container my-auto flex flex-col gap-3">
+                    <h1
+                      className={titleStyle({
+                        size: "lg",
+                        className: "text-balance xl:w-2/3",
+                      })}
+                    >
+                      {carousel.title}
+                    </h1>
+                    <p className="text-balance text-lg max-md:text-sm xl:w-2/3">
+                      {carousel.description}
+                    </p>
+                    <NextLink
+                      prefetch
+                      href={carousel.url}
+                      className={buttonStyle({
+                        color: "primary",
+                        className: "mt-6 h-12 w-fit px-5 font-medium",
+                        size: "lg",
+                        radius: "sm",
+                      })}
+                    >
+                      {carousel.button_text}
+                    </NextLink>
+                  </div>
+                </div>
               </Card>
             </CarouselItem>
           );
@@ -205,40 +229,38 @@ async function BlogsSection() {
         loop: true,
       }}
     >
-      <section className="container padding-section grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <div className="flex flex-col">
+      <section className="container padding-section grid grid-cols-1 gap-6">
+        <div className="flex items-center justify-between">
           <h1 className={titleStyle({ size: "lg" })}>Featured Articles</h1>
-          <div className="relative mt-3 flex items-center gap-6 max-lg:hidden lg:mt-6">
-            <CarouselPrevious
-              variant="flat"
-              className="static size-10 translate-y-0 border-black p-0"
-              radius="full"
-            />
-            <CarouselNext
-              variant="flat"
-              className="static size-10 translate-y-0 border-black p-0"
-              radius="full"
-            />
-          </div>
+          {/*  only show carousel indicator when total article fetched is more than 3, indicating overlay */}
+          {blog.articles.edges.length > 3 ? (
+            <div className="relative mt-3 flex items-center gap-6 max-lg:hidden lg:mt-6">
+              <CarouselPrevious
+                variant="flat"
+                className="static size-10 translate-y-0 border-black p-0"
+                radius="full"
+              />
+              <CarouselNext
+                variant="flat"
+                className="static size-10 translate-y-0 border-black p-0"
+                radius="full"
+              />
+            </div>
+          ) : null}
         </div>
-        <div className="sm:col-span-2">
-          <CarouselContent>
-            {blog.articles.edges.map(({ node: article }) => (
-              <CarouselItem
-                key={article.id}
-                className="basis-full md:basis-1/2"
+        <CarouselContent>
+          {blog.articles.edges.slice(0, 10).map(({ node: article }) => (
+            <CarouselItem key={article.id} className="basis-full md:basis-1/3">
+              <NextLink
+                prefetch
+                href={`/blogs/${article.handle}/${article.handle}`}
+                className="block h-full p-1"
               >
-                <NextLink
-                  prefetch
-                  href={`/blogs/${article.handle}/${article.handle}`}
-                  className="block h-full p-1"
-                >
-                  <ArticleCard article={article} />
-                </NextLink>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </div>
+                <ArticleCard article={article} />
+              </NextLink>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
       </section>
     </Carousel>
   );
@@ -313,7 +335,8 @@ function NumberSection() {
             className: "text-balance md:w-2/3",
           })}
         >
-          Reliability and Trust Backed by Thousands of Customers
+          Reliability and Trust. <br />
+          Backed by Thousands of Customers
         </h1>
         <div className="flex w-2/3 max-md:flex-col max-md:gap-3 md:items-center md:justify-between">
           {data.map((item, idx) => (
