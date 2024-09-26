@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { ProductFragment } from "@/__generated__/graphql";
+import type { CompactProductFragment } from "@/__generated__/graphql";
 import { Image } from "@nextui-org/image";
 import { button } from "@nextui-org/theme";
 
@@ -10,7 +10,7 @@ export const RingShapeList = ({
   paramsHandle,
 }: {
   ringShapeReference: Array<
-    ProductFragment & { shape: { label: string; svgUrl: string } }
+    CompactProductFragment & { shape: { label: string; svgUrl: string } }
   >;
   paramsHandle: string;
 }) => {

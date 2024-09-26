@@ -227,7 +227,7 @@ export const productsFragment = gql(/* GraphQL */ `
   fragment products on ProductConnection {
     edges {
       node {
-        ...product
+        ...compactProduct
       }
     }
     pageInfo {

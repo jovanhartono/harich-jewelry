@@ -35,7 +35,7 @@ export const getProductByHandleQuery = gql(/* GraphQL */ `
           edges {
             node {
               ... on Product {
-                ...product
+                ...compactProduct
                 cut: metafield(namespace: "stone", key: "shape") {
                   ...stoneShape
                 }

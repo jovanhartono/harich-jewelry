@@ -1,6 +1,9 @@
 import { memo } from "react";
 import NextLink from "next/link";
-import { ImageFragment, ProductFragment } from "@/__generated__/graphql";
+import type {
+  CompactProductFragment,
+  ImageFragment,
+} from "@/__generated__/graphql";
 import { Card, CardBody, CardProps } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
 
@@ -10,7 +13,7 @@ export const ProductCardContent = memo(function ProductCardContent({
   product,
   cardProps,
 }: {
-  product: ProductFragment;
+  product: CompactProductFragment;
   cardProps?: CardProps;
 }) {
   const compareAtPrice = parseFloat(
@@ -53,7 +56,7 @@ export default function ProductCard({
   cardProps,
   withLink = true,
 }: {
-  product: ProductFragment;
+  product: CompactProductFragment;
   cardProps?: CardProps;
   withLink?: boolean;
 }) {

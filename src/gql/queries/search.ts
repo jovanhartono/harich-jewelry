@@ -44,7 +44,7 @@ export const getSearchRecommendationQuery = gql(/* GraphQL */ `
         trackingParameters
       }
       products {
-        ...product
+        ...compactProduct
       }
     }
   }
