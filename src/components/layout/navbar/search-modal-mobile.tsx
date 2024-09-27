@@ -7,10 +7,10 @@ import {
   useEffect,
   useState,
 } from "react";
+import NextLink from "next/link";
 import { getSearchRecommendationQuery } from "@/gql/queries/search";
 import { useBackgroundQuery } from "@apollo/client";
 import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { CloseIcon, SearchIcon } from "@nextui-org/shared-icons";
 import { Spinner } from "@nextui-org/spinner";
@@ -108,16 +108,15 @@ export default function SearchModalMobile() {
               </ModalHeader>
               <ModalBody className="gap-6 py-6">
                 {search.trim().length ? (
-                  <Link
-                    color="foreground"
+                  <NextLink
                     href={`/search?q=${search}`}
-                    onPress={onClose}
+                    onClick={onClose}
                     className="flex flex-wrap gap-2 text-lg"
                   >
                     Show all results for
                     <span className="font-medium underline">{search}</span>
                     <ArrowUpRightIcon className="ml-auto size-4" />
-                  </Link>
+                  </NextLink>
                 ) : null}
                 <Suspense fallback={<Spinner />}>
                   <SearchPredictiveResult
