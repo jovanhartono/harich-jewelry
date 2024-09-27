@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Spinner } from "@nextui-org/spinner";
 
+import ProductGridSkeleton from "@/components/product/product-grid-skeleton";
 import SearchProductLayout from "@/components/search/search-product-layout";
 
 export function metadata(): Metadata {
@@ -28,8 +28,8 @@ export default async function SearchPage({
 
       <Suspense
         fallback={
-          <div className="flex h-screen items-start">
-            <Spinner className="mx-auto" />
+          <div className="container">
+            <ProductGridSkeleton />
           </div>
         }
       >
