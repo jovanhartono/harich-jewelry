@@ -13,6 +13,18 @@ export const getCollectionQuery = gql(/* GraphQL */ `
   }
 `);
 
+export const getCollectionsQuery = gql(/* GraphQL */ `
+  query getCollections {
+    collections(first: 200) {
+      edges {
+        node {
+          handle
+        }
+      }
+    }
+  }
+`);
+
 export const getCollectionProductsQuery = gql(/* GraphQL */ `
   query getCollectionProducts(
     $handle: String!
