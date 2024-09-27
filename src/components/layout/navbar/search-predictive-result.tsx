@@ -26,20 +26,22 @@ export const SearchPredictiveResult = memo(function SearchPredictiveResult({
       {data.predictiveSearch?.queries.length ? (
         <div>
           <h2 className="mb-1 text-lg font-medium">Suggestions</h2>
-          <ul>
-            {data.predictiveSearch?.queries.map((query, idx) => (
-              <li key={idx} className="my-2">
-                <NextLink
-                  href={`/search?q=${query.text}`}
-                  onClick={onClose}
-                  className="flex gap-2"
-                >
-                  <SearchIcon className="size-4 text-default-400" />
-                  {query.text}
-                </NextLink>
-              </li>
-            ))}
-          </ul>
+          <nav>
+            <ul>
+              {data.predictiveSearch?.queries.map((query, idx) => (
+                <li key={idx} className="my-2">
+                  <NextLink
+                    href={`/search?q=${query.text}`}
+                    onClick={onClose}
+                    className="flex gap-2"
+                  >
+                    <SearchIcon className="size-4 text-default-400" />
+                    {query.text}
+                  </NextLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       ) : null}
 
