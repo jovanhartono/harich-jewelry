@@ -15,7 +15,10 @@ import {
   getBlogsQuery,
 } from "@/gql/queries/blog";
 import { getCartQuery } from "@/gql/queries/cart";
-import { getCollectionQuery } from "@/gql/queries/collection";
+import {
+  getCollectionQuery,
+  getCollectionsQuery,
+} from "@/gql/queries/collection";
 import { getMenuQuery } from "@/gql/queries/menu";
 import {
   getCarouselQuery,
@@ -31,6 +34,7 @@ import {
 
 import { TAGS } from "@/lib/constant";
 import { MetaObjectUrl } from "@/lib/type";
+import { removeEdgesAndNodes } from "@/lib/utils";
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 
@@ -293,6 +297,21 @@ export const getCollection = async ({ handle }: { handle: string }) => {
   return {
     collection: data.collection,
     ...response,
+  };
+};
+
+export const getCollections = async () => {
+  const { data } = await query({
+    query: getCollectionsQuery,
+    context: {
+      fetchOptions: {
+        next: { tags: [TAGS.collections] },
+      },
+    },
+  });
+
+  return {
+    handles: removeEdgesAndNodes(data.collections),
   };
 };
 
