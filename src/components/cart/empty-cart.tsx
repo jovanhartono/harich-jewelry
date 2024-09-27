@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { subtitle, title } from "@/components/primitives";
 
-export default function NotFound() {
+export function EmptyCart() {
   return (
     <div className="container flex min-h-96 flex-col items-center gap-12 py-12 md:flex-row">
       <div className="flex flex-1 flex-col items-start justify-center">

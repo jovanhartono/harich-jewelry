@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import NextLink from "next/link";
-import { notFound } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Divider } from "@nextui-org/divider";
@@ -9,6 +8,7 @@ import { Link } from "@nextui-org/link";
 import { ShoppingBagIcon } from "lucide-react";
 
 import DeleteItem from "@/components/cart/delete-item";
+import { EmptyCart } from "@/components/cart/empty-cart";
 import ItemQuantity from "@/components/cart/item-quantity";
 import { LineAttributes } from "@/components/cart/line-attribute";
 import { title } from "@/components/primitives";
@@ -20,13 +20,13 @@ export default async function CartPage() {
   const id = cookies().get(COOKIES.CART)?.value;
 
   if (!id) {
-    return notFound();
+    return <EmptyCart />;
   }
 
   const cart = await getCart(id);
 
   if (!cart || cart?.lines.length === 0) {
-    return notFound();
+    return <EmptyCart />;
   }
 
   return (
