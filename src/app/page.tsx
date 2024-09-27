@@ -253,7 +253,7 @@ async function BlogsSection() {
             <CarouselItem key={article.id} className="basis-full md:basis-1/3">
               <NextLink
                 prefetch
-                href={`/blogs/${article.handle}/${article.handle}`}
+                href={`/blogs/${blog.handle}/${article.handle}`}
                 className="block h-full p-1"
               >
                 <ArticleCard article={article} />
