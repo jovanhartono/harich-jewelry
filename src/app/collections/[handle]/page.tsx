@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
@@ -5,7 +6,7 @@ import { FilterProvider } from "@/providers/filter-provider";
 
 import CollectionHero from "@/components/collection/collection-hero";
 import { CollectionProducts } from "@/components/collection/collection-products";
-import { getCollection } from "@/lib/shopify";
+import { getCollection, getCollections } from "@/lib/shopify";
 
 const CollectionOrganizer = dynamic(
   () =>
@@ -16,6 +17,13 @@ const CollectionOrganizer = dynamic(
     ssr: false,
   },
 );
+
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  const { handles } = await getCollections();
+
+  return handles.map(({ handle }) => ({ handle }));
+}
 
 export async function generateMetadata({
   params,
@@ -42,15 +50,17 @@ export default async function Page({ params }: { params: { handle: string } }) {
   }
 
   return (
-    <FilterProvider filters={collection.products.filters}>
-      <div className="flex flex-col pb-12">
-        <CollectionHero
-          desktop_file={collection.desktop_media?.reference}
-          mobile_file={collection.mobile_media?.reference}
-        />
-        <CollectionOrganizer />
-        <CollectionProducts collection={collection} />
-      </div>
-    </FilterProvider>
+    <Suspense>
+      <FilterProvider filters={collection.products.filters}>
+        <div className="flex flex-col pb-12">
+          <CollectionHero
+            desktop_file={collection.desktop_media?.reference}
+            mobile_file={collection.mobile_media?.reference}
+          />
+          <CollectionOrganizer />
+          <CollectionProducts collection={collection} />
+        </div>
+      </FilterProvider>
+    </Suspense>
   );
 }
