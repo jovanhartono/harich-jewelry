@@ -214,21 +214,22 @@ export function ProductSettingSection() {
         </div>
       </div>
 
-      <div className="mb-6 flex gap-3 *:flex-1">
+      <div className="mb-6 flex items-end gap-3 *:flex-1">
         <Input
           radius="sm"
           label="Engraving"
           labelPlacement="outside"
           autoComplete="off"
+          size="lg"
           placeholder="Add Engraving"
           onChange={(e) => setEngraving(e.target.value)}
         />
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <div className="flex justify-between">
             <label
               htmlFor="ring-size-select"
               className={cn(
-                selectStyle().label({ size: "sm", className: "static" }),
+                selectStyle().label({ size: "lg", className: "static" }),
               )}
             >
               Ring Size
@@ -236,15 +237,16 @@ export function ProductSettingSection() {
 
             <SizeGuideDialog />
           </div>
-          <div className={cn(selectStyle().mainWrapper())}>
+          <div className={cn(selectStyle().mainWrapper({ size: "lg" }))}>
             <select
               defaultValue=""
               className={cn(
                 selectStyle().trigger({
                   labelPlacement: "outside",
                   radius: "sm",
+                  size: "lg",
                 }),
-                selectStyle().value(),
+                selectStyle().value({ size: "lg" }),
               )}
               id="ring-size-select"
               onChange={(e) => setSize(e.target.value)}
