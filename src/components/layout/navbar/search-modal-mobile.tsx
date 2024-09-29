@@ -62,6 +62,9 @@ export default function SearchModalMobile() {
         onOpenChange={onOpenChange}
         scrollBehavior="inside"
         placement="top"
+        classNames={{
+          wrapper: "h-dvh",
+        }}
         motionProps={{
           variants: {
             enter: {
