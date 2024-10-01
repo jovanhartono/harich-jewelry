@@ -6,6 +6,8 @@ const nextConfig = {
     },
   },
   images: {
+    loader: "custom",
+    loaderFile: "./src/lib/loader.js",
     remotePatterns: [
       {
         protocol: "https",
@@ -16,8 +18,8 @@ const nextConfig = {
   },
 };
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
- 
-module.exports = withBundleAnalyzer(nextConfig)
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(nextConfig);
