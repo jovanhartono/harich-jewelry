@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import NextImage from "next/image";
+import NextImage, { getImageProps } from "next/image";
 import NextLink from "next/link";
 import { Card } from "@nextui-org/card";
 import { Link } from "@nextui-org/link";
@@ -28,7 +28,6 @@ import {
   getHomepageFirstSection,
   getShopByRingShape,
 } from "@/lib/shopify";
-import { generateSrcSet } from "@/lib/utils";
 
 async function Hero() {
   const carousels = await getHeroCarousel();
@@ -37,6 +36,31 @@ async function Hero() {
     <CarouselAutoplay>
       <CarouselContent className="ml-0">
         {carousels.map((carousel, index) => {
+          const {
+            props: { srcSet: desktop },
+          } = getImageProps({
+            src: carousel.desktop_image?.url,
+            sizes: "100vw",
+            width: 1400,
+            height: 560,
+            priority: index === 0,
+            alt:
+              carousel.desktop_image?.altText ||
+              `Carousel Image Desktop ${index + 1}`,
+          });
+          const {
+            props: { srcSet: mobile, ...rest },
+          } = getImageProps({
+            src: carousel.mobile_image?.url,
+            sizes: "100vw",
+            width: 500,
+            height: 625,
+            priority: index === 0,
+            alt:
+              carousel.desktop_image?.altText ||
+              `Carousel Image Mobile ${index + 1}`,
+          });
+
           return (
             <CarouselItem key={index} className="pl-0">
               <Card
@@ -45,34 +69,25 @@ async function Hero() {
                 className="relative aspect-[4/5] w-full md:aspect-[5/2]"
               >
                 <picture className="h-full w-full">
-                  <source
-                    media="(max-width: 767px)"
-                    srcSet={generateSrcSet(carousel.mobile_image?.url)}
-                  />
-                  <source
-                    media="(min-width: 768px)"
-                    srcSet={generateSrcSet(carousel.desktop_image?.url)}
-                  />
+                  <source media="(max-width: 767px)" srcSet={mobile} />
+                  <source media="(min-width: 768px)" srcSet={desktop} />
                   <img
-                    decoding="async"
-                    loading="lazy"
+                    alt="Harich Jewelry Hero Image"
                     className="z-0 h-full w-full object-cover object-center"
-                    src={carousel.desktop_image?.url}
-                    alt={carousel.desktop_image?.altText || ""}
-                    sizes="100vw"
+                    {...rest}
                   />
                 </picture>
                 <div className="absolute inset-0 z-20 flex">
-                  <div className="container my-auto flex flex-col gap-3">
+                  <div className="container my-auto flex flex-col gap-3 max-sm:items-start">
                     <h1
                       className={titleStyle({
                         size: "lg",
-                        className: "text-balance xl:w-2/3",
+                        className: "text-balance max-sm:text-center",
                       })}
                     >
                       {carousel.title}
                     </h1>
-                    <p className="text-balance text-lg max-md:text-sm xl:w-2/3">
+                    <p className="text-balance text-lg max-md:text-sm max-sm:text-center">
                       {carousel.description}
                     </p>
                     <NextLink
@@ -80,12 +95,12 @@ async function Hero() {
                       href={carousel.url}
                       className={buttonStyle({
                         color: "primary",
-                        className: "mt-6 h-12 w-fit px-5 font-medium",
+                        className: "mt-6 h-12 max-w-[280px] px-5 font-medium",
                         size: "lg",
                         radius: "sm",
                       })}
                     >
-                      {carousel.button_text}
+                      Browse Our Collection
                     </NextLink>
                   </div>
                 </div>
@@ -164,12 +179,15 @@ function CertificationSection() {
         <SectionMarker>
           <div className="flex flex-col gap-12 py-12">
             <h1
-              className={titleStyle({ size: "lg", className: "text-balance" })}
+              className={titleStyle({
+                size: "lg",
+                className: "text-balance text-center",
+              })}
             >
               Exquisite Diamonds, Fully Certified by GIA & IGI for Unmatched
               Quality
             </h1>
-            <div className="flex flex-wrap items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-6">
               <NextImage
                 alt="igi-logo"
                 width={200}
@@ -270,7 +288,7 @@ async function ShopByShape() {
   const shapes = await getShopByRingShape();
 
   return (
-    <section className="padding-section container flex flex-col gap-6 text-balance">
+    <section className="container flex h-[375px] flex-col justify-center gap-6 text-balance">
       <div className="flex flex-col gap-2">
         <h1 className={titleStyle()}>Explore Our Engagement Rings</h1>
         <p className="text-balance font-light text-default-700 max-md:text-small">
@@ -283,16 +301,15 @@ async function ShopByShape() {
         {shapes.map((shape) => (
           <NextLink
             key={shape.id}
-            prefetch
             className="flex-1 shrink-0 basis-1/4 snap-start snap-always md:basis-20"
             href={`/collections/engagement-rings?filter.p.m.stone.shape=${shape.label}`}
           >
             <figure className="flex cursor-pointer flex-col items-center gap-3">
-              <img
-                className="aspect-square shrink-0 object-contain"
-                decoding="async"
-                loading="lazy"
-                src={`${shape.image?.url}&width=100`}
+              <NextImage
+                width={100}
+                height={100}
+                className="aspect-square w-full shrink-0 object-cover"
+                src={shape.image?.url}
                 alt={shape.label}
               />
               <figcaption className="text-center text-small">
@@ -372,19 +389,19 @@ export default function Home() {
         fallback={
           <Skeleton
             style={{
-              minHeight: "min(70vh, 600px)",
+              minHeight: "min(80vh, 800px)",
             }}
           />
         }
       >
         <FirstSection />
       </Suspense>
-      <Suspense>
+      <Suspense fallback={<section className="h-[375px]" />}>
         <ShopByShape />
       </Suspense>
       <USPSection />
       <NumberSection />
-      <Suspense>
+      <Suspense fallback={null}>
         <BlogsSection />
       </Suspense>
     </div>

@@ -1,6 +1,5 @@
 import NextImage from "next/image";
 import NextLink from "next/link";
-import WordMark from "@/../public/wordmark.png";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
@@ -39,10 +38,10 @@ export default async function Footer() {
         <div className="flex flex-col gap-3">
           <NextLink href="/">
             <NextImage
-              src={WordMark}
-              alt={`${siteConfig.name} Footer Logo`}
-              className="w-32"
-              sizes="20vw"
+              width={128}
+              height={23}
+              src={siteConfig.logo}
+              alt="wordmark"
             />
           </NextLink>
           <p className="opacity-70"></p>

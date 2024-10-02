@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import NextImage from "next/image";
 
 import { title as titleStyle } from "@/components/primitives";
 import { Prose } from "@/components/prose";
 import { getArticle, getBlogs } from "@/lib/shopify";
-import { generateSrcSet } from "@/lib/utils";
 
 export const revalidate = 30;
 export const dynamicParams = true;
@@ -48,12 +48,13 @@ export default async function ArticlePage({
     <article className="container max-w-screen-lg space-y-9 py-6 xl:py-9">
       <h1 className={titleStyle()}>{title}</h1>
       {image ? (
-        <img
-          className="aspect-video w-full object-cover object-center"
+        <NextImage
           alt={image.altText || title}
+          className="aspect-video w-full object-cover object-center"
+          width={928}
+          height={522}
           src={image.url}
-          srcSet={image.url ? generateSrcSet(image.url) : ""}
-          sizes="(max-width: 768px) 100vw, 768w"
+          sizes="(max-width: 1024w) 100vw, 928w"
         />
       ) : null}
       <Prose body={contentHtml} />

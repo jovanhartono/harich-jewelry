@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useMemo, useState } from "react";
+import NextImage from "next/image";
 import { Slider, SliderValue } from "@nextui-org/slider";
 
 import { title } from "@/components/primitives";
@@ -13,28 +14,28 @@ const clarities = [
     label: "VS2",
     description:
       "Minor inclusions that range from difficult to somewhat easy to see are visible to a skilled grader using 10x magnification.",
-    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VS2.png?v=1723136591&width=144",
+    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VS2.png?v=1723136591",
   },
   {
     value: 1,
     label: "VS1",
     description:
       "Small inclusions difficult to see with 10x magnification, and will almost always be invisible to the naked eye.",
-    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VS1.png?v=1723136655&width=200",
+    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VS1.png?v=1723136655",
   },
   {
     value: 2,
     label: "VVS2",
     description:
       "Minute inclusions that range from extremely difficult to very difficult to see are visible to a skilled grader using 10x magnification.",
-    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VVS2.png?v=1723136633&width=200",
+    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VVS2.png?v=1723136633",
   },
   {
     value: 3,
     label: "VVS1",
     description:
       "Minute inclusions extremely difficult to see at 10x magnification.",
-    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VVS1.png?v=1723136441&width=144",
+    src: "https://cdn.shopify.com/s/files/1/0611/4158/1902/files/VVS1.png?v=1723136441",
   },
 ];
 
@@ -71,7 +72,9 @@ const ClaritySlider = memo(function ClaritySlider({
         }
       />
       <div className="flex h-36 w-full justify-center">
-        <img
+        <NextImage
+          width={144}
+          height={144}
           alt="Diamond clarity preview"
           className="object-contain"
           src={selectedClarity.src}
@@ -140,19 +143,20 @@ const ColorSlider = memo(function ColorSlider({
           className="absolute inset-0 z-10 flex justify-center"
           style={{ opacity: Array.isArray(value) ? value[0] / 3 : value / 3 }}
         >
-          <img
+          <NextImage
+            width={200}
+            height={144}
             alt="Diamond D Color"
             className="object-contain"
-            loading="lazy"
-            src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/diamond-color-d.png?v=1723133363&width=206"
+            src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/diamond-color-d.png?v=1723133363"
           />
         </div>
         <div className="absolute inset-0 flex justify-center">
-          <img
-            loading="lazy"
+          <NextImage
+            width={200}
+            height={144}
             alt="Diamond J Color"
-            className="object-contain"
-            src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/diamond-color-j.png?v=1723133429&width=206"
+            src="https://cdn.shopify.com/s/files/1/0611/4158/1902/files/diamond-color-j.png?v=1723133429"
           />
         </div>
       </div>

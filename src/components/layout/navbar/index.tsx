@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
 import NextLink from "next/link";
 import { NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import { Skeleton } from "@nextui-org/skeleton";
@@ -10,6 +10,7 @@ import NavbarMobileMenu from "@/components/layout/navbar/navbar-mobile-menu";
 import NavbarNestedMenu from "@/components/layout/navbar/navbar-nested-menu";
 import { NavbarWrapper } from "@/components/layout/navbar/navbar-wrapper";
 import SearchModal from "@/components/layout/navbar/search-modal";
+import { siteConfig } from "@/config/site";
 import { getMenu } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
@@ -21,13 +22,12 @@ export async function Navbar() {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="max-w-fit shrink-0 basis-full gap-3">
           <NextLink className="flex items-center justify-start gap-1" href="/">
-            <Image
-              className="w-32"
+            <NextImage
               priority
-              src="/wordmark.png"
-              alt="brand icon"
-              width={1200}
-              height={220}
+              width={125}
+              height={23}
+              src={siteConfig.logo}
+              alt="header wordmark"
             />
           </NextLink>
         </NavbarBrand>

@@ -1,4 +1,5 @@
 import { memo } from "react";
+import NextImage from "next/image";
 import NextLink from "next/link";
 import type {
   CompactProductFragment,
@@ -123,12 +124,11 @@ export const ProductCardImage = memo(function ProductCardImage({
   featuredImage?: ImageFragment | null;
 }) {
   return (
-    <img
-      decoding="async"
-      loading="lazy"
-      srcSet={generateSrcSet(featuredImage?.url)}
+    <NextImage
       alt={featuredImage?.altText || alt}
       src={featuredImage?.url}
+      width={300}
+      height={300}
       className="aspect-square w-full object-cover object-center transition-transform hover:scale-100 lg:group-hover:scale-105"
       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
     />
