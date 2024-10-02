@@ -8,7 +8,7 @@ import type {
 import { Card, CardBody, CardProps } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
 
-import { formatRupiah, generateSrcSet } from "@/lib/utils";
+import { formatRupiah } from "@/lib/utils";
 
 export const ProductCardContent = memo(function ProductCardContent({
   product,

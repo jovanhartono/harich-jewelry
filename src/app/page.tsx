@@ -158,7 +158,6 @@ async function FirstSection() {
           playsInline
           muted
           loop
-          preload="none"
           draggable={false}
           poster={video?.previewImage?.url}
           className="absolute inset-0 h-full w-full object-cover"
