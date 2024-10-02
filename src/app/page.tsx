@@ -78,7 +78,7 @@ async function Hero() {
                   />
                 </picture>
                 <div className="absolute inset-0 z-20 flex">
-                  <div className="container my-auto flex flex-col gap-3 max-sm:items-start">
+                  <div className="container my-auto flex flex-col gap-3 max-sm:items-center">
                     <h1
                       className={titleStyle({
                         size: "lg",
