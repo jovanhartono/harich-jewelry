@@ -44,7 +44,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
               )}
             >
               <div className="container flex flex-wrap gap-12">
-                {[...menu.items, ...menu.items]?.map((child) => (
+                {menu.items?.map((child) => (
                   <li className="flex flex-col" key={child.id}>
                     {/* title */}
                     {child.url === "#" ? (
