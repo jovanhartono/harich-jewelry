@@ -18,7 +18,7 @@ export default function CarouselAutoplay({
       }}
       plugins={[
         Autoplay({
-          delay: 5000,
+          delay: 10000,
           stopOnMouseEnter: true,
         }),
       ]}
