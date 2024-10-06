@@ -296,7 +296,7 @@ async function ShopByShape() {
           and exceptional craftsmanship.
         </p>
       </div>
-      <div className="overflow flex w-full touch-pan-x snap-x snap-mandatory gap-3 overflow-auto">
+      <div className="overflow flex w-full touch-pan-x snap-x snap-proximity gap-3 overflow-auto scrollbar-hide">
         {shapes.map((shape) => (
           <NextLink
             key={shape.id}
