@@ -40,7 +40,7 @@ export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 5 }}
               className={cn(
-                "absolute inset-x-0 top-[calc(100%_-_1px)] z-10 border border-default-200 bg-background py-6 shadow-sm",
+                "absolute inset-x-0 top-[calc(100%)] z-10 border border-default-200 bg-background py-6 shadow-sm",
               )}
             >
               <div className="container flex flex-wrap gap-12">

@@ -84,9 +84,6 @@ export const CollectionOrganizerDesktop = () => {
         const elementHeight = ref.current.getBoundingClientRect().top;
 
         setSticky(elementHeight === 80);
-
-        // TODO: Append classname on ref instead
-        // ref.current?.className.
       }
     };
 
