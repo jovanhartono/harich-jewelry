@@ -59,8 +59,8 @@ const MobileSorter = ({
   return (
     <Drawer onOpenChange={setIsDrawerOpen} open={isDrawerOpen}>
       <DrawerTrigger asChild>
-        <div className="flex items-center justify-center bg-white px-3">
-          <span className="text-sm">Sort</span>
+        <div className="flex items-center justify-center px-5 backdrop-blur">
+          <span>Sort</span>
           <ArrowUpDownIcon className="ml-1.5 size-4" />
         </div>
       </DrawerTrigger>
@@ -116,8 +116,8 @@ const MobileFilter = () => {
   return (
     <Drawer onOpenChange={setIsDrawerOpen} open={isDrawerOpen}>
       <DrawerTrigger asChild>
-        <div className="flex items-center justify-center bg-white px-3">
-          <span className="text-sm">Filter</span>
+        <div className="flex items-center justify-center px-5 backdrop-blur">
+          <span>Filter</span>
           <FilterIcon className="ml-1.5 size-4" />
         </div>
       </DrawerTrigger>
@@ -144,9 +144,11 @@ const MobileFilter = () => {
 
 export function CollectionFilterSorterMobile() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-20 flex h-12 w-full items-stretch gap-3 divide-x divide-black border-t border-black bg-white *:flex-1">
-      <MobileSorter />
-      <MobileFilter />
+    <div className="fixed bottom-4 left-0 right-0 z-20 flex h-14 items-center gap-3">
+      <div className="mx-auto flex h-10 divide-x divide-black overflow-hidden rounded-lg border border-black">
+        <MobileSorter />
+        <MobileFilter />
+      </div>
     </div>
   );
 }
