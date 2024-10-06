@@ -8,6 +8,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
 import { Toaster } from "@/components/ui/toaster";
+import FloatingWhatsapp from "@/components/floating-whatsapp";
 import Footer from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { siteConfig } from "@/config/site";
@@ -55,6 +56,8 @@ export default async function RootLayout({
             <Footer />
           </Suspense>
         </Providers>
+
+        <FloatingWhatsapp />
       </body>
     </html>
   );
