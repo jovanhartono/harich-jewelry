@@ -3,7 +3,7 @@ import NextImage from "next/image";
 import NextLink from "next/link";
 import { NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import { Skeleton } from "@nextui-org/skeleton";
-import { link as linkStyles } from "@nextui-org/theme";
+import { button as buttonStyle, link as linkStyles } from "@nextui-org/theme";
 
 import Cart, { CartButton } from "@/components/cart";
 import NavbarMobileMenu from "@/components/layout/navbar/navbar-mobile-menu";
@@ -76,6 +76,21 @@ export async function Navbar() {
           <Suspense fallback={<CartButton />}>
             <Cart />
           </Suspense>
+        </NavbarItem>
+
+        <NavbarItem>
+          <a
+            target="_blank"
+            href={siteConfig.links.whatsapp}
+            rel="noopener noreferrer"
+            className={buttonStyle({
+              variant: "solid",
+              radius: "none",
+              color: "primary",
+            })}
+          >
+            Book Appointment
+          </a>
         </NavbarItem>
       </NavbarContent>
 
