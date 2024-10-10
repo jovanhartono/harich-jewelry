@@ -3,7 +3,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Chip } from "@nextui-org/chip";
 import { motion } from "framer-motion";
-import parse from "html-react-parser";
 import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -51,9 +50,8 @@ export default function ProductDescription({
           "prose overflow-hidden font-mono leading-relaxed",
           className,
         )}
-      >
-        {parse(html)}
-      </motion.div>
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
       {height && height > toggleBreakpoint ? (
         <div className="flex items-center">
           <hr
