@@ -42,7 +42,7 @@ export default async function RootLayout({
       )}
     >
       <body className="bg-background">
-        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+        <Providers>
           <Toaster />
           <Suspense
             fallback={

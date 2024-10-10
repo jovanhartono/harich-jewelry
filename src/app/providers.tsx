@@ -11,12 +11,9 @@ import {
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support";
 import { NextUIProvider } from "@nextui-org/system";
-import { ThemeProvider } from "next-themes";
-import { ThemeProviderProps } from "next-themes/dist/types";
 
 export interface ProvidersProps {
   children: ReactNode;
-  themeProps?: Omit<ThemeProviderProps, "children">;
 }
 
 function makeClient() {
@@ -62,7 +59,7 @@ function makeClient() {
   });
 }
 
-export default function Providers({ children, themeProps }: ProvidersProps) {
+export default function Providers({ children }: ProvidersProps) {
   const router = useRouter();
 
   return (
@@ -71,7 +68,7 @@ export default function Providers({ children, themeProps }: ProvidersProps) {
         navigate={router.push}
         className="flex h-full min-h-screen flex-col"
       >
-        <ThemeProvider {...themeProps}>{children}</ThemeProvider>
+        {children}
       </NextUIProvider>
     </ApolloNextAppProvider>
   );
