@@ -1,21 +1,20 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ImageConnection } from "@/__generated__/graphql";
+import type { ImageFragment } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
-import { CarouselApi } from "@/components/ui/carousel";
+import type { CarouselApi } from "@/components/ui/carousel";
 import { cn, generateSrcSet } from "@/lib/utils";
 
 export default function ProductImageGallery({
-  images: imagesProps,
+  images,
 }: {
-  images: ImageConnection;
+  images: ImageFragment[];
 }) {
-  const images = imagesProps.edges.map((edge) => edge.node);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [carouselRef, api] = useEmblaCarousel();
   const [thumbRef, thumbApi] = useEmblaCarousel({

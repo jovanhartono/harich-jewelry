@@ -1,10 +1,15 @@
 "use client";
 
-import { MenuItem } from "@/__generated__/graphql";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Link } from "@nextui-org/link";
 
-export default function NavbarMobileNestedMenu({ menu }: { menu: MenuItem }) {
+import type { GetMenuReturnType } from "@/lib/shopify";
+
+export default function NavbarMobileNestedMenu({
+  menu,
+}: {
+  menu: GetMenuReturnType[0];
+}) {
   return (
     <Accordion
       className="px-0"

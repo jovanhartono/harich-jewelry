@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useEffect, useMemo } from "react";
-import { Product } from "@/__generated__/graphql";
+import type { CompactProductFragment } from "@/__generated__/graphql";
 import { getSearchQuery } from "@/gql/queries/search";
 import { FilterProvider } from "@/providers/filter-provider";
 import { useSuspenseQuery } from "@apollo/client";
@@ -79,10 +79,13 @@ export default function SearchProductLayout() {
         <div className="flex flex-col space-y-6 @container">
           <ul className="grid grid-cols-2 gap-4 @xl:grid-cols-3 @4xl:grid-cols-4 md:gap-3">
             {removeEdgesAndNodes(data.search)
-              .filter((node): node is Product => node.__typename === "Product")
+              .filter(
+                (node): node is CompactProductFragment =>
+                  node.__typename === "Product",
+              )
               .map((node) => (
                 <li key={node.id}>
-                  <ProductCard product={node as Product} />
+                  <ProductCard product={node} />
                 </li>
               ))}
           </ul>

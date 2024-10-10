@@ -1,5 +1,6 @@
 import NextImage from "next/image";
 import NextLink from "next/link";
+import type { MenuItemFragment } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
@@ -71,7 +72,7 @@ export default async function Footer() {
               </NextLink>
               {menu.items ? (
                 <ul className="flex flex-col gap-1.5">
-                  {menu.items.map((child) => (
+                  {menu.items.map((child: MenuItemFragment) => (
                     <li key={child.title}>
                       <NextLink className="opacity-70" href={child.url}>
                         {child.title}

@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { ImageConnection } from "@/__generated__/graphql";
 import { ProductProvider } from "@/app/product/provider";
 import { Skeleton } from "@nextui-org/skeleton";
 
@@ -16,7 +15,7 @@ import { RingShapeList } from "@/components/product/ring-shape-list";
 import { StoneFourC } from "@/components/product/stone-four-c";
 import { PRODUCT_TYPES } from "@/lib/constant";
 import { getProductByHandle, getProductRecommendations } from "@/lib/shopify";
-import { handleProductQuery } from "@/lib/utils";
+import { handleProductQuery, removeEdgesAndNodes } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -44,7 +43,7 @@ export default async function ProductDetailPage({
       <div className="flex flex-col gap-12">
         <section className="md:container flex flex-col gap-9 md:pt-9 lg:flex-row">
           <div className="lg:basis-2/3">
-            <ProductImageGallery images={product.images as ImageConnection} />
+            <ProductImageGallery images={removeEdgesAndNodes(product.images)} />
           </div>
           <div className="max-lg:container flex h-1/3 flex-col gap-6 lg:sticky lg:top-[116px] lg:basis-1/3 lg:gap-6">
             <div className="flex flex-col">

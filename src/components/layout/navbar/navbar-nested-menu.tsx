@@ -2,16 +2,20 @@
 
 import { Fragment, useState } from "react";
 import NextLink from "next/link";
-import { MenuItem } from "@/__generated__/graphql";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { NavbarItem } from "@nextui-org/navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "lucide-react";
 
+import type { GetMenuReturnType } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
-export default function NavbarNestedMenu({ menu }: { menu: MenuItem }) {
+export default function NavbarNestedMenu({
+  menu,
+}: {
+  menu: GetMenuReturnType[0];
+}) {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (

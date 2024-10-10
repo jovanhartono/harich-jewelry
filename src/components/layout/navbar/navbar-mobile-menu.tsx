@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import NextLink from "next/link";
-import { MenuItem } from "@/__generated__/graphql";
 import {
   NavbarContent,
   NavbarItem,
@@ -12,8 +11,13 @@ import {
 import Cart, { CartButton } from "@/components/cart";
 import NavbarMobileNestedMenu from "@/components/layout/navbar/navbar-mobile-nested-menu";
 import SearchModalMobile from "@/components/layout/navbar/search-modal-mobile";
+import type { GetMenuReturnType } from "@/lib/shopify";
 
-export default function NavbarMobileMenu({ menus }: { menus: MenuItem[] }) {
+export default function NavbarMobileMenu({
+  menus,
+}: {
+  menus: GetMenuReturnType;
+}) {
   return (
     <>
       <NavbarContent className="basis-1 pl-4 lg:hidden" justify="end">

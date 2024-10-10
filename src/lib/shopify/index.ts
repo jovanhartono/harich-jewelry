@@ -2,9 +2,10 @@ import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
-import {
+import type {
   CartLineFragment,
   CollectionFragment,
+  GetMainMenuQuery,
   ImageFragment,
 } from "@/__generated__/graphql";
 import { getClient, query } from "@/../apollo-client";
@@ -34,7 +35,7 @@ import {
 } from "@/gql/queries/product";
 
 import { TAGS } from "@/lib/constant";
-import { MetaObjectUrl } from "@/lib/type";
+import type { MetaObjectUrl } from "@/lib/type";
 import { removeEdgesAndNodes } from "@/lib/utils";
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
@@ -116,19 +117,21 @@ export const getMenu = async (handle: string) => {
   });
 
   // @ts-ignore
-  const handleMenu = (items: MenuItem[]): Array<MenuItem> => {
+  const handleMenu = (
+    items: NonNullable<NonNullable<GetMainMenuQuery["menu"]>["items"]>,
+  ) => {
     return items.map((item) => ({
       ...item,
       url: item.url.replace(domain, ""),
       items:
         item.items?.length > 0
-          ? item.items.map((i: any) => ({
+          ? item.items.map((i) => ({
               ...i,
               url: i.url.replace(domain, ""),
 
               items:
                 item.items?.length > 0
-                  ? i.items.map((ii: any) => ({
+                  ? i.items.map((ii) => ({
                       ...ii,
                       url: ii.url.replace(domain, ""),
                     }))
@@ -141,6 +144,8 @@ export const getMenu = async (handle: string) => {
   // @ts-ignore
   return data.menu?.items ? handleMenu(data.menu.items) : [];
 };
+
+export type GetMenuReturnType = Awaited<ReturnType<typeof getMenu>>;
 
 export async function getHeroCarousel() {
   const { data } = await query({
