@@ -68,6 +68,33 @@ export const getHomepageFirstSectionQuery = gql(/* GraphQL */ `
   }
 `);
 
+export const getHomePageMainCollectionsQuery = gql(/* GraphQL */ `
+  query getHomePageMainCollections {
+    metaobject(handle: { type: "main_collection", handle: "top-collections" }) {
+      title: field(key: "title") {
+        key
+        value
+      }
+      description: field(key: "description") {
+        key
+        value
+      }
+      collections: field(key: "collections") {
+        key
+        references(first: 100) {
+          edges {
+            node {
+              ... on Collection {
+                ...collection
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`);
+
 export const getHeroQuery = gql(/* GraphQL */ `
   query getHero($handle: String!) {
     metaobject(handle: { type: "hero", handle: $handle }) {

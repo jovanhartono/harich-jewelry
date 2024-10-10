@@ -19,13 +19,15 @@ import CarouselAutoplay from "@/components/ui/carousel-autoplay";
 import DotPattern from "@/components/ui/dot-pattern";
 import NumberTicker from "@/components/ui/number-ticker";
 import { SectionMarker } from "@/components/ui/section-marker";
+import { WordRotate } from "@/components/ui/word-rotate";
 import { ArticleCard } from "@/components/blog/article-card";
-import { title as titleStyle } from "@/components/primitives";
+import { subtitle, title as titleStyle } from "@/components/primitives";
 import { usp } from "@/const/content";
 import {
   getBlogs,
   getHeroCarousel,
   getHomepageFirstSection,
+  getHomepageMainCollections,
   getShopByRingShape,
 } from "@/lib/shopify";
 
@@ -72,9 +74,9 @@ async function Hero() {
                   <source media="(max-width: 767px)" srcSet={mobile} />
                   <source media="(min-width: 768px)" srcSet={desktop} />
                   <img
-                    alt="Harich Jewelry Hero Image"
-                    className="z-0 h-full w-full object-cover object-center"
                     {...rest}
+                    className="z-0 h-full w-full object-cover object-center"
+                    alt="Harich Jewelry Hero Image"
                   />
                 </picture>
                 <div className="absolute inset-0 z-20 flex">
@@ -177,15 +179,20 @@ function CertificationSection() {
       <div className="container">
         <SectionMarker>
           <div className="flex flex-col gap-12 py-12">
-            <h1
+            <div
               className={titleStyle({
                 size: "lg",
                 className: "text-balance text-center",
               })}
             >
-              Exquisite Diamonds, Fully Certified by GIA & IGI for Unmatched
-              Quality
-            </h1>
+              <WordRotate
+                className="mr-2 inline-flex justify-center text-center"
+                words={["Exquisite", "Refined", "Elegant"]}
+              />
+              <span>
+                Diamonds, Fully Certified by GIA & IGI for Unmatched Quality
+              </span>
+            </div>
             <div className="flex flex-wrap items-center justify-center gap-6">
               <NextImage
                 alt="igi-logo"
@@ -209,7 +216,7 @@ function CertificationSection() {
 
 function USPSection() {
   return (
-    <section className="w-full">
+    <section className="padding-section w-full">
       <div className="container flex flex-col justify-between gap-9 md:min-h-[350px]">
         <SectionMarker>
           <ul className="grid grid-cols-2 gap-12 sm:grid-cols-3 lg:grid-cols-4">
@@ -246,9 +253,12 @@ async function BlogsSection() {
         loop: true,
       }}
     >
-      <section className="container padding-section grid grid-cols-1 gap-6">
-        <div className="flex items-center justify-between">
-          <h1 className={titleStyle({ size: "lg" })}>Featured Articles</h1>
+      <section className="container padding-section grid grid-cols-1">
+        <p className="mb-3 font-mono font-medium uppercase tracking-widest">
+          Latest Article
+        </p>
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className={titleStyle({ size: "lg" })}>Stay Updated</h1>
           {/*  only show carousel indicator when total article fetched is more than 3, indicating overlay */}
           {blog.articles.edges.length > 3 ? (
             <div className="relative mt-3 flex items-center gap-6 max-lg:hidden lg:mt-6">
@@ -318,6 +328,71 @@ async function ShopByShape() {
           </NextLink>
         ))}
       </div>
+    </section>
+  );
+}
+
+async function MainCollection() {
+  const { title, description, collections } =
+    await getHomepageMainCollections();
+
+  return (
+    <section className="padding-section w-full bg-primary md:my-6">
+      <CarouselAutoplay className="container grid gap-6 md:grid-cols-3">
+        <div className="flex flex-col items-end md:col-span-1">
+          <h1
+            className={titleStyle({
+              size: "lg",
+              className:
+                "col-span-1 mt-4 text-pretty tracking-tighter md:text-end",
+            })}
+          >
+            {title}
+          </h1>
+          {description ? (
+            <p className={subtitle({ className: "mt-3 md:text-end" })}>
+              {description}
+            </p>
+          ) : null}
+          {collections.length > 2 ? (
+            <div className="relative mb-9 mt-auto flex items-center gap-6 max-lg:hidden">
+              <CarouselPrevious
+                variant="light"
+                className="static size-10 translate-y-0 p-0"
+                radius="full"
+              />
+              <CarouselNext
+                variant="light"
+                className="static size-10 translate-y-0 p-0"
+                radius="full"
+              />
+            </div>
+          ) : null}
+        </div>
+        <div className="md:order-first md:col-span-2">
+          <CarouselContent className="col-span-2">
+            {collections.map((collection, idx) => (
+              <CarouselItem key={idx} className="basis-5/6 md:basis-1/2">
+                <NextLink prefetch href={`/collections/${collection.handle}`}>
+                  <figure className="flex w-full flex-col gap-3">
+                    <NextImage
+                      src={collection.image?.url}
+                      alt={collection.image?.altText || collection.title}
+                      width={400}
+                      height={550}
+                      sizes="(max-width: 768px) 100vw, 30vw"
+                      className="aspect-[4/5.5] w-full object-cover object-center"
+                    />
+                    <figcaption className="text-lg font-semibold tracking-tight">
+                      {collection.title}
+                    </figcaption>
+                  </figure>
+                </NextLink>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </div>
+      </CarouselAutoplay>
     </section>
   );
 }
@@ -397,6 +472,9 @@ export default function Home() {
       </Suspense>
       <Suspense fallback={<section className="h-[375px]" />}>
         <ShopByShape />
+      </Suspense>
+      <Suspense fallback={null}>
+        <MainCollection />
       </Suspense>
       <USPSection />
       <NumberSection />

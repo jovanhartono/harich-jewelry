@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import {
   CartLineFragment,
+  CollectionFragment,
   ImageFragment,
-  MenuItem,
 } from "@/__generated__/graphql";
 import { getClient, query } from "@/../apollo-client";
 import { createCartMutation } from "@/gql/mutations/cart";
@@ -24,6 +24,7 @@ import {
   getCarouselQuery,
   getHeroQuery,
   getHomepageFirstSectionQuery,
+  getHomePageMainCollectionsQuery,
   getShopByRingShapeQuery,
 } from "@/gql/queries/meta-object";
 import { getPageQuery, getPagesQuery } from "@/gql/queries/page";
@@ -121,13 +122,13 @@ export const getMenu = async (handle: string) => {
       url: item.url.replace(domain, ""),
       items:
         item.items?.length > 0
-          ? item.items.map((i) => ({
+          ? item.items.map((i: any) => ({
               ...i,
               url: i.url.replace(domain, ""),
 
               items:
                 item.items?.length > 0
-                  ? i.items.map((ii) => ({
+                  ? i.items.map((ii: any) => ({
                       ...ii,
                       url: ii.url.replace(domain, ""),
                     }))
@@ -203,6 +204,31 @@ export async function getHomepageFirstSection() {
       metaobject?.video?.reference?.__typename === "Video"
         ? metaobject?.video?.reference
         : undefined,
+  };
+}
+
+export async function getHomepageMainCollections() {
+  const {
+    data: { metaobject },
+  } = await query({
+    query: getHomePageMainCollectionsQuery,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 30 },
+      },
+    },
+  });
+
+  return {
+    title: metaobject?.title?.value || "",
+    description: metaobject?.description?.value || "",
+    collections:
+      metaobject?.collections?.references?.edges
+        .map((edge) => edge.node)
+        .filter(
+          (node): node is CollectionFragment =>
+            node.__typename === "Collection",
+        ) || [],
   };
 }
 
