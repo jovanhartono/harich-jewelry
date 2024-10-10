@@ -31,6 +31,9 @@ export const collectionFragment = gql(/* GraphQL */ `
     seo {
       ...seo
     }
+    image {
+      ...image
+    }
     desktop_media: metafield(namespace: "collection", key: "desktop_hero") {
       key
       value
