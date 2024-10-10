@@ -85,7 +85,7 @@ export async function Navbar() {
             rel="noopener noreferrer"
             className={buttonStyle({
               variant: "solid",
-              radius: "none",
+              radius: "sm",
               color: "primary",
             })}
           >
