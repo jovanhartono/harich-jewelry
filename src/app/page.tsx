@@ -30,6 +30,7 @@ import {
   getHomepageMainCollections,
   getShopByRingShape,
 } from "@/lib/shopify";
+import { cn } from "@/lib/utils";
 
 async function Hero() {
   const carousels = await getHeroCarousel();
@@ -80,30 +81,32 @@ async function Hero() {
                   />
                 </picture>
                 <div className="absolute inset-0 z-20 flex">
-                  <div className="container my-auto flex flex-col gap-3 max-sm:items-center">
-                    <h1
-                      className={titleStyle({
-                        size: "lg",
-                        className: "text-balance max-sm:text-center",
-                      })}
-                    >
-                      {carousel.title}
-                    </h1>
-                    <p className="text-balance text-lg max-md:text-sm max-sm:text-center">
-                      {carousel.description}
-                    </p>
-                    <NextLink
-                      prefetch
-                      href={carousel.url}
-                      className={buttonStyle({
-                        color: "primary",
-                        className: "mt-6 h-12 max-w-[280px] px-5 font-medium",
-                        size: "lg",
-                        radius: "sm",
-                      })}
-                    >
-                      Browse Our Collection
-                    </NextLink>
+                  <div className="container my-auto">
+                    <div className="flex flex-col gap-3 max-sm:items-center md:w-1/2">
+                      <h1
+                        className={titleStyle({
+                          size: "lg",
+                          className: "max-sm:text-center",
+                        })}
+                      >
+                        {carousel.title}
+                      </h1>
+                      <p className="text-balance text-lg max-md:text-sm max-sm:text-center">
+                        {carousel.description}
+                      </p>
+                      <NextLink
+                        prefetch
+                        href={carousel.url}
+                        className={buttonStyle({
+                          color: "primary",
+                          className: "mt-6 h-12 max-w-[280px] px-5 font-medium",
+                          size: "lg",
+                          radius: "sm",
+                        })}
+                      >
+                        Browse Our Collection
+                      </NextLink>
+                    </div>
                   </div>
                 </div>
               </Card>
@@ -297,7 +300,7 @@ async function ShopByShape() {
   const shapes = await getShopByRingShape();
 
   return (
-    <section className="container flex h-[375px] flex-col justify-center gap-6 text-balance">
+    <section className="container flex h-[350px] flex-col justify-center gap-6 text-balance">
       <div className="flex flex-col gap-2">
         <h1 className={titleStyle()}>Explore Our Engagement Rings</h1>
         <p className="text-balance font-light text-default-700 max-md:text-small">
@@ -310,7 +313,7 @@ async function ShopByShape() {
         {shapes.map((shape) => (
           <NextLink
             key={shape.id}
-            className="flex-1 shrink-0 basis-1/4 snap-start snap-always md:basis-20"
+            className="flex-1 shrink-0 basis-1/4 snap-start md:basis-20"
             href={`/collections/engagement-rings?filter.p.m.stone.shape=${shape.label}`}
           >
             <figure className="flex cursor-pointer flex-col items-center gap-3">
@@ -332,6 +335,56 @@ async function ShopByShape() {
   );
 }
 
+async function TopPicks() {
+  const { title, description, collections } =
+    await getHomepageMainCollections();
+
+  return (
+    <section className="container padding-section my-4 flex w-full flex-col gap-9">
+      <div className="flex flex-col items-center">
+        <h1
+          className={titleStyle({
+            size: "lg",
+            className: "text-pretty tracking-tighter",
+          })}
+        >
+          {title}
+        </h1>
+        {description && (
+          <p
+            className={cn(subtitle({ className: "my-0 mt-3 md:text-center" }))}
+          >
+            {description}
+          </p>
+        )}
+      </div>
+
+      <ul className="flex touch-pan-x snap-x snap-proximity space-x-3 overflow-x-auto scrollbar-hide">
+        {collections.map((collection, idx) => (
+          <li key={idx} className="shrink-0 basis-[300px] md:basis-1/3">
+            <NextLink prefetch href={`/collections/${collection.handle}`}>
+              <figure>
+                <NextImage
+                  draggable={false}
+                  src={collection.image?.url}
+                  alt={collection.image?.altText || collection.title}
+                  width={400}
+                  height={550}
+                  sizes="(max-width: 768px) 100vw, 30vw"
+                  className="aspect-square w-full select-none object-cover object-center"
+                />
+                <figcaption className="mt-3 text-lg font-semibold tracking-tight">
+                  {collection.title}
+                </figcaption>
+              </figure>
+            </NextLink>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 async function MainCollection() {
   const { title, description, collections } =
     await getHomepageMainCollections();
@@ -349,11 +402,11 @@ async function MainCollection() {
           >
             {title}
           </h1>
-          {description ? (
+          {description && (
             <p className={subtitle({ className: "mt-3 md:text-end" })}>
               {description}
             </p>
-          ) : null}
+          )}
           {collections.length > 2 ? (
             <div className="relative mb-9 mt-auto flex items-center gap-6 max-lg:hidden">
               <CarouselPrevious
@@ -470,11 +523,11 @@ export default function Home() {
       >
         <FirstSection />
       </Suspense>
+      <Suspense fallback={null}>
+        <TopPicks />
+      </Suspense>
       <Suspense fallback={<section className="h-[375px]" />}>
         <ShopByShape />
-      </Suspense>
-      <Suspense fallback={null}>
-        <MainCollection />
       </Suspense>
       <USPSection />
       <NumberSection />
