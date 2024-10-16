@@ -340,7 +340,7 @@ async function TopPicks() {
     await getHomepageMainCollections();
 
   return (
-    <section className="container padding-section my-4 flex w-full flex-col gap-9">
+    <section className="container padding-section my-4 flex w-full flex-col gap-6">
       <div className="flex flex-col items-center">
         <h1
           className={titleStyle({
@@ -359,28 +359,51 @@ async function TopPicks() {
         )}
       </div>
 
-      <ul className="flex touch-pan-x snap-x snap-proximity space-x-3 overflow-x-auto scrollbar-hide">
-        {collections.map((collection, idx) => (
-          <li key={idx} className="shrink-0 basis-[300px] md:basis-1/3">
-            <NextLink prefetch href={`/collections/${collection.handle}`}>
-              <figure>
-                <NextImage
-                  draggable={false}
-                  src={collection.image?.url}
-                  alt={collection.image?.altText || collection.title}
-                  width={400}
-                  height={550}
-                  sizes="(max-width: 768px) 100vw, 30vw"
-                  className="aspect-square w-full select-none object-cover object-center"
-                />
-                <figcaption className="mt-3 text-lg font-semibold tracking-tight">
-                  {collection.title}
-                </figcaption>
-              </figure>
-            </NextLink>
-          </li>
-        ))}
-      </ul>
+      <Carousel
+        opts={{
+          dragFree: true,
+          skipSnaps: true,
+        }}
+        className="relative flex pt-3 max-md:scrollbar-hide"
+      >
+        {collections.length > 5 ? (
+          <div className="absolute bottom-full right-0 z-10 flex items-center gap-6 max-lg:hidden">
+            <CarouselPrevious
+              variant="light"
+              className="static size-10 translate-y-0 p-0"
+              radius="full"
+            />
+            <CarouselNext
+              variant="light"
+              className="static size-10 translate-y-0 p-0"
+              radius="full"
+            />
+          </div>
+        ) : null}
+
+        <CarouselContent>
+          {collections.map((collection, idx) => (
+            <CarouselItem key={idx} className="basis-1/5 max-md:min-w-[300px]">
+              <NextLink prefetch href={`/collections/${collection.handle}`}>
+                <figure>
+                  <NextImage
+                    draggable={false}
+                    src={collection.image?.url}
+                    alt={collection.image?.altText || collection.title}
+                    width={400}
+                    height={550}
+                    sizes="(max-width: 768px) 70vw, 20vw"
+                    className="aspect-square w-full select-none object-cover object-center"
+                  />
+                  <figcaption className="mt-3 text-lg font-semibold tracking-tight">
+                    {collection.title}
+                  </figcaption>
+                </figure>
+              </NextLink>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
     </section>
   );
 }
