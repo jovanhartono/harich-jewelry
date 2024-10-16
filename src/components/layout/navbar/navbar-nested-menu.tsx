@@ -38,11 +38,12 @@ export default function NavbarNestedMenu({
       <AnimatePresence>
         {visible && (
           <Fragment>
-            <div className="absolute inset-x-0 h-4 bg-transparent"></div>
+            <div className="absolute inset-x-0 h-4 bg-transparent" />
             <motion.ul
-              initial={{ opacity: 0, y: 5 }}
+              initial={{ opacity: 0, y: -5 }}
+              transition={{ bounce: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 5 }}
+              exit={{ opacity: 0, y: -5 }}
               className={cn(
                 "absolute inset-x-0 top-[calc(100%)] z-10 border border-default-200 bg-background py-6 shadow-sm",
               )}

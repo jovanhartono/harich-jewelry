@@ -24,8 +24,8 @@ export const NavbarWrapper = ({ children }: { children: ReactNode }) => {
       isBordered
       isBlurred={false}
       classNames={{
-        base: "bg-background border-b-default-500",
-        wrapper: "px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16",
+        base: "bg-background border-b-default-500 z-50",
+        wrapper: "px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 static",
       }}
     >
       {children}
