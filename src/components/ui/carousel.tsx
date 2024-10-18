@@ -295,6 +295,7 @@ const CarouselDots = forwardRef<
           )}
           key={index}
           onClick={() => scrollTo(index)}
+          aria-label={`Go to slide ${index + 1}`}
           {...props}
         />
       ))}

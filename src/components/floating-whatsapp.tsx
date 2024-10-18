@@ -10,6 +10,7 @@ export default function FloatingWhatsapp() {
       rel="noreferrer noopener"
       href={siteConfig.links.whatsapp}
       className="fixed bottom-4 end-4 z-40 flex size-14 rounded-full bg-[#25D366]"
+      aria-label="whatsapp chat"
     >
       <WhatsappIcon className="m-auto size-8 text-white" />
     </a>
