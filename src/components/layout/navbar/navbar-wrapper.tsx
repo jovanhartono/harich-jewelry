@@ -17,18 +17,20 @@ export const NavbarWrapper = ({ children }: { children: ReactNode }) => {
 
   return (
     <NextUINavbar
-      maxWidth="2xl"
+      maxWidth="full"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       height="5rem"
-      isBordered
+      id="harich-header"
       isBlurred={false}
       classNames={{
-        base: "bg-background border-b-default-500 z-50",
-        wrapper: "px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 static",
+        base: "z-50 bg-background",
+        wrapper: "w-full bg-background z-50 border-b-default-500 border-b px-0",
       }}
     >
-      {children}
+      <div className="container relative z-50 flex h-[var(--navbar-height)] w-full max-w-full flex-row flex-nowrap items-center justify-between gap-4 border-b border-b-default-500 bg-background">
+        {children}
+      </div>
     </NextUINavbar>
   );
 };

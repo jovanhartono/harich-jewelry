@@ -1,12 +1,13 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import NextLink from "next/link";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { NavbarItem } from "@nextui-org/navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "lucide-react";
+import { createPortal } from "react-dom";
 
 import type { GetMenuReturnType } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,11 @@ export default function NavbarNestedMenu({
   menu: GetMenuReturnType[0];
 }) {
   const [visible, setVisible] = useState<boolean>(false);
+  const [headerEl, setHeaderEl] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setHeaderEl(() => document.getElementById("harich-header"));
+  }, []);
 
   return (
     <NavbarItem
@@ -35,51 +41,59 @@ export default function NavbarNestedMenu({
       >
         {menu.title}
       </Button>
-      <AnimatePresence>
-        {visible && (
-          <Fragment>
-            <div className="absolute inset-x-0 h-4 bg-transparent" />
-            <motion.ul
-              initial={{ opacity: 0, y: -5 }}
-              transition={{ bounce: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              className={cn(
-                "absolute inset-x-0 top-[calc(100%)] z-10 border border-default-200 bg-background py-6 shadow-sm",
-              )}
-            >
-              <div className="container flex flex-wrap gap-12">
-                {menu.items?.map((child) => (
-                  <li className="flex flex-col" key={child.id}>
-                    {/* title */}
-                    {child.url === "#" ? (
-                      <span>{child.title}</span>
-                    ) : (
-                      <NextLink
-                        prefetch
-                        href={child.url}
-                        className="font-semibold"
-                      >
-                        {child.title}
-                      </NextLink>
-                    )}
-
-                    <ul className="mt-2 space-y-1">
-                      {child.items?.map((children) => (
-                        <li key={children.id}>
-                          <NextLink prefetch href={children.url}>
-                            {children.title}
+      {headerEl &&
+        createPortal(
+          <AnimatePresence>
+            {visible && (
+              <Fragment>
+                <div className="absolute inset-x-0 bottom-0 z-50 h-4" />
+                <motion.div
+                  initial={{ opacity: 0, y: -50 }}
+                  transition={{ bounce: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  className={cn(
+                    "absolute inset-x-0 top-[calc(100%)] z-0 border border-default-200 bg-background py-6 shadow-sm",
+                  )}
+                >
+                  <ul className="container flex flex-wrap gap-12">
+                    {menu.items?.map((child) => (
+                      <li className="flex flex-col" key={child.id}>
+                        {/* title */}
+                        {child.url === "#" ? (
+                          <span className="font-medium">{child.title}</span>
+                        ) : (
+                          <NextLink
+                            prefetch
+                            href={child.url}
+                            className="font-medium"
+                          >
+                            {child.title}
                           </NextLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </div>
-            </motion.ul>
-          </Fragment>
+                        )}
+
+                        <ul className="mt-2 space-y-1">
+                          {child.items?.map((children) => (
+                            <li key={children.id}>
+                              <NextLink
+                                prefetch
+                                href={children.url}
+                                className="text-gray-700 transition-colors hover:text-black"
+                              >
+                                {children.title}
+                              </NextLink>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </Fragment>
+            )}
+          </AnimatePresence>,
+          headerEl,
         )}
-      </AnimatePresence>
     </NavbarItem>
   );
 }
