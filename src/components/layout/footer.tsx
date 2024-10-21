@@ -45,7 +45,6 @@ export default async function Footer() {
               alt="wordmark"
             />
           </NextLink>
-          <p className="opacity-70"></p>
           <ul
             className="mt-3 flex items-center gap-6"
             aria-label="Social Icons"
@@ -63,6 +62,14 @@ export default async function Footer() {
               </li>
             ))}
           </ul>
+          <a
+            className="underline opacity-70"
+            href="https://g.co/kgs/VSEFtsk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Golf Island, Ruko No.17 Blok J, Jakarta, 14460
+          </a>
         </div>
         <nav className="grid grid-cols-2">
           {menus.map((menu) => (
