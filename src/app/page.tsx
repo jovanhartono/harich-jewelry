@@ -302,11 +302,11 @@ async function ShopByShape() {
   return (
     <section className="container flex h-[350px] flex-col justify-center gap-6 text-balance">
       <div className="flex flex-col gap-2">
-        <h1 className={titleStyle()}>Explore Our Engagement Rings</h1>
+        <h1 className={titleStyle()}>
+          Discover Engagement Rings by Stone Shape
+        </h1>
         <p className="text-balance font-light text-default-700 max-md:text-small">
-          Discover our exquisite collection of engagement rings, available in a
-          range of classic stone shapes. Each design reflects timeless elegance
-          and exceptional craftsmanship.
+          Select your ideal diamond shape from our curated collection.
         </p>
       </div>
       <div className="overflow flex w-full touch-pan-x snap-x snap-proximity gap-3 overflow-auto scrollbar-hide">
