@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
 
-import { ReactNode, Suspense } from "react";
+import type { ReactNode } from "react";
 import Providers from "@/app/providers";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
@@ -41,20 +41,33 @@ export default async function RootLayout({
         "font-sans antialiased",
       )}
     >
+      <head>
+        <link
+          rel="icon"
+          type="image/png"
+          href="/favicon-96x96.png"
+          sizes="96x96"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <meta name="apple-mobile-web-app-title" content="Harich Jewelry" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link
+          rel="dns-prefetch"
+          href="https://f3586e-88.myshopify.com/api/2024-04/graphql.json"
+        />
+      </head>
       <body className="bg-background">
         <Providers>
           <Toaster />
-          <Suspense
-            fallback={
-              <div className="sticky top-0 z-40 h-20 w-full border-b border-b-default-500 bg-background" />
-            }
-          >
-            <Navbar />
-          </Suspense>
+          <Navbar />
           <main className="grow">{children}</main>
-          <Suspense fallback={null}>
-            <Footer />
-          </Suspense>
+          <Footer />
         </Providers>
 
         <FloatingWhatsapp />
