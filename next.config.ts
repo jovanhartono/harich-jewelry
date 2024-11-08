@@ -1,13 +1,21 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
+const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/home',
-        destination: '/',
+        source: "/home",
+        destination: "/",
         permanent: true,
       },
-    ]
+    ];
+  },
+  experimental: {
+    ppr: true,
+    staleTimes: {
+      dynamic: 30,
+    },
   },
   logging: {
     fetches: {
@@ -27,8 +35,6 @@ const nextConfig = {
   },
 };
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
+export default withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
-});
-
-module.exports = withBundleAnalyzer(nextConfig);
+})(nextConfig);

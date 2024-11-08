@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Link } from "@nextui-org/link";
 
@@ -36,7 +37,12 @@ export default function NavbarMobileNestedMenu({
                 child.url === "#" ? (
                   child.title
                 ) : (
-                  <Link color="foreground" href={child.url}>
+                  <Link
+                    prefetch
+                    as={NextLink}
+                    color="foreground"
+                    href={child.url}
+                  >
                     {child.title}
                   </Link>
                 )
@@ -46,7 +52,12 @@ export default function NavbarMobileNestedMenu({
                 <ul>
                   {child.items.map((grandChild) => (
                     <li key={grandChild.id}>
-                      <Link href={grandChild.url} color="foreground">
+                      <Link
+                        prefetch
+                        as={NextLink}
+                        href={grandChild.url}
+                        color="foreground"
+                      >
                         {grandChild.title}
                       </Link>
                     </li>

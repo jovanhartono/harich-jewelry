@@ -16,7 +16,7 @@ import { getClient } from "../../../apollo-client";
 
 export async function createCartAndSetCookie() {
   const { cart } = await createCart();
-  cookies().set(COOKIES.CART, cart.id!);
+  (await cookies()).set(COOKIES.CART, cart.id!);
 }
 
 export async function addProductToCart(
@@ -30,7 +30,7 @@ export async function addProductToCart(
     };
   }
 
-  let cartId = cookies().get(COOKIES.CART)?.value;
+  let cartId = (await cookies()).get(COOKIES.CART)?.value;
   let cart;
 
   if (cartId) {
@@ -69,7 +69,7 @@ export async function addProductToCart(
 }
 
 export async function removeItem(_: unknown, lineId: string) {
-  const cartId = cookies().get(COOKIES.CART)?.value;
+  const cartId = (await cookies()).get(COOKIES.CART)?.value;
 
   if (!cartId) {
     return "Missing cart ID";
@@ -114,7 +114,7 @@ export async function updateProductQuantity(payload: {
   quantity: number;
   variantId: string;
 }) {
-  const cartId = cookies().get(COOKIES.CART)?.value;
+  const cartId = (await cookies()).get(COOKIES.CART)?.value;
 
   if (!cartId) {
     return "Missing Cart ID";
@@ -144,7 +144,7 @@ export async function updateProductQuantity(payload: {
 }
 
 export async function updateCartLine({ line }: { line: CartLineUpdateInput }) {
-  const cartId = cookies().get(COOKIES.CART)?.value;
+  const cartId = (await cookies()).get(COOKIES.CART)?.value;
 
   if (!cartId) {
     return "Missing Cart ID";

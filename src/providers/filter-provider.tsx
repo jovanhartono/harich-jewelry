@@ -9,7 +9,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useSearchParams } from "next/navigation";
 import { FilterFragment, FilterValueFragment } from "@/__generated__/graphql";
 
 type FilterContextType = {
@@ -27,21 +26,6 @@ export const FilterProvider = ({
   filters: Array<FilterFragment>;
 }) => {
   const [filters, setFilters] = useState<Array<FilterFragment>>(filtersProp);
-  const searchParams = useSearchParams();
-
-  const activeFilters = useMemo(() => {
-    return Array.from(searchParams.entries()).reduce((acc, [k, v]) => {
-      const f = filters.find(({ id }) => id === k);
-
-      if (f) {
-        const fv = f.values.find(({ label }) => label === v);
-
-        fv && acc.push(fv);
-      }
-
-      return acc;
-    }, [] as Array<FilterValueFragment>);
-  }, [filters, searchParams]);
 
   const value = useMemo(
     () => ({

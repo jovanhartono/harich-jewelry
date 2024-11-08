@@ -14,6 +14,8 @@ import { Navbar } from "@/components/layout/navbar";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
+export const fetchCache = "force-cache";
+
 export const viewport: Viewport = {
   themeColor: { media: "(prefers-color-scheme: light)", color: "white" },
 };

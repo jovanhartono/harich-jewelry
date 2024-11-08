@@ -13,11 +13,10 @@ export async function generateStaticParams() {
   return pages.map(({ handle }) => ({ handle }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { handle: string };
+export async function generateMetadata(props: {
+  params: Promise<{ handle: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const page = await getPage(params.handle);
 
   if (!page) return notFound();
@@ -33,7 +32,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: { params: { handle: string } }) {
+export default async function Page(props: {
+  params: Promise<{ handle: string }>;
+}) {
+  const params = await props.params;
   const page = await getPage(params.handle);
 
   if (!page) return notFound();

@@ -38,7 +38,7 @@ export default function ItemQuantity({ line }: { line: CartLineFragment }) {
     <div className="relative mt-auto flex items-center gap-4">
       {loading ? (
         <div className="absolute inset-0 z-10 flex items-center justify-center rounded-large bg-default-100/50">
-          <Spinner size="sm" />
+          <Spinner size="sm" color="secondary" />
         </div>
       ) : null}
       <Button

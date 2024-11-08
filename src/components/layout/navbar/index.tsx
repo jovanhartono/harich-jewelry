@@ -14,12 +14,7 @@ import { siteConfig } from "@/config/site";
 import { getMenu } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 
-const NavbarNestedMenu = dynamic(
-  () => import("@/components/layout/navbar/navbar-nested-menu"),
-  {
-    ssr: false,
-  },
-);
+import NavbarNestedMenu from "./navbar-nested-menu";
 
 export async function Navbar() {
   const menus = await getMenu("main-menu");

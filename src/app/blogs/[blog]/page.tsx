@@ -13,11 +13,10 @@ export async function generateStaticParams() {
   return blogs.map(({ handle }) => ({ blog: handle }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { blog: string };
+export async function generateMetadata(props: {
+  params: Promise<{ blog: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const { title, seo } = await getBlog(params.blog);
 
   return {
@@ -26,11 +25,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPage({
-  params,
-}: {
-  params: { blog: string };
+export default async function BlogPage(props: {
+  params: Promise<{ blog: string }>;
 }) {
+  const params = await props.params;
   const { title, articles, handle, seo } = await getBlog(params.blog);
 
   return (

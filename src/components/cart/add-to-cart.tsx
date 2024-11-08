@@ -1,10 +1,9 @@
 "use client";
 
-import { FormEvent, ReactNode, useEffect } from "react";
+import { FormEvent, ReactNode, useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CartLineInput } from "@/__generated__/graphql";
 import { Button, ButtonProps } from "@nextui-org/button";
-import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
 
 import { addProductToCart } from "@/components/cart/actions";
@@ -23,7 +22,7 @@ export default function AddToCart({
   onSuccess?: () => void;
 }) {
   const router = useRouter();
-  const [state, formAction] = useFormState(addProductToCart, null);
+  const [state, formAction, pending] = useActionState(addProductToCart, null);
   const actionWithVariant = formAction.bind(null, lines);
 
   useEffect(() => {
@@ -53,42 +52,27 @@ export default function AddToCart({
 
   return (
     <form className="w-full lg:max-w-md" action={actionWithVariant}>
-      <SubmitButton isDisabled={disabled} radius="none" {...buttonProps}>
-        {children}
-      </SubmitButton>
+      <Button
+        radius="none"
+        type="submit"
+        onClick={(e: FormEvent<HTMLButtonElement>) => {
+          if (pending || disabled) e.preventDefault();
+        }}
+        aria-label="Add to cart"
+        isDisabled={disabled}
+        aria-disabled={pending || disabled}
+        color="primary"
+        size="lg"
+        isLoading={pending}
+        className="w-full"
+        startContent={pending ? null : buttonProps?.startContent}
+        {...buttonProps}
+      >
+        {children ?? "Add to Cart"}
+      </Button>
       <p aria-live="polite" role="status" className="sr-only">
         {state?.message}
       </p>
     </form>
-  );
-}
-
-function SubmitButton(buttonProps: ButtonProps) {
-  const {
-    children,
-    isDisabled: disabled,
-    startContent,
-    ...restProps
-  } = buttonProps;
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      type="submit"
-      onClick={(e: FormEvent<HTMLButtonElement>) => {
-        if (pending || disabled) e.preventDefault();
-      }}
-      aria-label="Add to cart"
-      isDisabled={disabled}
-      aria-disabled={pending || disabled}
-      color="primary"
-      size="lg"
-      isLoading={pending}
-      className="w-full"
-      startContent={pending ? null : startContent}
-      {...restProps}
-    >
-      {children ?? "Add to Cart"}
-    </Button>
   );
 }

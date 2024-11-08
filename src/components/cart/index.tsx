@@ -8,7 +8,7 @@ import { COOKIES } from "@/lib/constant";
 import { getCart } from "@/lib/shopify";
 
 export default async function Cart() {
-  const cartId = cookies().get(COOKIES.CART)?.value;
+  const cartId = (await cookies()).get(COOKIES.CART)?.value;
   let cart;
 
   if (cartId) {

@@ -17,11 +17,12 @@ import { PRODUCT_TYPES } from "@/lib/constant";
 import { getProductByHandle, getProductRecommendations } from "@/lib/shopify";
 import { handleProductQuery, removeEdgesAndNodes } from "@/lib/utils";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { handle: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ handle: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const { title, seo } = await getProductByHandle(params.handle);
 
   return {
@@ -30,11 +31,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: { handle: string };
-}) {
+export default async function ProductDetailPage(
+  props: {
+    params: Promise<{ handle: string }>;
+  }
+) {
+  const params = await props.params;
   const productByHandle = await getProductByHandle(params.handle);
   const product = handleProductQuery(productByHandle)!;
 

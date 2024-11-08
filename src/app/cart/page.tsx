@@ -17,7 +17,7 @@ import { getCart } from "@/lib/shopify";
 import { formatRupiah } from "@/lib/utils";
 
 export default async function CartPage() {
-  const id = cookies().get(COOKIES.CART)?.value;
+  const id = (await cookies()).get(COOKIES.CART)?.value;
 
   if (!id) {
     return <EmptyCart />;

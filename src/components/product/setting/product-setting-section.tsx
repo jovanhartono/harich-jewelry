@@ -183,6 +183,7 @@ export function ProductSettingSection() {
         </NextLink>
         <div className="flex grow flex-col">
           <NextLink
+            prefetch
             className="font-medium"
             href={`/product/${stone.product.handle}`}
           >

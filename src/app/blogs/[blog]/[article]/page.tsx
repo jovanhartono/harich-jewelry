@@ -18,11 +18,10 @@ export async function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { blog: string; article: string };
+export async function generateMetadata(props: {
+  params: Promise<{ blog: string; article: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const { title, seo } = await getArticle({
     articleHandle: params.article,
     blogHandle: params.blog,
@@ -34,11 +33,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { blog: string; article: string };
+export default async function ArticlePage(props: {
+  params: Promise<{ blog: string; article: string }>;
 }) {
+  const params = await props.params;
   const { title, contentHtml, image } = await getArticle({
     articleHandle: params.article,
     blogHandle: params.blog,

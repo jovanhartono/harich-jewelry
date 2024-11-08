@@ -53,7 +53,7 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
     "products/delete",
     "products/update",
   ];
-  const topic = headers().get("x-shopify-topic") || "unknown";
+  const topic = (await headers()).get("x-shopify-topic") || "unknown";
   const secret = req.nextUrl.searchParams.get("secret");
   const isCollectionUpdate = collectionWebhooks.includes(topic);
   const isProductUpdate = productWebhooks.includes(topic);
@@ -111,7 +111,7 @@ export const getMenu = async (handle: string) => {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 30 },
+        next: { revalidate: 60 },
       },
     },
   });

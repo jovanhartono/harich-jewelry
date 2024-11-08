@@ -10,11 +10,12 @@ export function metadata(): Metadata {
   };
 }
 
-export default async function SearchPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default async function SearchPage(
+  props: {
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const { q: searchValue } = searchParams as {
     [key: string]: string;
     sort: string;

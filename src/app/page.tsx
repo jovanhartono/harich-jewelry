@@ -280,7 +280,7 @@ async function BlogsSection() {
         </div>
         <CarouselContent>
           {blog.articles.edges.slice(0, 10).map(({ node: article }) => (
-            <CarouselItem key={article.id} className="basis-full md:basis-1/3">
+            <CarouselItem key={article.id} className="basis-11/12 md:basis-1/3">
               <NextLink
                 prefetch
                 href={`/blogs/${blog.handle}/${article.handle}`}
@@ -312,6 +312,7 @@ async function ShopByShape() {
       <div className="overflow flex w-full touch-pan-x snap-x snap-proximity gap-3 overflow-auto scrollbar-hide">
         {shapes.map((shape) => (
           <NextLink
+            prefetch
             key={shape.id}
             className="flex-1 shrink-0 basis-1/4 snap-start md:basis-20"
             href={`/collections/engagement-rings?filter.p.m.stone.shape=${shape.label}`}

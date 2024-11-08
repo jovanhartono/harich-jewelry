@@ -39,6 +39,7 @@ export default function ProductsRecommendationsCarousel({
             className="basis-2/3 pl-3 md:basis-1/3 xl:basis-1/4"
           >
             <NextLink
+              prefetch
               key={product.id}
               href={`/product/${product.handle}`}
               className="block h-full border border-default-500 p-1"
