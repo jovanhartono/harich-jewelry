@@ -59,10 +59,8 @@ export default async function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="Harich Jewelry" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link
-          rel="dns-prefetch"
-          href="https://f3586e-88.myshopify.com/api/2024-04/graphql.json"
-        />
+        <link rel="dns-prefetch" href="https://f3586e-88.myshopify.com" />
+        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
       </head>
       <body className="bg-background">
         <Providers>
