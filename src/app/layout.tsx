@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
 
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import Providers from "@/app/providers";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
@@ -59,8 +59,8 @@ export default async function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="Harich Jewelry" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="dns-prefetch" href="https://f3586e-88.myshopify.com" />
-        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
+        <link rel="preconnect" href="https://f3586e-88.myshopify.com" />
+        <link rel="preconnect" href="https://cdn.shopify.com" />
       </head>
       <body className="bg-background">
         <Providers>
