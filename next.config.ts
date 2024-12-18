@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   experimental: {
     ppr: true,
     staleTimes: {
-      dynamic: 30,
+      dynamic: 60 * 5,
     },
   },
   logging: {

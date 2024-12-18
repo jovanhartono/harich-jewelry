@@ -152,7 +152,7 @@ export async function getHeroCarousel() {
     query: getCarouselQuery,
     context: {
       fetchOptions: {
-        next: { revalidate: 30 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -194,7 +194,7 @@ export async function getHomepageFirstSection() {
     query: getHomepageFirstSectionQuery,
     context: {
       fetchOptions: {
-        next: { revalidate: 30 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -219,7 +219,7 @@ export async function getHomepageMainCollections() {
     query: getHomePageMainCollectionsQuery,
     context: {
       fetchOptions: {
-        next: { revalidate: 30 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -282,7 +282,7 @@ export async function getBlogs(first?: number) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 30 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -428,7 +428,7 @@ export const getShopByRingShape = async () => {
     query: getShopByRingShapeQuery,
     context: {
       fetchOptions: {
-        next: { revalidate: 30 },
+        next: { revalidate: 60 },
       },
     },
   });
