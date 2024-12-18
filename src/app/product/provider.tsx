@@ -104,7 +104,8 @@ export function ProductProvider({
   };
 
   const availableVariant = useMemo(
-    () => variants.find((variant) => variant.availableForSale),
+    // get the first variant that is available for sale, if none fallback to the first variant
+    () => variants.find((variant) => variant.availableForSale) ?? variants[0],
     [variants],
   );
 
