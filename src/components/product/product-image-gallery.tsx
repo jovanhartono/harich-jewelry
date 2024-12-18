@@ -69,7 +69,11 @@ export default function ProductImageGallery({
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 max-lg:hidden">
+      <div
+        className={cn("grid gap-3 max-lg:hidden", {
+          "grid-cols-2": images.length > 1,
+        })}
+      >
         {images.map((image, index) => (
           <Image
             loading="lazy"

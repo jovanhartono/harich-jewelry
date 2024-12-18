@@ -129,7 +129,7 @@ export const ProductCardImage = memo(function ProductCardImage({
       src={featuredImage?.url}
       width={300}
       height={300}
-      className="aspect-square w-full object-cover object-center transition-transform hover:scale-100 lg:group-hover:scale-105"
+      className="aspect-square w-full object-cover object-center"
       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
     />
   );

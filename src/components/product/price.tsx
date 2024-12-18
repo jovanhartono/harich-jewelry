@@ -25,10 +25,7 @@ export const Price = memo(function Price({
   return (
     <div
       aria-label="Product Price"
-      className={cn(
-        "flex flex-wrap items-center gap-3 font-mono font-medium",
-        className,
-      )}
+      className={cn("flex flex-wrap items-center gap-3 font-medium", className)}
     >
       {gross > nett ? (
         <>

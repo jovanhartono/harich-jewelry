@@ -46,10 +46,7 @@ export default function ProductDescription({
         animate={{
           height: showMore ? "max-content" : initialHeight,
         }}
-        className={cn(
-          "prose overflow-hidden font-mono leading-relaxed",
-          className,
-        )}
+        className={cn("prose overflow-hidden leading-relaxed", className)}
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {height && height > toggleBreakpoint ? (

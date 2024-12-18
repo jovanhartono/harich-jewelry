@@ -342,7 +342,7 @@ async function TopPicks() {
 
   return (
     <section className="container padding-section my-4 flex w-full flex-col gap-6">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col lg:items-center">
         <h1
           className={titleStyle({
             size: "lg",

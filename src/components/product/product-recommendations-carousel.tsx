@@ -42,7 +42,7 @@ export default function ProductsRecommendationsCarousel({
               prefetch
               key={product.id}
               href={`/product/${product.handle}`}
-              className="block h-full border border-default-500 p-1"
+              className="block h-full"
             >
               <figure
                 key={product.id}
