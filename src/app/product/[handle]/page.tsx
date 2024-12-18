@@ -11,17 +11,17 @@ import ProductImageGallery from "@/components/product/product-image-gallery";
 import ProductsRecommendationsCarousel from "@/components/product/product-recommendations-carousel";
 import { ProductVariantsOptions } from "@/components/product/product-variant-options";
 import ProductVariantPrice from "@/components/product/product-variant-price";
+import { ProductWhatsappOrder } from "@/components/product/product-whatsapp-order";
 import { RingShapeList } from "@/components/product/ring-shape-list";
 import { StoneFourC } from "@/components/product/stone-four-c";
+import { StonePricelistModal } from "@/components/product/stone/pricelist-modal";
 import { PRODUCT_TYPES } from "@/lib/constant";
 import { getProductByHandle, getProductRecommendations } from "@/lib/shopify";
-import { handleProductQuery, removeEdgesAndNodes } from "@/lib/utils";
+import { cn, handleProductQuery, removeEdgesAndNodes } from "@/lib/utils";
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ handle: string }>;
-  }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ handle: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
   const { title, seo } = await getProductByHandle(params.handle);
 
@@ -31,11 +31,9 @@ export async function generateMetadata(
   };
 }
 
-export default async function ProductDetailPage(
-  props: {
-    params: Promise<{ handle: string }>;
-  }
-) {
+export default async function ProductDetailPage(props: {
+  params: Promise<{ handle: string }>;
+}) {
   const params = await props.params;
   const productByHandle = await getProductByHandle(params.handle);
   const product = handleProductQuery(productByHandle)!;
@@ -44,15 +42,15 @@ export default async function ProductDetailPage(
     <ProductProvider product={productByHandle}>
       <div className="flex flex-col gap-12">
         <section className="md:container flex flex-col gap-9 md:pt-9 lg:flex-row">
-          <div className="lg:basis-2/3">
+          <div className="grow">
             <ProductImageGallery images={removeEdgesAndNodes(product.images)} />
           </div>
-          <div className="max-lg:container flex h-1/3 flex-col gap-6 lg:sticky lg:top-[116px] lg:basis-1/3 lg:gap-6">
+          <div className="max-lg:container flex h-1/3 max-w-md flex-col gap-6 lg:sticky lg:top-[116px] lg:gap-6">
             <div className="flex flex-col">
               <h1
                 aria-label="Product Title"
                 className={title({
-                  className: "mb-3 leading-snug",
+                  className: "mb-3 leading-snug lg:text-pretty",
                 })}
               >
                 {product.title}
@@ -69,7 +67,13 @@ export default async function ProductDetailPage(
 
             <ProductVariantsOptions />
 
-            <ProductDynamicSection />
+            {product.productType === PRODUCT_TYPES.Setting && (
+              <StonePricelistModal />
+            )}
+
+            {/* <ProductDynamicSection /> */}
+
+            <ProductWhatsappOrder productTitle={product.title} />
 
             <dl className="flex flex-col gap-1">
               <dt
