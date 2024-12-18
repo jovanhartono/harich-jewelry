@@ -1,12 +1,10 @@
 import { Suspense } from "react";
-import dynamic from "next/dynamic";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import { NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import { Skeleton } from "@nextui-org/skeleton";
 import { button as buttonStyle, link as linkStyles } from "@nextui-org/theme";
 
-import Cart, { CartButton } from "@/components/cart";
 import NavbarMobileMenu from "@/components/layout/navbar/navbar-mobile-menu";
 import { NavbarWrapper } from "@/components/layout/navbar/navbar-wrapper";
 import SearchModal from "@/components/layout/navbar/search-modal";
@@ -74,11 +72,11 @@ export async function Navbar() {
           </Suspense>
         </NavbarItem>
 
-        <NavbarItem>
+        {/* <NavbarItem>
           <Suspense fallback={<CartButton />}>
             <Cart />
           </Suspense>
-        </NavbarItem>
+        </NavbarItem> */}
 
         <NavbarItem>
           <a
