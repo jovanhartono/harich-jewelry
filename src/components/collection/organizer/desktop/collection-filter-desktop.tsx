@@ -1,5 +1,4 @@
 import { Fragment, useTransition } from "react";
-// import dynamic from "next/dynamic";
 import { Button } from "@nextui-org/button";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { Spinner } from "@nextui-org/spinner";
@@ -7,12 +6,6 @@ import { useDisclosure } from "@nextui-org/use-disclosure";
 import { FilterIcon } from "lucide-react";
 
 import { CollectionFilterList } from "@/components/collection/organizer/collection-filter-list";
-
-// const CollectionFilterList = dynamic(() =>
-//   import("@/components/collection/organizer/collection-filter-list").then(
-//     (m) => m.CollectionFilterList,
-//   ),
-// );
 
 export const CollectionFilterDesktop = () => {
   const [isPending, transition] = useTransition();
