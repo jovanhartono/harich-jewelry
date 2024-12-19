@@ -24,7 +24,9 @@ export const ProductWhatsappOrder = memo(function ProductWhatsappOrder({
         size="lg"
         fullWidth
         radius="sm"
-        href={`https://api.whatsapp.com/send?phone=${siteConfig.phone}&text=Hello Harich, i want to ask about%0A${productTitle}%0A${siteConfig.url}/${pathname}`}
+        href={`https://api.whatsapp.com/send?phone=${siteConfig.phone}&text=${encodeURIComponent(
+          `Hello Harich, i want to ask about ${productTitle}\n${siteConfig.url}${pathname}`,
+        )}`}
       >
         Order via WhatsApp
       </Button>
