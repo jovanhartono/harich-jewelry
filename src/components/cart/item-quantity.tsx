@@ -45,7 +45,7 @@ export default function ItemQuantity({ line }: { line: CartLineFragment }) {
         radius="sm"
         isIconOnly
         type="submit"
-        onClick={handleDecrement}
+        onPress={handleDecrement}
         size="sm"
         variant="flat"
       >

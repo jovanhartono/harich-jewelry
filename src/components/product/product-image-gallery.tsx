@@ -128,7 +128,7 @@ export default function ProductImageGallery({
               variant="flat"
               className={"size-8 rounded-full"}
               disabled={!canScrollPrev}
-              onClick={scrollPrev}
+              onPress={scrollPrev}
             >
               <ArrowLeftIcon className="size-4" />
               <span className="sr-only">Previous slide</span>
@@ -138,7 +138,7 @@ export default function ProductImageGallery({
               variant="flat"
               className={"size-8 rounded-full"}
               disabled={!canScrollNext}
-              onClick={scrollNext}
+              onPress={scrollNext}
             >
               <ArrowRightIcon className="size-4" />
               <span className="sr-only">Previous slide</span>

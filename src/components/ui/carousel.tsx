@@ -239,7 +239,7 @@ const CarouselPrevious = forwardRef<
         className,
       )}
       disabled={!canScrollPrev}
-      onClick={scrollPrev}
+      onPress={scrollPrev}
       {...props}
     >
       <ArrowLeftIcon className="size-4" />
